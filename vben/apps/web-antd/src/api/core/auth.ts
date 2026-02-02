@@ -1,3 +1,5 @@
+import type { UserInfo } from '@vben/types';
+
 import { baseRequestClient, requestClient } from '#/api/request';
 
 export namespace AuthApi {
@@ -15,6 +17,14 @@ export namespace AuthApi {
   export interface RefreshTokenResult {
     data: string;
     status: number;
+  }
+
+  /** 组织架构树节点 */
+  export interface OrganizationTreeNode {
+    id: number;
+    name: string;
+    children?: OrganizationTreeNode[];
+    remark: string;
   }
 }
 
@@ -47,5 +57,18 @@ export async function logoutApi() {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/auth/codes');
+  return requestClient.get<string[]>('/auth/functions');
 }
+
+/**
+ * 获取用户信息
+ * @returns
+ */
+export const getUserInfoApi = async () => {
+  return requestClient.get<UserInfo>('/auth/vben-user-info');
+};
+
+/** 获取组织机构 */
+export const getOrganizationTreeData = () => {
+  return requestClient.get<AuthApi.OrganizationTreeNode[]>('/auth/organization-tree');
+};

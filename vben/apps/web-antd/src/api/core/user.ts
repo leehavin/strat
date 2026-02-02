@@ -1,10 +1,2 @@
-import type { UserInfo } from '@vben/types';
-
-import { requestClient } from '#/api/request';
-
-/**
- * 获取用户信息
- */
-export async function getUserInfoApi() {
-  return requestClient.get<UserInfo>('/user/info');
-}
+// User API functions moved to auth.ts
+// This file is kept for compatibility but exports are handled in auth.ts

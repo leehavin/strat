@@ -1,0 +1,15 @@
+{
+  "offline": "Force Offline",
+  "sendMessage": "Send Message",
+  "search": {
+    "name": "User"
+  },
+  "columns": {
+    "connectionId": "Connection ID",
+    "userName": "User",
+    "connectedTime": "Connected Time",
+    "disconnectedTime": "Disconnected Time",
+    "ip": "IP Address",
+    "ipStr": "IP Location"
+  }
+}

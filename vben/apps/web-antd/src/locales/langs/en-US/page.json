@@ -10,5 +10,29 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
+  },
+  "system": {
+    "title": "System Management",
+    "user": {
+      "title": "User Management"
+    },
+    "role": {
+      "title": "Role Management"
+    },
+    "function": {
+      "title": "Function Management"
+    },
+    "organization": {
+      "title": "Organization Management"
+    },
+    "dict": {
+      "title": "Dictionary Management"
+    },
+    "config": {
+      "title": "System Configuration"
+    },
+    "onlineUser": {
+      "title": "Online Users"
+    }
   }
 }
