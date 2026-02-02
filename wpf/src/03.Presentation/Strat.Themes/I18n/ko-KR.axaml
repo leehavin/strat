@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Login Page -->
+    <x:String x:Key="Str_Login_WelcomeBack">환영합니다</x:String>
+    <x:String x:Key="Str_Login_Subtitle">계정 정보를 입력하여 계속하세요</x:String>
+    <x:String x:Key="Str_Login_Account">계정</x:String>
+    <x:String x:Key="Str_Login_AccountPlaceholder">계정을 입력하세요</x:String>
+    <x:String x:Key="Str_Login_Password">비밀번호</x:String>
+    <x:String x:Key="Str_Login_PasswordPlaceholder">비밀번호를 입력하세요</x:String>
+    <x:String x:Key="Str_Login_RememberMe">로그인 상태 유지</x:String>
+    <x:String x:Key="Str_Login_ForgotPassword">비밀번호를 잊으셨나요?</x:String>
+    <x:String x:Key="Str_Login_LoginButton">로그인</x:String>
+    <x:String x:Key="Str_Login_OtherMethods">다른 로그인 방법</x:String>
+    <x:String x:Key="Str_Login_LoggingIn">로그인 중입니다...</x:String>
+    
+    <!-- Main Page -->
+    <x:String x:Key="Str_App_Title">Strat Admin</x:String>
+    <x:String x:Key="Str_App_Edition">엔터프라이즈 버전</x:String>
+    <x:String x:Key="Str_Main_QuickSearch">빠른 검색 (Ctrl+K)</x:String>
+    <x:String x:Key="Str_Main_CollapseSidebar">사이드바 접기</x:String>
+    <x:String x:Key="Str_Main_Administrator">관리자</x:String>
+    <x:String x:Key="Str_Main_BetaTag">Beta</x:String>
+    <x:String x:Key="Str_Main_Refresh">새로고침</x:String>
+    
+    <x:String x:Key="L_Login_SystemTitle">STRAT 관리 시스템</x:String>
+    <x:String x:Key="L_Login_SubTitle">지능형 디지털 베이스 관리 시스템</x:String>
+    <x:String x:Key="L_Login_Username">사용자 이름</x:String>
+    <x:String x:Key="L_Login_UsernameWatermark">관리자 계정을 입력하세요</x:String>
+    <x:String x:Key="L_Login_Password">비밀번호</x:String>
+    <x:String x:Key="L_Login_PasswordWatermark">비밀번호를 입력하세요</x:String>
+    <x:String x:Key="L_Login_Submit">지금 로그인</x:String>
+    <x:String x:Key="L_Login_RememberMe">로그인 유지</x:String>
+    <x:String x:Key="L_Login_ForgotPassword">비밀번호를 잊으셨나요?</x:String>
+    <x:String x:Key="L_Login_Authenticating">인증 중...</x:String>
+    
+    <!-- Common / Message -->
+    <x:String x:Key="L_Msg_LoginFailed">로그인 실패</x:String>
+    <x:String x:Key="L_Msg_AccountError">사용자 이름 또는 비밀번호가 잘못되었습니다</x:String>
+    <x:String x:Key="L_Msg_NetworkError">네트워크 연결 실패</x:String>
+
+    <!-- Home Page -->
+    <x:String x:Key="L_Home_Title">대시보드</x:String>
+    <x:String x:Key="L_Home_TotalVisits">총 방문 횟수</x:String>
+    <x:String x:Key="L_Home_NewUsers">신규 사용자</x:String>
+    <x:String x:Key="L_Home_TodoItems">할 일 목록</x:String>
+    <x:String x:Key="L_Home_SystemWarnings">시스템 경고</x:String>
+
+    <!-- Sidebar Menus -->
+    <x:String x:Key="L_Menu_Home">홈</x:String>
+    <x:String x:Key="L_Menu_User">사용자 관리</x:String>
+    <x:String x:Key="L_Menu_Role">역할 관리</x:String>
+    <x:String x:Key="L_Menu_Function">기능 관리</x:String>
+    <x:String x:Key="L_Menu_Organization">조직 관리</x:String>
+    <x:String x:Key="L_Menu_SystemConfig">시스템 설정</x:String>
+    <x:String x:Key="L_Menu_RequestLog">요청 로그</x:String>
+</ResourceDictionary>

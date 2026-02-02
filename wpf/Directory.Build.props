@@ -1,0 +1,41 @@
+<Project>
+  <!-- 全局属性配置 -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- 项目信息 -->
+  <PropertyGroup>
+    <Product>Strat Client</Product>
+    <Authors>Strat Team</Authors>
+    <Company>Strat</Company>
+    <Copyright>Copyright © 2024-$([System.DateTime]::Now.Year) Strat. All rights reserved.</Copyright>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <!-- 版本管理 -->
+  <PropertyGroup>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+  </PropertyGroup>
+
+  <!-- 公共包版本 - 集中管理 -->
+  <PropertyGroup>
+    <AvaloniaVersion>11.3.10</AvaloniaVersion>
+    <PrismAvaloniaVersion>9.0.537.11130</PrismAvaloniaVersion>
+    <SemiAvaloniaVersion>11.3.7.2</SemiAvaloniaVersion>
+    <UrsaVersion>1.14.1</UrsaVersion>
+    <MapsterVersion>7.4.0</MapsterVersion>
+    <FlurlVersion>4.0.2</FlurlVersion>
+    <SerilogVersion>3.1.1</SerilogVersion>
+  </PropertyGroup>
+
+  <!-- 构建优化 -->
+  <PropertyGroup>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+  </PropertyGroup>
+</Project>

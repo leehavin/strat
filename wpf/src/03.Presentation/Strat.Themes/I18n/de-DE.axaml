@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Login Page -->
+    <x:String x:Key="Str_Login_WelcomeBack">Willkommen zurück</x:String>
+    <x:String x:Key="Str_Login_Subtitle">Geben Sie Ihre Anmeldedaten ein, um fortzufahren</x:String>
+    <x:String x:Key="Str_Login_Account">Konto</x:String>
+    <x:String x:Key="Str_Login_AccountPlaceholder">Bitte geben Sie Ihr Konto ein</x:String>
+    <x:String x:Key="Str_Login_Password">Passwort</x:String>
+    <x:String x:Key="Str_Login_PasswordPlaceholder">Bitte geben Sie Ihr Passwort ein</x:String>
+    <x:String x:Key="Str_Login_RememberMe">Angemeldet bleiben</x:String>
+    <x:String x:Key="Str_Login_ForgotPassword">Passwort vergessen?</x:String>
+    <x:String x:Key="Str_Login_LoginButton">Anmelden</x:String>
+    <x:String x:Key="Str_Login_OtherMethods">Weitere Anmeldemethoden</x:String>
+    <x:String x:Key="Str_Login_LoggingIn">Anmeldung läuft, bitte warten...</x:String>
+    
+    <!-- Main Page -->
+    <x:String x:Key="Str_App_Title">Strat Admin</x:String>
+    <x:String x:Key="Str_App_Edition">Enterprise-Version</x:String>
+    <x:String x:Key="Str_Main_QuickSearch">Schnellsuche (Strg+K)</x:String>
+    <x:String x:Key="Str_Main_CollapseSidebar">Seitenleiste einklappen</x:String>
+    <x:String x:Key="Str_Main_Administrator">Administrator</x:String>
+    <x:String x:Key="Str_Main_BetaTag">Beta</x:String>
+    <x:String x:Key="Str_Main_Refresh">Aktualisieren</x:String>
+    
+    <x:String x:Key="L_Login_SystemTitle">STRAT SYSTEM</x:String>
+    <x:String x:Key="L_Login_SubTitle">Intelligentes digitales Basisverwaltungssystem</x:String>
+    <x:String x:Key="L_Login_Username">Benutzername</x:String>
+    <x:String x:Key="L_Login_UsernameWatermark">Administratorkonto eingeben</x:String>
+    <x:String x:Key="L_Login_Password">Passwort</x:String>
+    <x:String x:Key="L_Login_PasswordWatermark">Passwort eingeben</x:String>
+    <x:String x:Key="L_Login_Submit">Jetzt einloggen</x:String>
+    <x:String x:Key="L_Login_RememberMe">Angemeldet bleiben</x:String>
+    <x:String x:Key="L_Login_ForgotPassword">Passwort vergessen?</x:String>
+    <x:String x:Key="L_Login_Authenticating">Authentifizierung...</x:String>
+    
+    <!-- Common / Message -->
+    <x:String x:Key="L_Msg_LoginFailed">Anmeldung fehlgeschlagen</x:String>
+    <x:String x:Key="L_Msg_AccountError">Ungültiger Benutzername oder Passwort</x:String>
+    <x:String x:Key="L_Msg_NetworkError">Netzwerkverbindung fehlgeschlagen</x:String>
+
+    <!-- Home Page -->
+    <x:String x:Key="L_Home_Title">Dashboard</x:String>
+    <x:String x:Key="L_Home_TotalVisits">Gesamtzahl der Besuche</x:String>
+    <x:String x:Key="L_Home_NewUsers">Neue Benutzer</x:String>
+    <x:String x:Key="L_Home_TodoItems">Aufgabenliste</x:String>
+    <x:String x:Key="L_Home_SystemWarnings">Systemwarnungen</x:String>
+
+    <!-- Sidebar Menus -->
+    <x:String x:Key="L_Menu_Home">Startseite</x:String>
+    <x:String x:Key="L_Menu_User">Benutzerverwaltung</x:String>
+    <x:String x:Key="L_Menu_Role">Rollenverwaltung</x:String>
+    <x:String x:Key="L_Menu_Function">Funktionsverwaltung</x:String>
+    <x:String x:Key="L_Menu_Organization">Organisationsverwaltung</x:String>
+    <x:String x:Key="L_Menu_SystemConfig">Systemeinstellungen</x:String>
+    <x:String x:Key="L_Menu_RequestLog">Anforderungsprotokolle</x:String>
+</ResourceDictionary>

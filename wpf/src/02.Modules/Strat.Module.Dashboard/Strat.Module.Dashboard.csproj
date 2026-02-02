@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Semi.Avalonia" Version="$(SemiAvaloniaVersion)" />
+    <PackageReference Include="Irihi.Ursa" Version="$(UrsaVersion)" />
+    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="$(UrsaVersion)" />
+    <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../01.Infrastructure/Strat.Infrastructure/Strat.Infrastructure.csproj" />
+    <ProjectReference Include="../../01.Infrastructure/Strat.Shared/Strat.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,278 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:vm="using:Strat.Module.Identity.ViewModels"
+             xmlns:converters="using:Strat.Module.Identity.Converters"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="Strat.Module.Identity.Views.Login"
+             x:DataType="vm:LoginViewModel"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <converters:EyeIconConverter x:Key="EyeIconConverter"/>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <!-- 企业级按钮点击动画 -->
+        <Style Selector="Button.EnterpriseLogin:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.02)"/>
+        </Style>
+        <Style Selector="Button.EnterpriseLogin:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.98)"/>
+        </Style>
+        
+        <!-- 输入框聚焦动画 -->
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource SemiBlue6}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="{DynamicResource SemiBackground0}">
+        <Grid ColumnDefinitions="*, 520">
+            <!-- 左侧：品牌展示区 -->
+            <Grid Grid.Column="0" ClipToBounds="True">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0F172A" Offset="0"/>
+                        <GradientStop Color="#1E293B" Offset="0.5"/>
+                        <GradientStop Color="#0F172A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <!-- 装饰性网格动画背景 -->
+                <Canvas IsHitTestVisible="False" Opacity="0.08">
+                    <Canvas.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Canvas.RenderTransform>
+                    <!-- 重复的几何图案 -->
+                    <Rectangle Width="400" Height="400" Stroke="{DynamicResource SemiBlue6}" 
+                               StrokeThickness="1" Fill="Transparent" 
+                               Canvas.Left="50" Canvas.Top="50"/>
+                    <Rectangle Width="300" Height="300" Stroke="{DynamicResource SemiBlue6}" 
+                               StrokeThickness="1" Fill="Transparent" 
+                               Canvas.Left="450" Canvas.Top="300"/>
+                    <Ellipse Width="200" Height="200" Stroke="{DynamicResource SemiBlue6}" 
+                             StrokeThickness="1" Fill="Transparent" 
+                             Canvas.Left="150" Canvas.Top="400"/>
+                </Canvas>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="32">
+                    <!-- 动态 Logo -->
+                    <Border Width="96" Height="96" 
+                            Background="{DynamicResource SemiBlue6}" 
+                            CornerRadius="20">
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        </Border.RenderTransform>
+                        <TextBlock Text="S" Foreground="White" FontSize="56" FontWeight="Heavy" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Strat Admin" 
+                                   FontSize="48" 
+                                   FontWeight="Heavy" 
+                                   Foreground="White" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Enterprise Edition" 
+                                   FontSize="18" 
+                                   Foreground="White" 
+                                   Opacity="0.6"
+                                   FontWeight="Light"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Border Height="3" Width="80" 
+                            Background="{DynamicResource SemiBlue6}" 
+                            Opacity="0.6"
+                            CornerRadius="1.5"/>
+                    
+                    <TextBlock Text="高效 · 安全 · 现代化的企业级管理平台" 
+                               FontSize="15" 
+                               Foreground="White" 
+                               Opacity="0.5"
+                               FontWeight="Light"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- 底部版权信息 -->
+                <StackPanel Orientation="Horizontal" Spacing="24"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40">
+                    <TextBlock Text="© 2024 Strat" Foreground="White" Opacity="0.3" FontSize="13"/>
+                    <TextBlock Text="·" Foreground="White" Opacity="0.3"/>
+                    <TextBlock Text="隐私政策" Foreground="White" Opacity="0.3" FontSize="13" TextDecorations="Underline"/>
+                    <TextBlock Text="·" Foreground="White" Opacity="0.3"/>
+                    <TextBlock Text="服务条款" Foreground="White" Opacity="0.3" FontSize="13" TextDecorations="Underline"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- 右侧：登录表单区 -->
+            <Border Grid.Column="1" Background="{DynamicResource SemiBackground0}" Padding="72,0">
+                <Grid RowDefinitions="Auto, *, Auto">
+                    
+                    <!-- 顶部工具栏 -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,28,0,0" Spacing="12">
+                        <PathIcon Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" 
+                                  Width="16" Height="16" Foreground="{DynamicResource SemiGrey6}"/>
+                        <ComboBox ItemsSource="{Binding Languages}" 
+                                  SelectedItem="{Binding SelectedLanguage}"
+                                  Theme="{DynamicResource BorderlessComboBox}"
+                                  Width="100">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" FontSize="13"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- 中间：登录核心 -->
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="48">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="{DynamicResource Str_Login_WelcomeBack}" FontSize="32" FontWeight="Bold"/>
+                            <TextBlock Text="{DynamicResource Str_Login_Subtitle}" 
+                                       FontSize="15" 
+                                       Foreground="{DynamicResource SemiGrey6}"
+                                       FontWeight="Light"/>
+                        </StackPanel>
+
+                        <ursa:Form LabelPosition="Top" Width="380" HorizontalAlignment="Left">
+                            <!-- 账号输入框 -->
+                            <TextBox Text="{Binding LoginUser.Account}" 
+                                     ursa:FormItem.Label="{DynamicResource Str_Login_Account}"
+                                     Watermark="{DynamicResource Str_Login_AccountPlaceholder}" 
+                                     IsReadOnly="{Binding IsBusy}"
+                                     Height="52"
+                                     Classes="Large"
+                                     CornerRadius="8"
+                                     FontSize="15">
+                                <TextBox.InnerLeftContent>
+                                    <PathIcon Data="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" 
+                                              Width="20" Height="20" 
+                                              Foreground="{DynamicResource SemiGrey6}"
+                                              Margin="12,0,8,0"/>
+                                </TextBox.InnerLeftContent>
+                            </TextBox>
+                            
+                            <!-- 密码输入框 -->
+                            <StackPanel ursa:FormItem.Label="{DynamicResource Str_Login_Password}" Margin="0,20,0,0">
+                                <TextBox Text="{Binding LoginUser.Password}" 
+                                         Watermark="{DynamicResource Str_Login_PasswordPlaceholder}" 
+                                         PasswordChar="●" 
+                                         IsReadOnly="{Binding IsBusy}"
+                                         Height="52"
+                                         Classes="Large"
+                                         CornerRadius="8"
+                                         FontSize="15"
+                                         RevealPassword="{Binding ShowPassword}">
+                                    <TextBox.InnerLeftContent>
+                                        <PathIcon Data="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" 
+                                                  Width="20" Height="20" 
+                                                  Foreground="{DynamicResource SemiGrey6}"
+                                                  Margin="12,0,8,0"/>
+                                    </TextBox.InnerLeftContent>
+                                    <TextBox.InnerRightContent>
+                                        <Button Theme="{DynamicResource TransparentButton}"
+                                                Command="{Binding TogglePasswordVisibilityCommand}"
+                                                Padding="8"
+                                                Margin="0,0,4,0">
+                                            <PathIcon Data="{Binding ShowPassword, Converter={StaticResource EyeIconConverter}}" 
+                                                      Width="20" Height="20" 
+                                                      Foreground="{DynamicResource SemiGrey6}"/>
+                                        </Button>
+                                    </TextBox.InnerRightContent>
+                                </TextBox>
+                            </StackPanel>
+                        </ursa:Form>
+
+                        <StackPanel Spacing="28">
+                            <Grid>
+                                <CheckBox Content="{DynamicResource Str_Login_RememberMe}" FontSize="14" Foreground="{DynamicResource SemiGrey7}"/>
+                                <Button Content="{DynamicResource Str_Login_ForgotPassword}" 
+                                        Classes="Link" 
+                                        FontSize="14" 
+                                        HorizontalAlignment="Right"
+                                        Padding="0"
+                                        Foreground="{DynamicResource SemiBlue6}"
+                                        FontWeight="Medium"/>
+                            </Grid>
+
+                            <Button Content="{DynamicResource Str_Login_LoginButton}" 
+                                    Command="{Binding LoginCommand}"
+                                    Height="56"
+                                    HorizontalAlignment="Stretch"
+                                    Classes="Primary Large EnterpriseLogin" 
+                                    Theme="{DynamicResource SolidButton}"
+                                    CornerRadius="8"
+                                    FontSize="17"
+                                    FontWeight="SemiBold">
+                                <Button.Transitions>
+                                    <Transitions>
+                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15" Easing="CubicEaseOut"/>
+                                    </Transitions>
+                                </Button.Transitions>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- 底部辅助说明 -->
+                    <StackPanel Grid.Row="2" Margin="0,0,0,40" HorizontalAlignment="Center">
+                        <TextBlock Text="{DynamicResource Str_Login_OtherMethods}" 
+                                   FontSize="13" 
+                                   Foreground="{DynamicResource SemiGrey6}" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,0,0,20"
+                                   FontWeight="Light"/>
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <Button Theme="{DynamicResource OutlineButton}" 
+                                    Width="90" Height="44"
+                                    CornerRadius="6">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <PathIcon Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" 
+                                              Width="16" Height="16"/>
+                                    <TextBlock Text="微信" FontSize="13"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Theme="{DynamicResource OutlineButton}" 
+                                    Width="90" Height="44"
+                                    CornerRadius="6">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <PathIcon Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" 
+                                              Width="16" Height="16"/>
+                                    <TextBlock Text="GitHub" FontSize="13"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 全局 Loading 遮罩 -->
+        <Panel IsVisible="{Binding IsBusy}" 
+               Background="#50000000" 
+               ZIndex="999">
+            <Border Background="{DynamicResource SemiBackground0}"
+                    CornerRadius="12"
+                    Padding="48,32"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <StackPanel Spacing="20">
+                    <ursa:Loading IsLoading="True" 
+                                  Classes="Large"
+                                  HorizontalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource Str_Login_LoggingIn}" 
+                               FontSize="15" 
+                               Foreground="{DynamicResource SemiGrey7}"
+                               HorizontalAlignment="Center"
+                               FontWeight="Medium"/>
+                </StackPanel>
+            </Border>
+        </Panel>
+    </Grid>
+</UserControl>

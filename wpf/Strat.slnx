@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/01.Infrastructure/">
+    <Project Path="src/01.Infrastructure/Strat.Shared/Strat.Shared.csproj" />
+    <Project Path="src/01.Infrastructure/Strat.Infrastructure/Strat.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/02.Modules/">
+    <Project Path="src/02.Modules/Strat.Module.Dashboard/Strat.Module.Dashboard.csproj" />
+    <Project Path="src/02.Modules/Strat.Module.Identity/Strat.Module.Identity.csproj" />
+    <Project Path="src/02.Modules/Strat.Module.System/Strat.Module.System.csproj" />
+  </Folder>
+  <Folder Name="/03.Presentation/">
+    <Project Path="src/03.Presentation/Strat.Themes/Strat.Themes.csproj" />
+    <Project Path="src/03.Presentation/Strat.UI.Base/Strat.UI.Base.csproj" />
+  </Folder>
+  <Folder Name="/04.Hosts/">
+    <Project Path="src/04.Hosts/Strat.Desktop/Strat.Desktop.csproj" />
+    <Project Path="src/04.Hosts/Strat.Browser/Strat.Browser.csproj" />
+  </Folder>
+</Solution>

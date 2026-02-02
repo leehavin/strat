@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Semi.Avalonia" Version="$(SemiAvaloniaVersion)" />
+    <PackageReference Include="Irihi.Ursa" Version="$(UrsaVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../01.Infrastructure/Strat.Shared/Strat.Shared.csproj" />
+    <ProjectReference Include="../../01.Infrastructure/Strat.Infrastructure/Strat.Infrastructure.csproj" />
+    <ProjectReference Include="../../02.Modules/Strat.Module.Dashboard/Strat.Module.Dashboard.csproj" />
+    <ProjectReference Include="../../02.Modules/Strat.Module.Identity/Strat.Module.Identity.csproj" />
+    <ProjectReference Include="../../02.Modules/Strat.Module.System/Strat.Module.System.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\Fonts\**" />
+  </ItemGroup>
+
+</Project>

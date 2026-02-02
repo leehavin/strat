@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Login Page -->
+    <x:String x:Key="Str_Login_WelcomeBack">おかえりなさい</x:String>
+    <x:String x:Key="Str_Login_Subtitle">アカウント情報を入力してください</x:String>
+    <x:String x:Key="Str_Login_Account">アカウント</x:String>
+    <x:String x:Key="Str_Login_AccountPlaceholder">アカウントを入力してください</x:String>
+    <x:String x:Key="Str_Login_Password">パスワード</x:String>
+    <x:String x:Key="Str_Login_PasswordPlaceholder">パスワードを入力してください</x:String>
+    <x:String x:Key="Str_Login_RememberMe">ログイン状態を保持</x:String>
+    <x:String x:Key="Str_Login_ForgotPassword">パスワードを忘れた場合</x:String>
+    <x:String x:Key="Str_Login_LoginButton">ログイン</x:String>
+    <x:String x:Key="Str_Login_OtherMethods">その他のログイン方法</x:String>
+    <x:String x:Key="Str_Login_LoggingIn">ログイン中、お待ちください...</x:String>
+    
+    <!-- Main Page -->
+    <x:String x:Key="Str_App_Title">Strat Admin</x:String>
+    <x:String x:Key="Str_App_Edition">エンタープライズ版</x:String>
+    <x:String x:Key="Str_Main_QuickSearch">クイック検索 (Ctrl+K)</x:String>
+    <x:String x:Key="Str_Main_CollapseSidebar">サイドバーを折りたたむ</x:String>
+    <x:String x:Key="Str_Main_Administrator">管理者</x:String>
+    <x:String x:Key="Str_Main_BetaTag">Beta</x:String>
+    <x:String x:Key="Str_Main_Refresh">更新</x:String>
+    
+    <!-- Legacy Keys -->
+    <x:String x:Key="L_Login_SystemTitle">STRAT 管理システム</x:String>
+    <x:String x:Key="L_Login_SubTitle">インテリジェント・デジタルベース管理システム</x:String>
+    <x:String x:Key="L_Login_Username">ユーザー名</x:String>
+    <x:String x:Key="L_Login_UsernameWatermark">管理者アカウントを入力してください</x:String>
+    <x:String x:Key="L_Login_Password">パスワード</x:String>
+    <x:String x:Key="L_Login_PasswordWatermark">パスワードを入力してください</x:String>
+    <x:String x:Key="L_Login_Submit">今すぐログイン</x:String>
+    <x:String x:Key="L_Login_RememberMe">ログイン状態を保持</x:String>
+    <x:String x:Key="L_Login_ForgotPassword">パスワードを忘れた場合</x:String>
+    <x:String x:Key="L_Login_Authenticating">認証中...</x:String>
+    
+    <!-- Common / Message -->
+    <x:String x:Key="L_Msg_LoginFailed">ログイン失敗</x:String>
+    <x:String x:Key="L_Msg_AccountError">ユーザー名またはパスワードが正しくありません</x:String>
+    <x:String x:Key="L_Msg_NetworkError">ネットワーク接続エラー</x:String>
+
+    <!-- Home Page -->
+    <x:String x:Key="L_Home_Title">ダッシュボード</x:String>
+    <x:String x:Key="L_Home_TotalVisits">総アクセス数</x:String>
+    <x:String x:Key="L_Home_NewUsers">新規ユーザー</x:String>
+    <x:String x:Key="L_Home_TodoItems">ToDoリスト</x:String>
+    <x:String x:Key="L_Home_SystemWarnings">システム警告</x:String>
+
+    <!-- Sidebar Menus -->
+    <x:String x:Key="L_Menu_Home">ホーム</x:String>
+    <x:String x:Key="L_Menu_User">ユーザー管理</x:String>
+    <x:String x:Key="L_Menu_Role">ロール管理</x:String>
+    <x:String x:Key="L_Menu_Function">機能管理</x:String>
+    <x:String x:Key="L_Menu_Organization">組織管理</x:String>
+    <x:String x:Key="L_Menu_SystemConfig">システム設定</x:String>
+    <x:String x:Key="L_Menu_RequestLog">リクエストログ</x:String>
+</ResourceDictionary>

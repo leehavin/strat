@@ -1,0 +1,30 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Strat.UI.Base"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:u-semi="https://irihi.tech/ursa/themes/semi"
+             xmlns:conv="using:Strat.Shared.Converters"
+             x:Class="Strat.UI.Base.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://Strat.Themes/I18n/zh-CN.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:MenuWidthConverter x:Key="MenuWidthConverter" />
+            <conv:MenuIconConverter x:Key="MenuIconConverter" />
+            <FontFamily x:Key="HarmonyOSFont">avares://Strat.Themes/Assets/Fonts/HarmonyOS%20Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf#HarmonyOS Sans SC</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+    <Application.Styles>
+        <semi:SemiTheme Locale="zh-CN" />
+        <u-semi:SemiTheme Locale="zh-CN" />
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource HarmonyOSFont}" />
+        </Style>
+        <Style Selector="TemplatedControl">
+            <Setter Property="FontFamily" Value="{StaticResource HarmonyOSFont}" />
+        </Style>
+        <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
+        <StyleInclude Source="avares://Strat.Themes/Styles/GlobalStyles.axaml" />
+    </Application.Styles>
+</Application>

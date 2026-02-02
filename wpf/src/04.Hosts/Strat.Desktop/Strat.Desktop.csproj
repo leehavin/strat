@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- 禁用 Accelerate -->
+    <UseAvaloniaAccelerate>false</UseAvaloniaAccelerate>
+    <!-- 启用 AOT 编译 -->
+    <PublishAot>true</PublishAot>
+    <!-- 禁用调试/遥测 -->
+    <DisableAvaloniaDiagnostics>true</DisableAvaloniaDiagnostics>
+    <EnableTelemetry>false</EnableTelemetry>
+    <AvaloniaDebuggerLaunch>false</AvaloniaDebuggerLaunch>
+    <DebuggerLaunch>false</DebuggerLaunch>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.11" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="$(SemiAvaloniaVersion)" />
+    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="$(UrsaVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../03.Presentation/Strat.UI.Base/Strat.UI.Base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

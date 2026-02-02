@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Login Page -->
+    <x:String x:Key="Str_Login_WelcomeBack">Bienvenido de nuevo</x:String>
+    <x:String x:Key="Str_Login_Subtitle">Ingrese sus credenciales para continuar</x:String>
+    <x:String x:Key="Str_Login_Account">Cuenta</x:String>
+    <x:String x:Key="Str_Login_AccountPlaceholder">Por favor ingrese su cuenta</x:String>
+    <x:String x:Key="Str_Login_Password">Contraseña</x:String>
+    <x:String x:Key="Str_Login_PasswordPlaceholder">Por favor ingrese su contraseña</x:String>
+    <x:String x:Key="Str_Login_RememberMe">Recordarme</x:String>
+    <x:String x:Key="Str_Login_ForgotPassword">¿Olvidó su contraseña?</x:String>
+    <x:String x:Key="Str_Login_LoginButton">Iniciar sesión</x:String>
+    <x:String x:Key="Str_Login_OtherMethods">Otros métodos de inicio de sesión</x:String>
+    <x:String x:Key="Str_Login_LoggingIn">Iniciando sesión, por favor espere...</x:String>
+    
+    <!-- Main Page -->
+    <x:String x:Key="Str_App_Title">Strat Admin</x:String>
+    <x:String x:Key="Str_App_Edition">Edición Empresarial</x:String>
+    <x:String x:Key="Str_Main_QuickSearch">Búsqueda rápida (Ctrl+K)</x:String>
+    <x:String x:Key="Str_Main_CollapseSidebar">Contraer barra lateral</x:String>
+    <x:String x:Key="Str_Main_Administrator">Administrador</x:String>
+    <x:String x:Key="Str_Main_BetaTag">Beta</x:String>
+    <x:String x:Key="Str_Main_Refresh">Actualizar</x:String>
+    
+    <x:String x:Key="L_Login_SystemTitle">SISTEMA STRAT</x:String>
+    <x:String x:Key="L_Login_SubTitle">Sistema de Gestión de Base Digital Inteligente</x:String>
+    <x:String x:Key="L_Login_Username">Nombre de usuario</x:String>
+    <x:String x:Key="L_Login_UsernameWatermark">Ingrese la cuenta de administrador</x:String>
+    <x:String x:Key="L_Login_Password">Contraseña</x:String>
+    <x:String x:Key="L_Login_PasswordWatermark">Ingrese la contraseña</x:String>
+    <x:String x:Key="L_Login_Submit">Iniciar sesión ahora</x:String>
+    <x:String x:Key="L_Login_RememberMe">Recuérdame</x:String>
+    <x:String x:Key="L_Login_ForgotPassword">¿Olvidó su contraseña?</x:String>
+    <x:String x:Key="L_Login_Authenticating">Autenticando...</x:String>
+    
+    <!-- Common / Message -->
+    <x:String x:Key="L_Msg_LoginFailed">Error de inicio de sesión</x:String>
+    <x:String x:Key="L_Msg_AccountError">Usuario o contraseña incorrectos</x:String>
+    <x:String x:Key="L_Msg_NetworkError">Fallo de conexión de red</x:String>
+
+    <!-- Home Page -->
+    <x:String x:Key="L_Home_Title">Panel de control</x:String>
+    <x:String x:Key="L_Home_TotalVisits">Visitas totales</x:String>
+    <x:String x:Key="L_Home_NewUsers">Nuevos usuarios</x:String>
+    <x:String x:Key="L_Home_TodoItems">Lista de tareas</x:String>
+    <x:String x:Key="L_Home_SystemWarnings">Advertencias del sistema</x:String>
+
+    <!-- Sidebar Menus -->
+    <x:String x:Key="L_Menu_Home">Inicio</x:String>
+    <x:String x:Key="L_Menu_User">Usuarios</x:String>
+    <x:String x:Key="L_Menu_Role">Roles</x:String>
+    <x:String x:Key="L_Menu_Function">Funciones</x:String>
+    <x:String x:Key="L_Menu_Organization">Organizaciones</x:String>
+    <x:String x:Key="L_Menu_SystemConfig">Configuración</x:String>
+    <x:String x:Key="L_Menu_RequestLog">Registros de solicitudes</x:String>
+</ResourceDictionary>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Strat.Workflow.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Strat.Shared\Strat.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SqlSugarCore" Version="$(SqlSugarVersion)" />
+    <PackageReference Include="Volo.Abp" Version="$(AbpVersion)" />
+  </ItemGroup>
+
+</Project>

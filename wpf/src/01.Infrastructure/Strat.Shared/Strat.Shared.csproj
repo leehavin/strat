@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Irihi.Ursa" Version="$(UrsaVersion)" />
+    <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
+    <PackageReference Include="Flurl.Http" Version="$(FlurlVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.2" />
+    <PackageReference Include="Mapster" Version="$(MapsterVersion)" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+  </ItemGroup>
+
+</Project>

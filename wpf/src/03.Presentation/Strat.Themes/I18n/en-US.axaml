@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Login Page -->
+    <x:String x:Key="Str_Login_WelcomeBack">Welcome Back</x:String>
+    <x:String x:Key="Str_Login_Subtitle">Enter your credentials to continue</x:String>
+    <x:String x:Key="Str_Login_Account">Account</x:String>
+    <x:String x:Key="Str_Login_AccountPlaceholder">Please enter your account</x:String>
+    <x:String x:Key="Str_Login_Password">Password</x:String>
+    <x:String x:Key="Str_Login_PasswordPlaceholder">Please enter your password</x:String>
+    <x:String x:Key="Str_Login_RememberMe">Remember Me</x:String>
+    <x:String x:Key="Str_Login_ForgotPassword">Forgot Password?</x:String>
+    <x:String x:Key="Str_Login_LoginButton">Sign In</x:String>
+    <x:String x:Key="Str_Login_OtherMethods">Other Login Methods</x:String>
+    <x:String x:Key="Str_Login_LoggingIn">Signing in, please wait...</x:String>
+    
+    <!-- Main Page -->
+    <x:String x:Key="Str_App_Title">Strat Admin</x:String>
+    <x:String x:Key="Str_App_Edition">Enterprise Edition</x:String>
+    <x:String x:Key="Str_Main_QuickSearch">Quick Search (Ctrl+K)</x:String>
+    <x:String x:Key="Str_Main_CollapseSidebar">Collapse Sidebar</x:String>
+    <x:String x:Key="Str_Main_Administrator">Administrator</x:String>
+    <x:String x:Key="Str_Main_BetaTag">Beta</x:String>
+    <x:String x:Key="Str_Main_Refresh">Refresh</x:String>
+    
+    <!-- Legacy Keys (compatibility) -->
+    <x:String x:Key="L_Login_SystemTitle">STRAT ADMIN</x:String>
+    <x:String x:Key="L_Login_SubTitle">Digital Base Management System</x:String>
+    <x:String x:Key="L_Login_Username">Username</x:String>
+    <x:String x:Key="L_Login_UsernameWatermark">Please enter admin account</x:String>
+    <x:String x:Key="L_Login_Password">Password</x:String>
+    <x:String x:Key="L_Login_PasswordWatermark">Please enter password</x:String>
+    <x:String x:Key="L_Login_Submit">Sign In Now</x:String>
+    <x:String x:Key="L_Login_RememberMe">Remember Me</x:String>
+    <x:String x:Key="L_Login_ForgotPassword">Forgot Password?</x:String>
+    <x:String x:Key="L_Login_Authenticating">Authenticating...</x:String>
+
+    <!-- Common / Message -->
+    <x:String x:Key="L_Msg_LoginFailed">Login Failed</x:String>
+    <x:String x:Key="L_Msg_AccountError">Invalid username or password, please try again</x:String>
+    <x:String x:Key="L_Msg_NetworkError">Network Connection Failed</x:String>
+
+    <!-- Home Page -->
+    <x:String x:Key="L_Home_Title">Dashboard</x:String>
+    <x:String x:Key="L_Home_TotalVisits">Total Visits</x:String>
+    <x:String x:Key="L_Home_NewUsers">New Users</x:String>
+    <x:String x:Key="L_Home_TodoItems">Todo Items</x:String>
+    <x:String x:Key="L_Home_SystemWarnings">System Warnings</x:String>
+
+    <!-- Sidebar Menus -->
+    <x:String x:Key="L_Menu_Home">Dashboard</x:String>
+    <x:String x:Key="L_Menu_User">Users</x:String>
+    <x:String x:Key="L_Menu_Role">Roles</x:String>
+    <x:String x:Key="L_Menu_Function">Functions</x:String>
+    <x:String x:Key="L_Menu_Organization">Organizations</x:String>
+    <x:String x:Key="L_Menu_SystemConfig">Configurations</x:String>
+    <x:String x:Key="L_Menu_RequestLog">Request Logs</x:String>
+</ResourceDictionary>

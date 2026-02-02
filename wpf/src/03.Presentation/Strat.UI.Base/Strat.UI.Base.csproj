@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.11" />
+    <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
+    <PackageReference Include="Prism.DryIoc.Avalonia" Version="$(PrismAvaloniaVersion)" />
+    <PackageReference Include="Semi.Avalonia" Version="$(SemiAvaloniaVersion)" />
+    <PackageReference Include="Irihi.Ursa" Version="$(UrsaVersion)" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="$(SemiAvaloniaVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../01.Infrastructure/Strat.Shared/Strat.Shared.csproj" />
+    <ProjectReference Include="../../01.Infrastructure/Strat.Infrastructure/Strat.Infrastructure.csproj" />
+    <ProjectReference Include="../../02.Modules/Strat.Module.Dashboard/Strat.Module.Dashboard.csproj" />
+    <ProjectReference Include="../../02.Modules/Strat.Module.Identity/Strat.Module.Identity.csproj" />
+    <ProjectReference Include="../../02.Modules/Strat.Module.System/Strat.Module.System.csproj" />
+    <ProjectReference Include="../Strat.Themes/Strat.Themes.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,208 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:vm="using:Strat.Module.Dashboard.ViewModels"
+             xmlns:local_conv="using:Strat.Module.Dashboard.Converters"
+             mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="900"
+             x:Class="Strat.Module.Dashboard.Views.Main"
+             x:DataType="vm:MainViewModel"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <local_conv:StringToGeometryConverter x:Key="StringToGeometryConverter"/>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="TreeView">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="4,0"/>
+        </Style>
+        <Style Selector="TreeViewItem /template/ Border#PART_LayoutRoot">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="{DynamicResource Radius_M}"/>
+        </Style>
+        <Style Selector="TreeViewItem:selected /template/ Border#PART_LayoutRoot">
+            <Setter Property="Background" Value="{DynamicResource SemiBlue6}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid ColumnDefinitions="260, *" Background="{DynamicResource SemiBackground0}">
+        <!-- 左侧：侧边栏 -->
+        <Border Grid.Column="0" 
+                Background="{DynamicResource SemiBackground1}" 
+                BorderBrush="{DynamicResource SemiBorder}"
+                BorderThickness="0,0,1,0">
+            <DockPanel>
+                <!-- Logo -->
+                <Border DockPanel.Dock="Top" Padding="20,24" BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Border Width="40" Height="40" CornerRadius="{DynamicResource Radius_M}" Background="{DynamicResource SemiBlue6}">
+                            <TextBlock Text="S" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource Str_App_Title}" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="{DynamicResource Str_App_Edition}" FontSize="12" Foreground="{DynamicResource SemiGrey6}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- 菜单 -->
+                <ScrollViewer Padding="12,16">
+                    <TreeView ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}">
+                        <TreeView.ItemTemplate>
+                            <TreeDataTemplate ItemsSource="{Binding Children}">
+                                <Border Padding="12,10" CornerRadius="{DynamicResource Radius_M}">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <PathIcon Data="{Binding IconPath, Converter={StaticResource StringToGeometryConverter}}" Width="18" Height="18" Foreground="{DynamicResource SemiGrey8}"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="14" VerticalAlignment="Center" FontWeight="Medium"/>
+                                    </StackPanel>
+                                </Border>
+                            </TreeDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <!-- 右侧：主内容区 -->
+        <Grid Grid.Column="1" RowDefinitions="Auto, Auto, *">
+            <!-- 顶部栏 -->
+            <Border Grid.Row="0" Height="60" BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,0,0,1"
+                    Background="{DynamicResource SemiBackground0}">
+                <Grid Margin="24,0" ColumnDefinitions="Auto, *, Auto">
+                    <!-- 左侧：菜单开关 -->
+                    <Button Grid.Column="0" Width="40" Height="40" Theme="{DynamicResource TransparentButton}" CornerRadius="{DynamicResource Radius_M}">
+                        <PathIcon Data="{DynamicResource SemiIconMenu}" Width="20" Height="20"/>
+                    </Button>
+
+                    <StackPanel Grid.Column="1"/>
+
+                    <!-- 右侧：功能区 -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                        <!-- 通知中心 -->
+                        <Button Width="40" Height="40" Theme="{DynamicResource TransparentButton}" CornerRadius="{DynamicResource Radius_M}"
+                                Command="{Binding NotificationPanel.TogglePanelCommand}">
+                            <Panel>
+                                <PathIcon Data="{DynamicResource SemiIconBell}" Width="20" Height="20"/>
+                                <Border Width="18" Height="18" CornerRadius="{DynamicResource Radius_Full}" 
+                                        Background="{DynamicResource SemiRed6}"
+                                        HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                        Margin="0,2,2,0"
+                                        IsVisible="{Binding NotificationPanel.UnreadCount}">
+                                    <TextBlock Text="{Binding NotificationPanel.UnreadCount}" 
+                                               FontSize="{DynamicResource FontSize_Caption}" FontWeight="Bold" Foreground="White"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Panel>
+                        </Button>
+
+                        <!-- 用户信息 -->
+                        <Button Height="40" Padding="8,0,12,0" Theme="{DynamicResource TransparentButton}" CornerRadius="8">
+                            <Button.Flyout>
+                                <Flyout Placement="BottomEdgeAlignedRight">
+                                    <StackPanel Width="220" Spacing="4">
+                                        <Border Padding="16,12" Background="{DynamicResource SemiBackground2}" CornerRadius="8" Margin="0,0,0,8">
+                                            <StackPanel Spacing="4">
+                                                <TextBlock Text="{Binding UserName}" FontSize="16" FontWeight="SemiBold"/>
+                                                <TextBlock Text="{DynamicResource Str_Main_Administrator}" FontSize="12" Foreground="{DynamicResource SemiGrey6}"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <Button Content="个人中心" Theme="{DynamicResource TransparentButton}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="40" Padding="12,0">
+                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                <PathIcon Data="{DynamicResource SemiIconUser}" Width="18" Height="18"/>
+                                                <TextBlock Text="个人中心" VerticalAlignment="Center" FontSize="14"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Separator Margin="0,4"/>
+                                        <Button Command="{Binding LogoutCommand}" Theme="{DynamicResource TransparentButton}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="40" Padding="12,0">
+                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                <PathIcon Data="{DynamicResource SemiIconLogout}" Width="18" Height="18" Foreground="{DynamicResource SemiRed6}"/>
+                                                <TextBlock Text="退出登录" VerticalAlignment="Center" Foreground="{DynamicResource SemiRed6}" FontSize="14"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border Width="32" Height="32" CornerRadius="16" Background="{DynamicResource SemiBlue6}">
+                                    <PathIcon Data="{DynamicResource SemiIconUser}" Width="18" Height="18" Foreground="White"/>
+                                </Border>
+                                <TextBlock Text="{Binding UserName}" FontSize="14" VerticalAlignment="Center" FontWeight="Medium"/>
+                                <PathIcon Data="{DynamicResource SemiIconChevronDown}" Width="14" Height="14" Foreground="{DynamicResource SemiGrey6}"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 面包屑导航栏 -->
+            <Border Grid.Row="1" Padding="24,16" BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,0,0,1"
+                    Background="{DynamicResource SemiBackground0}">
+                <StackPanel Spacing="12">
+                    <ItemsControl ItemsSource="{Binding Breadcrumbs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding Title}" FontSize="14" Foreground="{DynamicResource SemiGrey8}"/>
+                                    <PathIcon Data="{DynamicResource SemiIconChevronRight}" Width="12" Height="12" Foreground="{DynamicResource SemiGrey5}" IsVisible="{Binding !IsLast}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="{Binding CurrentPageTitle}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Background="{DynamicResource SemiBlue1}" CornerRadius="4" Padding="8,4" VerticalAlignment="Center">
+                                <TextBlock Text="BETA" FontSize="12" Foreground="{DynamicResource SemiBlue6}" FontWeight="Medium"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            
+            <!-- 页面内容区 -->
+            <Border Grid.Row="2" Background="{DynamicResource SemiBackground1}" Padding="24">
+                <ContentControl prism:RegionManager.RegionName="MainContentRegion"/>
+            </Border>
+        </Grid>
+
+        <!-- 通知中心面板（Overlay） -->
+        <Border Grid.Column="1" Background="#80000000" 
+                IsVisible="{Binding NotificationPanel.IsOpen, FallbackValue=False}"
+                PointerPressed="OnOverlayPressed">
+            <Border Width="420" Height="600" 
+                    Background="{DynamicResource SemiBackground0}"
+                    CornerRadius="12" 
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="0,70,20,0">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Padding="20,16" BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,0,0,1">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="通知中心" FontSize="18" FontWeight="Bold"/>
+                            <Button Grid.Column="1" Command="{Binding NotificationPanel.TogglePanelCommand}" Theme="{DynamicResource TransparentButton}">
+                                <PathIcon Data="{DynamicResource SemiIconClose}" Width="16" Height="16"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <ScrollViewer Padding="12">
+                        <TextBlock Text="暂无新通知" HorizontalAlignment="Center" Margin="0,40" Foreground="{DynamicResource SemiGrey5}"/>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>

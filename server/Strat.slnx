@@ -1,0 +1,30 @@
+<Solution>
+  <Folder Name="/01.Infrastructure/">
+    <Project Path="src/Infrastructure/Strat.Infrastructure/Strat.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/02.Shared/">
+    <Project Path="src/Shared/Strat.Shared/Strat.Shared.csproj" />
+  </Folder>
+  <Folder Name="/03.Modules/" />
+  <Folder Name="/03.Modules/Identity/">
+    <Project Path="src/Modules/Identity/Strat.Identity.Application.Contracts/Strat.Identity.Application.Contracts.csproj" />
+    <Project Path="src/Modules/Identity/Strat.Identity.Application/Strat.Identity.Application.csproj" />
+    <Project Path="src/Modules/Identity/Strat.Identity.Domain/Strat.Identity.Domain.csproj" />
+  </Folder>
+  <Folder Name="/03.Modules/System/">
+    <Project Path="src/Modules/System/Strat.System.Application.Contracts/Strat.System.Application.Contracts.csproj" />
+    <Project Path="src/Modules/System/Strat.System.Application/Strat.System.Application.csproj" />
+    <Project Path="src/Modules/System/Strat.System.Domain/Strat.System.Domain.csproj" />
+  </Folder>
+  <Folder Name="/03.Modules/Workflow/">
+    <Project Path="src/Modules/Workflow/Strat.Workflow.Application.Contracts/Strat.Workflow.Application.Contracts.csproj" />
+    <Project Path="src/Modules/Workflow/Strat.Workflow.Application/Strat.Workflow.Application.csproj" />
+    <Project Path="src/Modules/Workflow/Strat.Workflow.Domain/Strat.Workflow.Domain.csproj" />
+  </Folder>
+  <Folder Name="/04.Host/">
+    <Project Path="src/Host/Strat.Host/Strat.Host.csproj" />
+  </Folder>
+  <Folder Name="/05.Tests/">
+    <Project Path="tests/Strat.Tests.Unit/Strat.Tests.Unit.csproj" />
+  </Folder>
+</Solution>

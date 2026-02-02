@@ -1,0 +1,135 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- 
+    ========================================
+    Strat 设计系统 - Design Tokens
+    ========================================
+    企业级统一设计语言规范
+    参考标准：Semi Design + Material Design 3
+    ========================================
+    -->
+
+    <!-- ==================== 字体大小层级 ==================== -->
+    
+    <!-- 标题层级 -->
+    <x:Double x:Key="FontSize_Display">28</x:Double>      <!-- 巨型标题 -->
+    <x:Double x:Key="FontSize_H1">24</x:Double>           <!-- 一级标题：页面主标题 -->
+    <x:Double x:Key="FontSize_H2">20</x:Double>           <!-- 二级标题：区域标题 -->
+    <x:Double x:Key="FontSize_H3">18</x:Double>           <!-- 三级标题：卡片标题 -->
+    <x:Double x:Key="FontSize_H4">16</x:Double>           <!-- 四级标题：小标题 -->
+
+    <!-- 正文层级 -->
+    <x:Double x:Key="FontSize_Large">16</x:Double>        <!-- 大号正文：强调内容、输入框 -->
+    <x:Double x:Key="FontSize_Base">14</x:Double>         <!-- 基础正文：表格数据、列表（默认） -->
+    <x:Double x:Key="FontSize_Small">13</x:Double>        <!-- 小号正文：辅助说明 -->
+    <x:Double x:Key="FontSize_Caption">12</x:Double>      <!-- 说明文字：标签、角标 -->
+
+    <!-- 按钮层级 -->
+    <x:Double x:Key="FontSize_Button_Large">16</x:Double>
+    <x:Double x:Key="FontSize_Button_Medium">14</x:Double>
+    <x:Double x:Key="FontSize_Button_Small">13</x:Double>
+
+
+    <!-- ==================== 行高规范 ==================== -->
+    
+    <x:Double x:Key="LineHeight_Tight">1.3</x:Double>     <!-- 紧凑：标题、表格 -->
+    <x:Double x:Key="LineHeight_Normal">1.5</x:Double>    <!-- 标准：正文 -->
+    <x:Double x:Key="LineHeight_Relaxed">1.7</x:Double>   <!-- 宽松：长文本 -->
+
+
+    <!-- ==================== 字重规范 ==================== -->
+    
+    <FontWeight x:Key="FontWeight_Regular">Normal</FontWeight>      <!-- 400：正文 -->
+    <FontWeight x:Key="FontWeight_Medium">Medium</FontWeight>       <!-- 500：表头、标签 -->
+    <FontWeight x:Key="FontWeight_SemiBold">SemiBold</FontWeight>   <!-- 600：标题、按钮 -->
+    <FontWeight x:Key="FontWeight_Bold">Bold</FontWeight>           <!-- 700：强调 -->
+
+
+    <!-- ==================== 间距规范 ==================== -->
+    
+    <x:Double x:Key="Spacing_XS">4</x:Double>      <!-- 超小间距 -->
+    <x:Double x:Key="Spacing_S">8</x:Double>       <!-- 小间距 -->
+    <x:Double x:Key="Spacing_M">12</x:Double>      <!-- 中间距（默认） -->
+    <x:Double x:Key="Spacing_L">16</x:Double>      <!-- 大间距 -->
+    <x:Double x:Key="Spacing_XL">24</x:Double>     <!-- 超大间距 -->
+    <x:Double x:Key="Spacing_XXL">32</x:Double>    <!-- 超超大间距 -->
+
+    <!-- 组件内边距 -->
+    <Thickness x:Key="Padding_Input">12,8</Thickness>         <!-- 输入框内边距 -->
+    <Thickness x:Key="Padding_Button_S">8,4</Thickness>       <!-- 小按钮 -->
+    <Thickness x:Key="Padding_Button_M">12,6</Thickness>      <!-- 中按钮 -->
+    <Thickness x:Key="Padding_Button_L">16,8</Thickness>      <!-- 大按钮 -->
+    <Thickness x:Key="Padding_Card">16</Thickness>            <!-- 卡片内边距 -->
+    <Thickness x:Key="Padding_Panel">20</Thickness>           <!-- 面板内边距 -->
+
+
+    <!-- ==================== 圆角规范 ==================== -->
+    
+    <CornerRadius x:Key="Radius_None">0</CornerRadius>
+    <CornerRadius x:Key="Radius_S">4</CornerRadius>     <!-- 小圆角：输入框、标签 -->
+    <CornerRadius x:Key="Radius_M">8</CornerRadius>     <!-- 中圆角：按钮、卡片（默认） -->
+    <CornerRadius x:Key="Radius_L">12</CornerRadius>    <!-- 大圆角：对话框、面板 -->
+    <CornerRadius x:Key="Radius_Full">999</CornerRadius> <!-- 完全圆角：头像、徽章 -->
+
+
+    <!-- ==================== 阴影规范 ==================== -->
+    
+    <!-- 浅色主题阴影 - Avalonia 语法：OffsetX OffsetY Blur Spread Color -->
+    <BoxShadow x:Key="Shadow_S">0 2 4 0 #14000000</BoxShadow>    <!-- 小阴影：悬浮卡片 (8% opacity) -->
+    <BoxShadow x:Key="Shadow_M">0 4 8 0 #1F000000</BoxShadow>    <!-- 中阴影：下拉菜单 (12% opacity) -->
+    <BoxShadow x:Key="Shadow_L">0 8 16 0 #29000000</BoxShadow>   <!-- 大阴影：对话框 (16% opacity) -->
+
+    <!-- 深色主题阴影 -->
+    <BoxShadow x:Key="Shadow_Dark_S">0 2 8 0 #4D000000</BoxShadow>   <!-- 30% opacity -->
+    <BoxShadow x:Key="Shadow_Dark_M">0 4 12 0 #66000000</BoxShadow>  <!-- 40% opacity -->
+    <BoxShadow x:Key="Shadow_Dark_L">0 8 24 0 #80000000</BoxShadow>  <!-- 50% opacity -->
+
+
+    <!-- ==================== 组件尺寸规范 ==================== -->
+    
+    <!-- 输入框高度 -->
+    <x:Double x:Key="Height_Input_S">28</x:Double>
+    <x:Double x:Key="Height_Input_M">36</x:Double>    <!-- 默认 -->
+    <x:Double x:Key="Height_Input_L">40</x:Double>
+
+    <!-- 按钮高度 -->
+    <x:Double x:Key="Height_Button_S">28</x:Double>
+    <x:Double x:Key="Height_Button_M">32</x:Double>   <!-- 默认 -->
+    <x:Double x:Key="Height_Button_L">40</x:Double>
+
+    <!-- 表格行高 -->
+    <x:Double x:Key="Height_TableRow_Compact">32</x:Double>   <!-- 紧凑模式 -->
+    <x:Double x:Key="Height_TableRow_Normal">40</x:Double>    <!-- 标准模式（默认） -->
+    <x:Double x:Key="Height_TableRow_Relaxed">48</x:Double>   <!-- 宽松模式 -->
+
+
+    <!-- ==================== Z-Index 层级 ==================== -->
+    
+    <x:Int32 x:Key="ZIndex_Base">0</x:Int32>
+    <x:Int32 x:Key="ZIndex_Dropdown">1000</x:Int32>
+    <x:Int32 x:Key="ZIndex_Sticky">1020</x:Int32>
+    <x:Int32 x:Key="ZIndex_Fixed">1030</x:Int32>
+    <x:Int32 x:Key="ZIndex_Modal_Backdrop">1040</x:Int32>
+    <x:Int32 x:Key="ZIndex_Modal">1050</x:Int32>
+    <x:Int32 x:Key="ZIndex_Popover">1060</x:Int32>
+    <x:Int32 x:Key="ZIndex_Tooltip">1070</x:Int32>
+    <x:Int32 x:Key="ZIndex_Notification">1080</x:Int32>
+
+
+    <!-- ==================== 过渡动画时长 ==================== -->
+    
+    <x:TimeSpan x:Key="Duration_Fast">0:0:0.15</x:TimeSpan>      <!-- 150ms：快速反馈 -->
+    <x:TimeSpan x:Key="Duration_Normal">0:0:0.25</x:TimeSpan>    <!-- 250ms：标准动画 -->
+    <x:TimeSpan x:Key="Duration_Slow">0:0:0.35</x:TimeSpan>      <!-- 350ms：缓慢动画 -->
+
+
+    <!-- ==================== 断点规范（响应式设计）==================== -->
+    
+    <x:Double x:Key="Breakpoint_XS">480</x:Double>    <!-- 手机 -->
+    <x:Double x:Key="Breakpoint_SM">768</x:Double>    <!-- 平板 -->
+    <x:Double x:Key="Breakpoint_MD">1024</x:Double>   <!-- 小屏电脑 -->
+    <x:Double x:Key="Breakpoint_LG">1280</x:Double>   <!-- 标准电脑 -->
+    <x:Double x:Key="Breakpoint_XL">1920</x:Double>   <!-- 大屏 -->
+
+</ResourceDictionary>

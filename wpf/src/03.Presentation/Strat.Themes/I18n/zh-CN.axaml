@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Login Page -->
+    <x:String x:Key="Str_Login_WelcomeBack">欢迎回来</x:String>
+    <x:String x:Key="Str_Login_Subtitle">请输入您的账户信息以继续</x:String>
+    <x:String x:Key="Str_Login_Account">账号</x:String>
+    <x:String x:Key="Str_Login_AccountPlaceholder">请输入您的账号</x:String>
+    <x:String x:Key="Str_Login_Password">密码</x:String>
+    <x:String x:Key="Str_Login_PasswordPlaceholder">请输入您的密码</x:String>
+    <x:String x:Key="Str_Login_RememberMe">记住我</x:String>
+    <x:String x:Key="Str_Login_ForgotPassword">忘记密码？</x:String>
+    <x:String x:Key="Str_Login_LoginButton">登 录</x:String>
+    <x:String x:Key="Str_Login_OtherMethods">其他登录方式</x:String>
+    <x:String x:Key="Str_Login_LoggingIn">正在登录，请稍候...</x:String>
+    
+    <!-- Main Page -->
+    <x:String x:Key="Str_App_Title">Strat Admin</x:String>
+    <x:String x:Key="Str_App_Edition">企业版</x:String>
+    <x:String x:Key="Str_Main_QuickSearch">快捷搜索 (Ctrl+K)</x:String>
+    <x:String x:Key="Str_Main_CollapseSidebar">收起侧边栏</x:String>
+    <x:String x:Key="Str_Main_Administrator">管理员</x:String>
+    <x:String x:Key="Str_Main_BetaTag">Beta</x:String>
+    <x:String x:Key="Str_Main_Refresh">刷新</x:String>
+    
+    <!-- Legacy Keys (保持兼容) -->
+    <x:String x:Key="L_Login_SystemTitle">STRAT 管理系统</x:String>
+    <x:String x:Key="L_Login_SubTitle">智慧基座管理系统</x:String>
+    <x:String x:Key="L_Login_Username">账户名称</x:String>
+    <x:String x:Key="L_Login_UsernameWatermark">请输入管理员账号</x:String>
+    <x:String x:Key="L_Login_Password">安全密码</x:String>
+    <x:String x:Key="L_Login_PasswordWatermark">请输入登录密码</x:String>
+    <x:String x:Key="L_Login_Submit">立即进入系统</x:String>
+    <x:String x:Key="L_Login_RememberMe">记住我</x:String>
+    <x:String x:Key="L_Login_ForgotPassword">忘记密码？</x:String>
+    <x:String x:Key="L_Login_Authenticating">正在验证身份...</x:String>
+    
+    <!-- Common / Message -->
+    <x:String x:Key="L_Msg_LoginFailed">登录失败</x:String>
+    <x:String x:Key="L_Msg_AccountError">账号或密码错误，请重新输入</x:String>
+    <x:String x:Key="L_Msg_NetworkError">网络连接失败</x:String>
+
+    <!-- Home Page -->
+    <x:String x:Key="L_Home_Title">控制台</x:String>
+    <x:String x:Key="L_Home_TotalVisits">总访问量</x:String>
+    <x:String x:Key="L_Home_NewUsers">新增用户</x:String>
+    <x:String x:Key="L_Home_TodoItems">待办事项</x:String>
+    <x:String x:Key="L_Home_SystemWarnings">系统警告</x:String>
+
+    <!-- Sidebar Menus -->
+    <x:String x:Key="L_Menu_Home">控制台</x:String>
+    <x:String x:Key="L_Menu_User">用户管理</x:String>
+    <x:String x:Key="L_Menu_Role">角色管理</x:String>
+    <x:String x:Key="L_Menu_Function">功能管理</x:String>
+    <x:String x:Key="L_Menu_Organization">组织机构</x:String>
+    <x:String x:Key="L_Menu_SystemConfig">配置管理</x:String>
+    <x:String x:Key="L_Menu_RequestLog">请求日志</x:String>
+</ResourceDictionary>

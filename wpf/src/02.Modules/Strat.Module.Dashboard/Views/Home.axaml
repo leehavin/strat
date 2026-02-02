@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="using:Strat.Module.Dashboard.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="Strat.Module.Dashboard.Views.Home"
+             x:DataType="vm:HomeViewModel">
+    
+    <Design.DataContext>
+        <vm:HomeViewModel/>
+    </Design.DataContext>
+
+    <ScrollViewer Background="{DynamicResource SemiBackground0}">
+        <StackPanel Spacing="20" Margin="20">
+            <TextBlock Text="{DynamicResource L_Home_Title}" FontSize="24" FontWeight="Bold"/>
+            
+            <ursa:Banner Content="{Binding WelcomeMessage}" Header="PA" Classes="Information" />
+
+            <Grid ColumnDefinitions="*, *, *, *" Height="120">
+                <Border Grid.Column="0" Margin="5" Background="{DynamicResource SemiBlue1}" CornerRadius="8" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L_Home_TotalVisits}" Foreground="{DynamicResource SemiGrey6}"/>
+                        <TextBlock Text="128,430" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
+                        <TextBlock Text="较昨日 +12%" FontSize="12" Foreground="{DynamicResource SemiBlue6}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Margin="5" Background="{DynamicResource SemiGreen1}" CornerRadius="8" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L_Home_NewUsers}" Foreground="{DynamicResource SemiGrey6}"/>
+                        <TextBlock Text="1,240" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
+                        <TextBlock Text="较昨日 +5%" FontSize="12" Foreground="{DynamicResource SemiGreen6}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Margin="5" Background="{DynamicResource SemiOrange1}" CornerRadius="8" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L_Home_TodoItems}" Foreground="{DynamicResource SemiGrey6}"/>
+                        <TextBlock Text="42" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
+                        <TextBlock Text="需及时处理" FontSize="12" Foreground="{DynamicResource SemiOrange6}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3" Margin="5" Background="{DynamicResource SemiRed1}" CornerRadius="8" Padding="15">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L_Home_SystemWarnings}" Foreground="{DynamicResource SemiGrey6}"/>
+                        <TextBlock Text="3" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
+                        <TextBlock Text="已修复 2 项" FontSize="12" Foreground="{DynamicResource SemiRed6}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid ColumnDefinitions="2*, *">
+                <Border Grid.Column="0" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="8" Padding="20">
+                    <StackPanel Spacing="15">
+                        <TextBlock Text="项目动态" FontSize="18" FontWeight="Bold"/>
+                        <ListBox Background="Transparent">
+                            <ListBoxItem>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <ursa:Avatar Content="L" Theme="{DynamicResource GradientAvatar}"/>
+                                    <StackPanel>
+                                        <TextBlock Text="林希 提交了新的代码逻辑"/>
+                                        <TextBlock Text="2026-01-07 10:24" FontSize="12" Foreground="{DynamicResource SemiGrey6}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <ursa:Avatar Content="Z" Theme="{DynamicResource SolidAvatar}"/>
+                                    <StackPanel>
+                                        <TextBlock Text="张三 修复了登录页面的样式错误"/>
+                                        <TextBlock Text="2026-01-07 09:15" FontSize="12" Foreground="{DynamicResource SemiGrey6}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ListBoxItem>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="8" Padding="20">
+                    <StackPanel Spacing="15">
+                        <TextBlock Text="快捷导航" FontSize="18" FontWeight="Bold"/>
+                        <WrapPanel>
+                            <Button Content="用户管理" Margin="5" Classes="Primary" Theme="{DynamicResource SolidButton}"/>
+                            <Button Content="系统设置" Margin="5"/>
+                            <Button Content="日志查询" Margin="5"/>
+                            <Button Content="报表分析" Margin="5"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
+

@@ -1,0 +1,15 @@
+<Project>
+  <!-- 全局构建目标 -->
+  
+  <!-- 确保 obj 和 bin 目录整洁 -->
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildProjectDirectory)\bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <!-- 生产构建时禁用调试符号 -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
+    <PackageReference Include="Flurl.Http" Version="$(FlurlVersion)" />
+    <PackageReference Include="Mapster" Version="$(MapsterVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Strat.Shared\Strat.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

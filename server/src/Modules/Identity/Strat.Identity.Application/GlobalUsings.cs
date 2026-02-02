@@ -1,0 +1,23 @@
+global using SqlSugar;
+global using Mapster;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Authorization;
+global using Volo.Abp.Application.Services;
+global using Strat.Shared.Abstractions;
+global using Strat.Shared.Constants;
+global using Strat.Shared.Enums;
+global using Strat.Shared.Exceptions;
+global using Strat.Shared.Models;
+global using Strat.Shared.Utils.Encryption;
+global using Strat.Identity.Domain.User;
+global using Strat.Identity.Domain.Role;
+global using Strat.Identity.Domain.Function;
+global using Strat.Identity.Application.Contracts.User;
+global using Strat.Identity.Application.Contracts.User.Dtos;
+global using Strat.Identity.Application.Contracts.Role;
+global using Strat.Identity.Application.Contracts.Role.Dtos;
+global using Strat.Identity.Application.Contracts.Auth;
+global using Strat.Identity.Application.Contracts.Auth.Dtos;
+global using Strat.Identity.Application.Contracts.Function;
+global using Strat.Identity.Application.Contracts.Function.Dtos;
+
