@@ -5,14 +5,24 @@
     <TargetFramework>net8.0-browser</TargetFramework>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- WebAssembly 配置 -->
     <WasmEnableSIMD>true</WasmEnableSIMD>
     <WasmEnableExceptionHandling>true</WasmEnableExceptionHandling>
+    <!-- 启用原生构建以链接 SkiaSharp/HarfBuzz 库 -->
+    <WasmBuildNative>true</WasmBuildNative>
+    <!-- 禁用 AOT 以解决兼容性问题 -->
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <!-- 使用单线程模式避免 SkiaSharp 初始化问题 -->
+    <WasmEnableThreads>false</WasmEnableThreads>
+    <!-- 增加栈大小 -->
+    <EmccExtraLDFlags>-s STACK_SIZE=5MB -s ALLOW_MEMORY_GROWTH=1</EmccExtraLDFlags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Browser" Version="11.3.11" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.11" />
-    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="3.119.1" />
+    <!-- 使用与 Avalonia 11.3.11 兼容的原生资源版本 -->
+    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="2.88.9" />
     <PackageReference Include="HarfBuzzSharp.NativeAssets.WebAssembly" Version="8.3.1.2" />
   </ItemGroup>
 

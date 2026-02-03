@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Browser;
 using Avalonia.Media;
-using Avalonia.Media;
 using Strat.UI.Base;
 
 [assembly: SupportedOSPlatform("browser")]

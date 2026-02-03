@@ -12,17 +12,27 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:MenuWidthConverter x:Key="MenuWidthConverter" />
             <conv:MenuIconConverter x:Key="MenuIconConverter" />
+            
+            <!-- 字体资源定义 -->
+            <!-- 简体中文字体 -->
             <FontFamily x:Key="HarmonyOSFont">avares://Strat.Themes/Assets/Fonts/HarmonyOS%20Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf#HarmonyOS Sans SC</FontFamily>
+            <!-- 繁体中文字体 -->
+            <FontFamily x:Key="HarmonyOSTCFont">avares://Strat.Themes/Assets/Fonts/HarmonyOS%20Sans/HarmonyOS_Sans_TC/HarmonyOS_Sans_TC_Regular.ttf#HarmonyOS Sans TC</FontFamily>
+            <!-- 韩文字体 (需要手动下载，见 Fonts/README.md) -->
+            <FontFamily x:Key="NotoSansKRFont">avares://Strat.Themes/Assets/Fonts/Noto_Sans_KR/NotoSansKR-Regular.ttf#Noto Sans KR</FontFamily>
+            
+            <!-- 全局字体回退链：优先 SC -> TC -> KR -> 系统默认 -->
+            <FontFamily x:Key="GlobalFont">avares://Strat.Themes/Assets/Fonts/HarmonyOS%20Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf#HarmonyOS Sans SC, avares://Strat.Themes/Assets/Fonts/Noto_Sans_KR/NotoSansKR-Regular.ttf#Noto Sans KR</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
     <Application.Styles>
         <semi:SemiTheme Locale="zh-CN" />
         <u-semi:SemiTheme Locale="zh-CN" />
         <Style Selector="TextBlock">
-            <Setter Property="FontFamily" Value="{StaticResource HarmonyOSFont}" />
+            <Setter Property="FontFamily" Value="{StaticResource GlobalFont}" />
         </Style>
         <Style Selector="TemplatedControl">
-            <Setter Property="FontFamily" Value="{StaticResource HarmonyOSFont}" />
+            <Setter Property="FontFamily" Value="{StaticResource GlobalFont}" />
         </Style>
         <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
         <StyleInclude Source="avares://Strat.Themes/Styles/GlobalStyles.axaml" />
