@@ -26,7 +26,7 @@ export namespace AuthApi {
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/auth/login', data);
+  return requestClient.post<AuthApi.LoginResult>('/v1/auth/login', data);
 }
 
 /**
@@ -42,7 +42,7 @@ export async function logoutApi() {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/auth/functions');
+  return requestClient.get<string[]>('/v1/auth/functions');
 }
 
 /**
@@ -50,7 +50,7 @@ export async function getAccessCodesApi() {
  * @returns
  */
 export const getUserInfoApi = async () => {
-  return requestClient.get<UserInfo>('/auth/vben-user-info');
+  return requestClient.get<UserInfo>('/v1/auth/current-user');
 };
 
 /** 获取组织机构 */

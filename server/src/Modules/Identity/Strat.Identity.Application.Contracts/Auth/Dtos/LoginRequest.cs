@@ -9,7 +9,7 @@ public class LoginRequest
     /// 账号
     /// </summary>
     [Required(ErrorMessage = "账号不能为空")]
-    public string Account { get; set; } = string.Empty;
+    public string UserName { get; set; } = string.Empty;
 
     /// <summary>
     /// 密码

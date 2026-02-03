@@ -72,10 +72,16 @@ function createRequestClient(baseURL: string) {
   // response数据解构
   client.addResponseInterceptor<HttpResponse>({
     fulfilled: (response) => {
-      const { data: responseData, status } = response;
+      const { data: responseData, status, headers } = response;
+
+      // 从响应头获取 token
+      const accessStore = useAccessStore();
+      if (headers.accesstoken) {
+        accessStore.setAccessToken(headers.accesstoken);
+      }
 
       const { code, data } = responseData;
-      if (status >= 200 && status < 400 && code === 0) {
+      if (status >= 200 && status < 400 && code === 200) {
         return data;
       }
 
