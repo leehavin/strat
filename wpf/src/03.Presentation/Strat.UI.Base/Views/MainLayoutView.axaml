@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="using:Strat.UI.Base.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Strat.UI.Base.Views.MainLayoutView"
+             x:DataType="vm:MainLayoutViewModel">
+    
+    <Grid RowDefinitions="50, *">
+        <!-- Header -->
+        <Border Grid.Row="0" BorderBrush="{DynamicResource SemiColorBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource SemiColorBackground0}">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="10,0">
+                    <TextBlock Text="STRAT ADMIN" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                    <Button Command="{Binding IsPaneOpen, Mode=TwoWay}" Content="Toggle" /> 
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="10,0">
+                     <TextBlock Text="Admin" VerticalAlignment="Center"/>
+                     <Button Content="Logout" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Sidebar & Content -->
+        <SplitView Grid.Row="1" 
+                   DisplayMode="CompactInline" 
+                   OpenPaneLength="220" 
+                   CompactPaneLength="48"
+                   IsPaneOpen="{Binding IsPaneOpen}">
+            <SplitView.Pane>
+                <Border BorderBrush="{DynamicResource SemiColorBorder}" BorderThickness="0,0,1,0" Background="{DynamicResource SemiColorBackground0}">
+                    <TreeView ItemsSource="{Binding MenuItems}">
+                        <TreeView.ItemTemplate>
+                            <TreeDataTemplate ItemsSource="{Binding Items}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </TreeDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Border>
+            </SplitView.Pane>
+
+            <Grid Background="{DynamicResource SemiColorBackground1}">
+                 <ContentControl prism:RegionManager.RegionName="ContentRegion" Margin="10"/>
+            </Grid>
+        </SplitView>
+    </Grid>
+</UserControl>

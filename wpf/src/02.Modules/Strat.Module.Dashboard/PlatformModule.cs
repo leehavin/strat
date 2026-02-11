@@ -1,7 +1,4 @@
-using Prism.Ioc;
-using Prism.Modularity;
 using Strat.Module.Dashboard.ViewModels;
-using Strat.Module.Dashboard.Views;
 using Strat.Shared;
 
 namespace Strat.Module.Dashboard

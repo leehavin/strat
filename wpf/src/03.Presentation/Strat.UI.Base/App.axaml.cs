@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using Prism.DryIoc;
 using Strat.Infrastructure.Services.Abstractions;
 using Strat.Infrastructure.Services.Implements;
+using Strat.Shared.Services;
 using Strat.Module.Dashboard;
 using Strat.Module.Identity;
 using Strat.Module.System;
@@ -40,8 +41,9 @@ namespace Strat.UI.Base
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // 注册核心壳层视图（仅用于 Browser 平台）
+            // 注册核心壳层视图
             containerRegistry.RegisterForNavigation<MainView>("MainView");
+            containerRegistry.RegisterForNavigation<MainLayoutView>("MainLayoutView");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -60,6 +62,12 @@ namespace Strat.UI.Base
             var eventAggregator = Container.Resolve<Prism.Events.IEventAggregator>();
             var dialogService = Container.Resolve<Strat.Shared.Dialogs.IStratDialogService>();
             var regionManager = Container.Resolve<Prism.Navigation.Regions.IRegionManager>();
+            var themeService = Container.Resolve<IThemeService>();
+            var localizationService = Container.Resolve<ILocalizationService>();
+            
+            // 初始化全局 UX 状态
+            themeService.SetTheme(ThemeMode.Light);
+            localizationService.SetLanguage("zh-CN");
             
             // 更新全局异常处理器的 DialogService（延迟注入）
             GlobalExceptionHandler.SetDialogService(dialogService);
@@ -90,9 +98,28 @@ namespace Strat.UI.Base
             });
             
             // 无论哪个平台，初始化后都导航到登录
-            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            _ = Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                regionManager.RequestNavigate("mainRegion", "Login");
+                // 等待一小会儿，确保视觉树已加载且 RegionManager 已识别区域
+                await System.Threading.Tasks.Task.Delay(100);
+                
+                StratLogger.Information("[App] 正在触发初始导航到 Login");
+                regionManager.RequestNavigate("mainRegion", "Login", navigationResult =>
+                {
+                    if (navigationResult.Success == true)
+                    {
+                        StratLogger.Information("[App] 初始导航 [Login] 成功");
+                    }
+                    else
+                    {
+                        var ex = navigationResult.Exception;
+                        StratLogger.Error($"[App] 初始导航 [Login] 失败! Message: {ex?.Message}");
+                        if (ex != null)
+                        {
+                            StratLogger.Error($"StackTrace: {ex.StackTrace}");
+                        }
+                    }
+                });
             });
         }
     }

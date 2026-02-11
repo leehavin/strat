@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:prism="http://prismlibrary.com/"
 			 xmlns:conv="using:Strat.Shared.Converters"
+			 xmlns:shared="using:Strat.Shared.Controls"
 			 xmlns:vm="using:Strat.Module.Identity.ViewModels"
 			 mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
 			 x:Class="Strat.Module.Identity.Views.User"
@@ -16,161 +17,181 @@
 		<conv:StatusToForegroundConverter x:Key="StatusToForegroundConverter"/>
 	</UserControl.Resources>
 
-	<Grid RowDefinitions="Auto, *" Margin="20">
-		<!-- Search Bar - 应用设计系统 -->
-		<Border Padding="16" 
-				Background="#2D3748" 
-				CornerRadius="{DynamicResource Radius_M}" 
-				Margin="0,0,0,12" 
-				BorderBrush="#4A5568" 
-				BorderThickness="1">
-			<StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing_M}">
-				<TextBox Width="150" 
-						 Text="{Binding SearchModel.Name}" 
-						 Watermark="请输入用户名"
-						 Height="{DynamicResource Height_Input_M}"
-						 FontSize="{DynamicResource FontSize_Base}"/>
-				<TextBox Width="150" 
-						 Text="{Binding SearchModel.Account}" 
-						 Watermark="请输入账号"
-						 Height="{DynamicResource Height_Input_M}"
-						 FontSize="{DynamicResource FontSize_Base}"/>
-				<TextBox Width="150" 
-						 Text="{Binding SearchModel.Telephone}" 
-						 Watermark="请输入手机号"
-						 Height="{DynamicResource Height_Input_M}"
-						 FontSize="{DynamicResource FontSize_Base}"/>
+	<shared:AdminPageLayout Title="用户管理">
+		<!-- Filter Section -->
+		<shared:AdminPageLayout.FilterContent>
+			<StackPanel Orientation="Horizontal" Spacing="16">
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<TextBlock Text="用户名" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource SemiGrey9}"/>
+					<TextBox Width="150" 
+							 Text="{Binding SearchModel.Name}" 
+							 Watermark="请输入用户名"
+							 Height="32"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<TextBlock Text="账号" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource SemiGrey9}"/>
+					<TextBox Width="150" 
+							 Text="{Binding SearchModel.Account}" 
+							 Watermark="请输入账号"
+							 Height="32"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<TextBlock Text="手机号" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource SemiGrey9}"/>
+					<TextBox Width="150" 
+							 Text="{Binding SearchModel.Telephone}" 
+							 Watermark="请输入手机号"
+							 Height="32"/>
+				</StackPanel>
+				
+				<Separator Width="1" Height="20" Background="{DynamicResource SemiBorder}" Margin="8,0"/>
+				
 				<Button Content="查询" 
+						Classes="Primary"
+						Theme="{DynamicResource SolidButton}"
 						Command="{Binding SearchCommand}" 
-						Background="#3182CE" 
-						Foreground="White"
-						Height="{DynamicResource Height_Button_M}"
-						Padding="{DynamicResource Padding_Button_M}"
-						FontSize="{DynamicResource FontSize_Button_Medium}"
-						FontWeight="{DynamicResource FontWeight_Medium}"/>
+						Height="32"
+						Width="80"/>
 				<Button Content="重置" 
 						Command="{Binding ResetCommand}"
-						Height="{DynamicResource Height_Button_M}"
-						Padding="{DynamicResource Padding_Button_M}"
-						FontSize="{DynamicResource FontSize_Button_Medium}"/>
+						Height="32"
+						Width="80"/>
 			</StackPanel>
-		</Border>
+		</shared:AdminPageLayout.FilterContent>
 
-		<!-- DataGrid Area - 企业级布局 -->
-		<Border Grid.Row="1" 
-				Background="#2D3748" 
-				CornerRadius="{DynamicResource Radius_M}" 
-				Padding="0" 
-				BorderBrush="#4A5568" 
-				BorderThickness="1">
-			<DockPanel>
-				<!-- Toolbar - 标准高度和间距 -->
-				<Border DockPanel.Dock="Top" 
-						Padding="{DynamicResource Spacing_M}" 
-						BorderBrush="#4A5568" 
-						BorderThickness="0,0,0,1">
-					<StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing_S}">
-						<Button Content="+ 新增用户" 
-								Background="#3182CE" 
-								Foreground="White"
-								Height="{DynamicResource Height_Button_M}"
-								Padding="{DynamicResource Padding_Button_M}"
-								FontSize="{DynamicResource FontSize_Button_Medium}"
-								FontWeight="{DynamicResource FontWeight_Medium}"/>
-						<Button Content="批量删除" 
-								Background="#E53E3E" 
-								Foreground="White"
-								Height="{DynamicResource Height_Button_M}"
-								Padding="{DynamicResource Padding_Button_M}"
-								FontSize="{DynamicResource FontSize_Button_Medium}"/>
-						<Button Content="刷新" 
-								Command="{Binding SearchCommand}"
-								Height="{DynamicResource Height_Button_M}"
-								Padding="{DynamicResource Padding_Button_M}"
-								FontSize="{DynamicResource FontSize_Button_Medium}"/>
-					</StackPanel>
-				</Border>
+		<!-- Action Toolbar -->
+		<shared:AdminPageLayout.ActionContent>
+			<Grid ColumnDefinitions="*, Auto">
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<Button Classes="Primary"
+							Theme="{DynamicResource SolidButton}"
+							Command="{Binding AddCommand}"
+							Height="32">
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<PathIcon Data="{DynamicResource SemiIconPlus}" Width="12" Height="12"/>
+							<TextBlock Text="新增用户" VerticalAlignment="Center"/>
+						</StackPanel>
+					</Button>
+					<Button Classes="Danger"
+							Theme="{DynamicResource LightButton}"
+							Command="{Binding BatchDeleteCommand}"
+							Height="32">
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<PathIcon Data="{DynamicResource SemiIconDelete}" Width="12" Height="12"/>
+							<TextBlock Text="批量删除" VerticalAlignment="Center"/>
+						</StackPanel>
+					</Button>
+				</StackPanel>
+				
+				<Button Grid.Column="1" 
+						Theme="{DynamicResource TransparentButton}"
+						Command="{Binding SearchCommand}"
+						ToolTip.Tip="刷新数据">
+					<PathIcon Data="{DynamicResource SemiIconRefresh}" Width="16" Height="16"/>
+				</Button>
+			</Grid>
+		</shared:AdminPageLayout.ActionContent>
 
-				<!-- PageBar - 企业级分页信息 -->
-				<Border DockPanel.Dock="Bottom" 
-						Padding="{DynamicResource Spacing_M}" 
-						BorderBrush="#4A5568" 
-						BorderThickness="0,1,0,0">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="{DynamicResource Spacing_S}">
-						<TextBlock VerticalAlignment="Center" 
-								   Foreground="White"
-								   FontSize="{DynamicResource FontSize_Small}">
-							<Run Text="共 "/>
-							<Run Text="{Binding UserPaginationModel.Total}" FontWeight="{DynamicResource FontWeight_SemiBold}"/>
-							<Run Text=" 条记录"/>
-						</TextBlock>
-					</StackPanel>
-				</Border>
-
-				<!-- DataGrid - 应用设计规范 -->
-				<DataGrid ItemsSource="{Binding UserPaginationModel.Items}"
-						  AutoGenerateColumns="False"
-						  IsReadOnly="True"
-						  CanUserSortColumns="True"
-						  CanUserResizeColumns="True"
-						  GridLinesVisibility="Horizontal"
-						  HeadersVisibility="Column"
-						  SelectionMode="Extended"
-						  RowHeight="{DynamicResource Height_TableRow_Normal}"
-						  FontSize="{DynamicResource FontSize_Base}"
-						  x:CompileBindings="False">
+		<!-- Main DataGrid -->
+		<shared:AdminPageLayout.MainContent>
+			<DataGrid ItemsSource="{Binding UserPaginationModel.Items}"
+					  AutoGenerateColumns="False"
+					  IsReadOnly="True"
+					  CanUserSortColumns="True"
+					  CanUserResizeColumns="True"
+					  GridLinesVisibility="Horizontal"
+					  HeadersVisibility="Column"
+					  SelectionMode="Extended"
+					  RowHeight="48"
+					  x:CompileBindings="False">
+				
+				<DataGrid.Styles>
+					<Style Selector="DataGridColumnHeader">
+						<Setter Property="Background" Value="{DynamicResource SemiBackground1}"/>
+						<Setter Property="Foreground" Value="{DynamicResource SemiGrey9}"/>
+						<Setter Property="FontWeight" Value="SemiBold"/>
+						<Setter Property="Height" Value="40"/>
+						<Setter Property="Padding" Value="12,0"/>
+					</Style>
+					<Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+						<Setter Property="Fill" Value="{DynamicResource SemiGrey0}"/>
+					</Style>
+					<Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+						<Setter Property="Fill" Value="{DynamicResource SemiBlue0}"/>
+					</Style>
+				</DataGrid.Styles>
+				
+				<DataGrid.Columns>
+					<DataGridCheckBoxColumn Binding="{Binding IsSelected}" Width="50"/>
 					
-					<!-- 列头样式 - Avalonia 11+ 语法 -->
-					<DataGrid.Styles>
-						<Style Selector="DataGridColumnHeader">
-							<Setter Property="FontSize" Value="{DynamicResource FontSize_Base}"/>
-							<Setter Property="FontWeight" Value="{DynamicResource FontWeight_Medium}"/>
-							<Setter Property="Height" Value="{DynamicResource Height_TableRow_Normal}"/>
-						</Style>
-					</DataGrid.Styles>
+					<DataGridTextColumn Header="用户名" Binding="{Binding Name}" Width="*"/>
+					<DataGridTextColumn Header="登录账号" Binding="{Binding Account}" Width="1.2*"/>
+					<DataGridTextColumn Header="手机号" Binding="{Binding Telephone}" Width="1.2*"/>
 					
-					<DataGrid.Columns>
-						<!-- 复选框列 -->
-						<DataGridCheckBoxColumn Width="50"/>
-						
-						<!-- 用户名 -->
-						<DataGridTextColumn Header="用户名" Binding="{Binding Name}" Width="120" MinWidth="80"/>
-						
-						<!-- 登录账号 -->
-						<DataGridTextColumn Header="登录账号" Binding="{Binding Account}" Width="120" MinWidth="80"/>
-						
-						<!-- 组织机构 -->
-						<DataGridTextColumn Header="组织机构" Binding="{Binding OrganizationName}" Width="150" MinWidth="100"/>
-						
-						<!-- 角色 -->
-						<DataGridTextColumn Header="角色" Binding="{Binding RoleName}" Width="120" MinWidth="80"/>
-						
-						<!-- 手机号 -->
-						<DataGridTextColumn Header="手机号" Binding="{Binding Telephone}" Width="130" MinWidth="100"/>
-						
-						<!-- 状态 - 企业级颜色标识 -->
-						<DataGridTemplateColumn Header="状态" Width="80">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<Border Background="{Binding Status, Converter={StaticResource StatusToBackgroundConverter}}"
-											CornerRadius="{DynamicResource Radius_S}"
-											Padding="{DynamicResource Spacing_XS},2"
-											HorizontalAlignment="Center">
-										<TextBlock Text="{Binding Status, Converter={StaticResource StatusConverter}}"
-												   Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}"
-												   FontSize="{DynamicResource FontSize_Small}"
-												   FontWeight="{DynamicResource FontWeight_Medium}"
-												   HorizontalAlignment="Center"/>
-									</Border>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						
-						<!-- 创建时间 - 企业级必备 -->
-						<DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm'}" Width="150" MinWidth="130"/>
-					</DataGrid.Columns>
-				</DataGrid>
-			</DockPanel>
-		</Border>
-	</Grid>
+					<DataGridTemplateColumn Header="状态" Width="100">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Border Background="{Binding Status, Converter={StaticResource StatusToBackgroundConverter}}"
+										CornerRadius="4"
+										Padding="8,2"
+										HorizontalAlignment="Center">
+									<TextBlock Text="{Binding Status, Converter={StaticResource StatusConverter}}"
+											   Foreground="{Binding Status, Converter={StaticResource StatusToForegroundConverter}}"
+											   FontSize="12"
+											   FontWeight="Medium"/>
+								</Border>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					
+					<DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm'}" Width="1.5*"/>
+					
+					<DataGridTemplateColumn Header="操作" Width="120">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+									<Button Theme="{DynamicResource TransparentButton}" 
+											Command="{Binding $parent[User].((vm:UserViewModel)DataContext).EditCommand}"
+											CommandParameter="{Binding}"
+											Padding="4"
+											ToolTip.Tip="编辑">
+										<PathIcon Data="{DynamicResource SemiIconEdit}" Width="14" Height="14" Foreground="{DynamicResource SemiBlue6}"/>
+									</Button>
+									<Button Theme="{DynamicResource TransparentButton}" 
+											Command="{Binding $parent[User].((vm:UserViewModel)DataContext).DeleteCommand}"
+											CommandParameter="{Binding}"
+											Padding="4"
+											ToolTip.Tip="删除">
+										<PathIcon Data="{DynamicResource SemiIconDelete}" Width="14" Height="14" Foreground="{DynamicResource SemiRed6}"/>
+									</Button>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</shared:AdminPageLayout.MainContent>
+
+		<!-- Footer Section -->
+		<shared:AdminPageLayout.FooterContent>
+			<Grid ColumnDefinitions="Auto, *, Auto">
+				<StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+					<TextBlock Text="共" Foreground="{DynamicResource SemiGrey6}" FontSize="13"/>
+					<TextBlock Text="{Binding UserPaginationModel.Total}" Foreground="{DynamicResource SemiBlue6}" FontWeight="Bold" FontSize="13"/>
+					<TextBlock Text="条记录" Foreground="{DynamicResource SemiGrey6}" FontSize="13"/>
+				</StackPanel>
+				
+				<StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+					<Button Theme="{DynamicResource TransparentButton}" Width="32" Height="32">
+						<PathIcon Data="{DynamicResource SemiIconChevronLeft}" Width="12" Height="12"/>
+					</Button>
+					<Border Background="{DynamicResource SemiBlue1}" Width="32" Height="32" CornerRadius="4">
+						<TextBlock Text="1" Foreground="{DynamicResource SemiBlue6}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Border>
+					<Button Theme="{DynamicResource TransparentButton}" Width="32" Height="32">
+						<PathIcon Data="{DynamicResource SemiIconChevronRight}" Width="12" Height="12"/>
+					</Button>
+				</StackPanel>
+			</Grid>
+		</shared:AdminPageLayout.FooterContent>
+	</shared:AdminPageLayout>
 </UserControl>

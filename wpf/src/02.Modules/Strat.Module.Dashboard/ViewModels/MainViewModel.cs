@@ -1,17 +1,10 @@
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Navigation.Regions;
-using Strat.Infrastructure.Services.Abstractions;
 using Strat.Infrastructure.Models.Auth;
+using Strat.Infrastructure.Services.Abstractions;
+using Strat.Shared.Assets;
 using Strat.Shared.CommonViewModels;
 using Strat.Shared.Logging;
-using Strat.Shared.Assets;
 using Strat.Shared.Services;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Strat.Module.Dashboard.ViewModels
 {
@@ -24,6 +17,8 @@ namespace Strat.Module.Dashboard.ViewModels
         private readonly IAuthService _authService;
         private readonly INotificationService _notificationService;
         private readonly IQuickSearchService _quickSearchService;
+        private readonly IThemeService _themeService;
+        private readonly ILocalizationService _localizationService;
         
         // 子 ViewModel（关注点分离）
         public NotificationPanelViewModel NotificationPanel { get; }
@@ -35,6 +30,8 @@ namespace Strat.Module.Dashboard.ViewModels
             IAuthService authService,
             INotificationService notificationService,
             IQuickSearchService quickSearchService,
+            IThemeService themeService,
+            ILocalizationService localizationService,
             NotificationPanelViewModel notificationPanel,
             QuickSearchPanelViewModel quickSearchPanel) 
             : base(eventAggregator)
@@ -45,6 +42,8 @@ namespace Strat.Module.Dashboard.ViewModels
             _authService = authService;
             _notificationService = notificationService;
             _quickSearchService = quickSearchService;
+            _themeService = themeService;
+            _localizationService = localizationService;
             
             // 注入子 ViewModel
             NotificationPanel = notificationPanel;
@@ -81,6 +80,27 @@ namespace Strat.Module.Dashboard.ViewModels
             set => SetProperty(ref _currentPageTitle, value);
         }
         
+        private bool _isSidebarCollapsed;
+        /// <summary>
+        /// 侧边栏是否折叠
+        /// </summary>
+        public bool IsSidebarCollapsed
+        {
+            get => _isSidebarCollapsed;
+            set
+            {
+                if (SetProperty(ref _isSidebarCollapsed, value))
+                {
+                    RaisePropertyChanged(nameof(SidebarWidth));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 侧边栏宽度（展开240 / 折叠64）
+        /// </summary>
+        public double SidebarWidth => IsSidebarCollapsed ? 64 : 240;
+        
         /// <summary>
         /// 菜单项列表
         /// </summary>
@@ -90,6 +110,10 @@ namespace Strat.Module.Dashboard.ViewModels
         /// 面包屑导航
         /// </summary>
         public ObservableCollection<BreadcrumbItem> Breadcrumbs { get; }
+
+        public IEnumerable<LanguageInfo> SupportedLanguages => _localizationService.SupportedLanguages;
+        public LanguageInfo CurrentLanguage => _localizationService.CurrentLanguage;
+        public ThemeMode CurrentTheme => _themeService.CurrentMode;
         
         private object? _selectedMenuItem;
         /// <summary>
@@ -137,6 +161,31 @@ namespace Strat.Module.Dashboard.ViewModels
         /// </summary>
         public DelegateCommand OpenSettingsCommand => 
             _openSettingsCommand ??= new DelegateCommand(ExecuteOpenSettingsCommand);
+        
+        private DelegateCommand? _toggleSidebarCommand;
+        /// <summary>
+        /// 切换侧边栏折叠状态
+        /// </summary>
+        public DelegateCommand ToggleSidebarCommand => 
+            _toggleSidebarCommand ??= new DelegateCommand(() => IsSidebarCollapsed = !IsSidebarCollapsed);
+
+        private DelegateCommand? _switchThemeCommand;
+        public DelegateCommand SwitchThemeCommand => 
+            _switchThemeCommand ??= new DelegateCommand(() => 
+            {
+                _themeService.ToggleTheme();
+                RaisePropertyChanged(nameof(CurrentTheme));
+            });
+
+        private DelegateCommand<string>? _switchLanguageCommand;
+        public DelegateCommand<string> SwitchLanguageCommand => 
+            _switchLanguageCommand ??= new DelegateCommand<string>(langKey => 
+            {
+                _localizationService.SetLanguage(langKey);
+                RaisePropertyChanged(nameof(CurrentLanguage));
+                // 刷新菜单显示
+                _ = LoadRoutersAsync();
+            });
         
         #endregion
         

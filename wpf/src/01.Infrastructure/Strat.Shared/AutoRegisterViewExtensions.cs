@@ -1,8 +1,5 @@
-
-
-using System.Reflection;
-using Prism.Ioc;
 using Strat.Shared.AutoRegisterAttributes;
+using System.Reflection;
 
 namespace Strat.Shared
 {

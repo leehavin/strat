@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Strat.Shared.Dialogs;
@@ -167,13 +165,28 @@ namespace Strat.Shared.Exceptions
                     {
                         // 如果显示对话框也失败，至少记录日志
                         StratLogger.Error(innerEx, "[GlobalExceptionHandler] 显示错误对话框失败");
+                        if (innerEx != null)
+                        {
+                            StratLogger.Error(innerEx, "[GlobalExceptionHandler] 显示错误对话框失败");
+                        }
+                        else
+                        {
+                            StratLogger.Error("[GlobalExceptionHandler] 显示错误对话框失败 (Exception is null)");
+                        }
                     }
                 });
             }
             catch (Exception ex)
             {
                 // 防御性编程：即使异常处理器也可能出错
-                StratLogger.Error(ex, "[GlobalExceptionHandler] ShowErrorDialogAsync 执行失败");
+                if (ex != null)
+                {
+                    StratLogger.Error(ex, "[GlobalExceptionHandler] ShowErrorDialogAsync 执行失败");
+                }
+                else
+                {
+                    StratLogger.Error("[GlobalExceptionHandler] ShowErrorDialogAsync 执行失败 (Exception is null)");
+                }
             }
         }
 

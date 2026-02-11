@@ -54,5 +54,9 @@ namespace Strat.Shared.Assets
         public const string Warning = "SemiIconAlertTriangle";
         public const string Error = "SemiIconAlertCircle";
         public const string Close = "SemiIconClose";
+
+        // 主题图标
+        public const string Sun = "SemiIconSun";
+        public const string Moon = "SemiIconMoon";
     }
 }

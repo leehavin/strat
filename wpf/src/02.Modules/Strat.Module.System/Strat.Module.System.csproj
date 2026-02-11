@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.11" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="$(SemiAvaloniaVersion)" />
     <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
     <PackageReference Include="Semi.Avalonia" Version="$(SemiAvaloniaVersion)" />
     <PackageReference Include="Irihi.Ursa" Version="$(UrsaVersion)" />

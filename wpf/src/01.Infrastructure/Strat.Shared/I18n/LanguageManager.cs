@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml.Styling;
-using Prism.Mvvm;
+using System.Globalization;
 
 namespace Strat.Shared.I18n
 {

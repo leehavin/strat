@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:conv="using:Strat.Shared.Converters"
+             xmlns:vm="using:Strat.Module.Identity.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="Strat.Module.Identity.Views.RoleEditDialog"
+             x:DataType="vm:RoleEditDialogViewModel">
+
+    <UserControl.Resources>
+        <conv:StatusToBoolConverter x:Key="StatusToBoolConverter"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="*, Auto" Width="800" Height="600">
+        <!-- Content -->
+        <Grid ColumnDefinitions="*, 1, *" Margin="24">
+            <!-- Left: Role Info -->
+            <ScrollViewer Grid.Column="0" Padding="0,0,12,0">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="基础信息" FontSize="16" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <ursa:Form LabelPosition="Top">
+                        <ursa:FormItem Label="角色名称" IsRequired="True">
+                            <TextBox Text="{Binding Role.Name}" Watermark="请输入角色名称"/>
+                        </ursa:FormItem>
+                        <ursa:FormItem Label="角色编码" IsRequired="True">
+                            <TextBox Text="{Binding Role.Code}" IsReadOnly="{Binding IsEditMode}" Watermark="请输入唯一角色编码"/>
+                        </ursa:FormItem>
+                        <ursa:FormItem Label="角色描述">
+                            <TextBox Text="{Binding Role.Description}" Height="80" AcceptsReturn="True" TextWrapping="Wrap" Watermark="请输入角色描述..."/>
+                        </ursa:FormItem>
+                        <ursa:FormItem Label="状态">
+                            <ToggleSwitch IsChecked="{Binding Role.Status, Converter={StaticResource StatusToBoolConverter}}" 
+                                          OnContent="启用" OffContent="禁用"/>
+                        </ursa:FormItem>
+                    </ursa:Form>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Separator -->
+            <Rectangle Grid.Column="1" Fill="{DynamicResource SemiBorder}" Width="1" Margin="0,8"/>
+
+            <!-- Right: Permission Tree -->
+            <Grid Grid.Column="2" RowDefinitions="Auto, *" Margin="12,0,0,0">
+                <TextBlock Grid.Row="0" Text="菜单权限" FontSize="16" FontWeight="Bold" Margin="0,0,0,16"/>
+                <Border Grid.Row="1" BorderBrush="{DynamicResource SemiBorder}" BorderThickness="1" CornerRadius="4">
+                    <TreeView ItemsSource="{Binding PermissionTree}" Padding="8">
+                        <TreeView.ItemTemplate>
+                            <TreeDataTemplate ItemsSource="{Binding Children}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <CheckBox IsChecked="{Binding IsChecked}"/>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Code}" FontSize="12" Foreground="{DynamicResource SemiGrey5}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </TreeDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Footer -->
+        <Border Grid.Row="1" Padding="16,12" Background="{DynamicResource SemiBackground0}"
+                BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                <Button Content="取消" Command="{Binding CancelCommand}" Theme="{DynamicResource TertiaryButton}"/>
+                <Button Content="确定" Command="{Binding SaveCommand}" Theme="{DynamicResource PrimaryButton}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

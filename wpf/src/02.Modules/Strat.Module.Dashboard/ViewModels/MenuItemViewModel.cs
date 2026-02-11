@@ -1,7 +1,5 @@
-using System.Collections.ObjectModel;
-using System.Linq;
-using Prism.Mvvm;
 using Strat.Shared.Assets;
+using System.Collections.ObjectModel;
 
 namespace Strat.Module.Dashboard.ViewModels
 {

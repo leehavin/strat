@@ -1,5 +1,4 @@
 using Strat.Shared.CommonViewModels;
-using Prism.Events;
 
 namespace Strat.Module.Dashboard.ViewModels
 {

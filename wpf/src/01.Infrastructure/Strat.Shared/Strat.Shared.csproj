@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Semi.Avalonia" Version="$(SemiAvaloniaVersion)" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="$(SemiAvaloniaVersion)" />
     <PackageReference Include="Irihi.Ursa" Version="$(UrsaVersion)" />
     <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
     <PackageReference Include="Flurl.Http" Version="$(FlurlVersion)" />

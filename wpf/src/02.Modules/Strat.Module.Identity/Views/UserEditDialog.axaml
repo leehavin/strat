@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:vm="using:Strat.Module.Identity.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="550"
+             x:Class="Strat.Module.Identity.Views.UserEditDialog"
+             x:DataType="vm:UserEditDialogViewModel">
+
+    <Grid RowDefinitions="Auto, *, Auto" Width="600">
+        <!-- Dialog Content -->
+        <ScrollViewer Grid.Row="1" Padding="24">
+            <ursa:Form LabelPosition="Left" LabelWidth="100">
+                <!-- 账号 -->
+                <ursa:FormItem Label="账号" IsRequired="True">
+                    <TextBox Text="{Binding User.Account}" IsReadOnly="{Binding IsEditMode}"
+                             Watermark="请输入登录账号"/>
+                </ursa:FormItem>
+                
+                <!-- 姓名 -->
+                <ursa:FormItem Label="姓名" IsRequired="True">
+                    <TextBox Text="{Binding User.Name}" Watermark="请输入用户姓名"/>
+                </ursa:FormItem>
+                
+                <!-- 密码 (仅新增时显示) -->
+                <ursa:FormItem Label="密码" IsRequired="True" IsVisible="{Binding !IsEditMode}">
+                    <TextBox Text="{Binding User.Password}" PasswordChar="●" Watermark="请输入登录密码"/>
+                </ursa:FormItem>
+                
+                <!-- 手机号 -->
+                <ursa:FormItem Label="手机号">
+                    <TextBox Text="{Binding User.Telephone}" Watermark="请输入手机号码"/>
+                </ursa:FormItem>
+                
+                <!-- 邮箱 -->
+                <ursa:FormItem Label="邮箱">
+                    <TextBox Text="{Binding User.Email}" Watermark="请输入电子邮箱"/>
+                </ursa:FormItem>
+                
+                <!-- 状态 -->
+                <ursa:FormItem Label="状态">
+                    <ToggleSwitch IsChecked="{Binding IsEnabled}" 
+                                  OnContent="启用" OffContent="禁用"/>
+                </ursa:FormItem>
+                
+                <!-- 角色/组织暂略，后续Sprint完善 -->
+                <ursa:FormItem Label="注" NoLabel="True">
+                    <TextBlock Text="角色和组织选择将在下一阶段完善" Foreground="{DynamicResource SemiGrey5}" FontSize="12"/>
+                </ursa:FormItem>
+            </ursa:Form>
+        </ScrollViewer>
+
+        <!-- Footer Buttons -->
+        <Border Grid.Row="2" Padding="16,12" Background="{DynamicResource SemiBackground0}"
+                BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                <Button Content="取消" Command="{Binding CancelCommand}" Theme="{DynamicResource TertiaryButton}"/>
+                <Button Content="确定" Command="{Binding SaveCommand}" Theme="{DynamicResource PrimaryButton}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

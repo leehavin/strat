@@ -1,6 +1,4 @@
 using Strat.Infrastructure.Models.Auth;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Strat.Infrastructure.Services.Abstractions
 {

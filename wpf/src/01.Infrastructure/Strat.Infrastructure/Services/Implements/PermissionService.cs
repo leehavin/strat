@@ -1,6 +1,4 @@
 using Strat.Infrastructure.Services.Abstractions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Strat.Infrastructure.Services.Implements
 {

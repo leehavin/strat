@@ -1,5 +1,3 @@
-
-
 namespace Strat.Shared.AutoRegisterAttributes
 {
     [AttributeUsage(AttributeTargets.Class)]

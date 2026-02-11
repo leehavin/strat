@@ -12,6 +12,10 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:MenuWidthConverter x:Key="MenuWidthConverter" />
             <conv:MenuIconConverter x:Key="MenuIconConverter" />
+            <conv:ThemeToIconConverter x:Key="ThemeToIconConverter" />
+            <conv:BoolToWeightConverter x:Key="BoolToWeightConverter" />
+            <conv:BoolToGreyConverter x:Key="BoolToGreyConverter" />
+            <conv:StringToGeometryConverter x:Key="StringToGeometryConverter" />
             
             <!-- 字体资源定义 -->
             <!-- 简体中文字体 -->

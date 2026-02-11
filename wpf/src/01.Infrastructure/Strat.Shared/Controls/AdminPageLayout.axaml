@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:Strat.Shared.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="Strat.Shared.Controls.AdminPageLayout">
+    
+    <UserControl.Styles>
+        <Style Selector="Border.GlassCard">
+            <Setter Property="Background" Value="{DynamicResource SemiBackground0}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource Radius_L}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SemiBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BoxShadow" Value="0 4 12 0 #08000000" />
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto, *" Margin="24">
+        <!-- 1. Header & Filter Area -->
+        <Border Padding="20,16" 
+                Classes="GlassCard"
+                Margin="0,0,0,16">
+            <StackPanel Spacing="16">
+                <!-- Title Row -->
+                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}" 
+                           FontSize="18" 
+                           FontWeight="Bold" 
+                           Foreground="{DynamicResource SemiGrey9}"
+                           IsVisible="{Binding Title, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                
+                <!-- Filter Content Slot -->
+                <ContentPresenter Content="{Binding FilterContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 2. Main Content Area (Action Bar + DataGrid + Footer) -->
+        <Border Grid.Row="1" 
+                Classes="GlassCard"
+                Padding="0">
+            <DockPanel>
+                <!-- Toolbar Action Bar Slot -->
+                <Border DockPanel.Dock="Top" 
+                        Padding="20,16" 
+                        BorderBrush="{DynamicResource SemiBorder}" 
+                        BorderThickness="0,0,0,1">
+                    <ContentPresenter Content="{Binding ActionContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+                </Border>
+
+                <!-- Footer / Pagination Slot -->
+                <Border DockPanel.Dock="Bottom" 
+                        Padding="20,16" 
+                        BorderBrush="{DynamicResource SemiBorder}" 
+                        BorderThickness="0,1,0,0">
+                    <ContentPresenter Content="{Binding FooterContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+                </Border>
+
+                <!-- Main Grid / List Slot -->
+                <ContentPresenter Content="{Binding MainContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

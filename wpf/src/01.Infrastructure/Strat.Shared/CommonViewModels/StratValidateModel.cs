@@ -1,8 +1,5 @@
-
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Prism.Mvvm;
 
 namespace Strat.Shared.CommonViewModels
 {

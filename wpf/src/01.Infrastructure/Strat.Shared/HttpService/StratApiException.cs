@@ -1,5 +1,3 @@
-using System;
-
 namespace Strat.Shared.HttpService
 {
     /// <summary>

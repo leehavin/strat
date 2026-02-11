@@ -1,7 +1,3 @@
-
-
-using Prism.Mvvm;
-
 namespace Strat.Shared.CommonViewModels
 {
     public class PagedParams : BindableBase

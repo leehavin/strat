@@ -1,7 +1,4 @@
 using Avalonia;
-using Avalonia.Data;
-using Avalonia.VisualTree;
-using System;
 
 namespace Strat.Shared
 {

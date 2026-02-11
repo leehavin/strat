@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Prism.Mvvm;
+using System.Collections.ObjectModel;
 
 namespace Strat.Shared.Models
 {

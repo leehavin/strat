@@ -1,7 +1,3 @@
-
-
-using Prism.Events;
-
 namespace Strat.Shared.Events;
 
 /// <summary>

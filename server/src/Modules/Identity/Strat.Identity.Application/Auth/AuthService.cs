@@ -32,7 +32,7 @@ public class AuthService(
     public async Task<LoginResponse> LoginAsync(LoginRequest input)
     {
         var user = await _db.Queryable<UserEntity>()
-            .FirstAsync(u => u.Account == input.UserName);
+            .FirstAsync(u => u.Account == input.Account);
 
         if (user == null)
             throw BusinessException.Throw("用户名或密码错误");

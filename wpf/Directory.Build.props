@@ -31,6 +31,7 @@
     <UrsaVersion>1.14.1</UrsaVersion>
     <MapsterVersion>7.4.0</MapsterVersion>
     <FlurlVersion>4.0.2</FlurlVersion>
+    <RefitVersion>6.3.2</RefitVersion>
     <SerilogVersion>3.1.1</SerilogVersion>
   </PropertyGroup>
 

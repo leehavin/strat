@@ -1,12 +1,7 @@
-
-
-using Flurl.Http;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.Caching.Memory;
-using Prism.Ioc;
-using Prism.Modularity;
-using Strat.Shared.HttpService;
 using Strat.Shared.Dialogs;
+using Strat.Shared.HttpService;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
@@ -46,9 +41,11 @@ namespace Strat.Shared
             containerRegistry.Register<IStratHttpService, StratHttpService>();
             containerRegistry.RegisterSingleton<IStratDialogService, StratDialogService>();
             
-            // 企业级功能服务：通知中心、快捷搜索
+            // 企业级功能服务：通知中心、快捷搜索、主题、国际化
             containerRegistry.RegisterSingleton<Services.INotificationService, Services.NotificationService>();
             containerRegistry.RegisterSingleton<Services.IQuickSearchService, Services.QuickSearchService>();
+            containerRegistry.RegisterSingleton<Services.IThemeService, Services.ThemeService>();
+            containerRegistry.RegisterSingleton<Services.ILocalizationService, Services.LocalizationService>();
         }
     }
 }

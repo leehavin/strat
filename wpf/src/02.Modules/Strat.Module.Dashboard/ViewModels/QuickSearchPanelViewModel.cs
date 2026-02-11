@@ -1,14 +1,8 @@
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Navigation.Regions;
 using Strat.Shared.CommonViewModels;
+using Strat.Shared.Logging;
 using Strat.Shared.Models;
 using Strat.Shared.Services;
-using Strat.Shared.Logging;
+using System.Collections.ObjectModel;
 using SystemTimer = System.Timers.Timer;
 
 namespace Strat.Module.Dashboard.ViewModels

@@ -1,7 +1,6 @@
-using System;
-using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using System.Globalization;
 
 namespace Strat.Shared.Converters
 {
@@ -35,7 +34,11 @@ namespace Strat.Shared.Converters
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is bool isEnabled)
+            {
+                return isEnabled ? 1 : 0;
+            }
+            return 0;
         }
     }
 

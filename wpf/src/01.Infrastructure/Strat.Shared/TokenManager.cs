@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 namespace Strat.Shared
 {
     public static class TokenManager

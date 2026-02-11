@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using Prism.Commands;
-using Prism.Events;
-using Strat.Infrastructure.Services.Abstractions;
-using Strat.Infrastructure.Models.User;
-using Strat.Shared.Models;
-using Strat.Shared.CommonViewModels;
 using Strat.Infrastructure.Extensions;
+using Strat.Infrastructure.Models.User;
+using Strat.Infrastructure.Services.Abstractions;
+using Strat.Shared.CommonViewModels;
+using Strat.Shared.Dialogs;
+using Strat.Shared.Layout;
+using Strat.Shared.Models;
 using SystemTimer = System.Timers.Timer;
 
 namespace Strat.Module.Identity.ViewModels
@@ -30,6 +25,7 @@ namespace Strat.Module.Identity.ViewModels
         #region Fields
 
         private readonly IUserService _userService;
+        private readonly IStratDialogService _dialogService;
         private readonly SystemTimer _searchDebounceTimer;
         private CancellationTokenSource? _searchCancellationTokenSource;
 
@@ -103,14 +99,45 @@ namespace Strat.Module.Identity.ViewModels
         /// </summary>
         public DelegateCommand AdvancedSearchCommand { get; }
 
+        /// <summary>
+        /// 新增命令
+        /// </summary>
+        public DelegateCommand AddCommand { get; }
+
+        /// <summary>
+        /// 编辑命令
+        /// </summary>
+        public DelegateCommand<UserResponse> EditCommand { get; }
+
+        /// <summary>
+        /// 删除命令
+        /// </summary>
+        public DelegateCommand<UserResponse> DeleteCommand { get; }
+
+        /// <summary>
+        /// 批量删除命令
+        /// </summary>
+        public DelegateCommand BatchDeleteCommand { get; }
+
+        /// <summary>
+        /// 重置密码命令
+        /// </summary>
+        public DelegateCommand<UserResponse> ResetPasswordCommand { get; }
+
+        /// <summary>
+        /// 切换状态命令
+        /// </summary>
+        public DelegateCommand<UserResponse> ToggleStatusCommand { get; }
+
         #endregion
 
         #region Constructor
 
-        public UserViewModel(IEventAggregator eventAggregator, IUserService userService) 
+        public UserViewModel(IEventAggregator eventAggregator, IUserService userService, IStratDialogService dialogService) 
             : base(eventAggregator)
         {
             _userService = userService;
+            _dialogService = dialogService;
             _searchModel = new UserSearchModel();
             
             // 初始化空的分页模型，防止 XAML 绑定报错
@@ -133,6 +160,13 @@ namespace Strat.Module.Identity.ViewModels
                 executeMethod: ExecuteResetCommand, 
                 canExecuteMethod: () => !IsSearching);
             AdvancedSearchCommand = new DelegateCommand(() => IsAdvancedSearchOpen = !IsAdvancedSearchOpen);
+
+            AddCommand = new DelegateCommand(ExecuteAddCommand);
+            EditCommand = new DelegateCommand<UserResponse>(ExecuteEditCommand);
+            DeleteCommand = new DelegateCommand<UserResponse>(ExecuteDeleteCommand);
+            BatchDeleteCommand = new DelegateCommand(ExecuteBatchDeleteCommand);
+            ResetPasswordCommand = new DelegateCommand<UserResponse>(ExecuteResetPasswordCommand);
+            ToggleStatusCommand = new DelegateCommand<UserResponse>(ExecuteToggleStatusCommand);
 
             // 订阅搜索条件变化
             _searchModel.PropertyChanged += OnSearchModelPropertyChanged;
@@ -237,6 +271,178 @@ namespace Strat.Module.Identity.ViewModels
             
             // 立即执行搜索
             _ = LoadUsersAsync();
+        }
+
+        #endregion
+
+        #region CRUD Operations (增删改操作)
+
+        private void ExecuteAddCommand()
+        {
+            _dialogService.ShowDialog("UserEditDialog", null, async (result, vm) =>
+            {
+                if (result && vm is UserEditDialogViewModel editVm)
+                {
+                    var userEditModel = editVm.User;
+                    if (userEditModel != null)
+                    {
+                        var input = new AddUserInput
+                        {
+                            Account = userEditModel.Account,
+                            Name = userEditModel.Name,
+                            Password = userEditModel.Password,
+                            Telephone = userEditModel.Telephone ?? "",
+                            Email = userEditModel.Email ?? "",
+                            Status = userEditModel.Status,
+                            OrganizationId = 0, // 暂未实现
+                            RoleId = 0         // 暂未实现
+                        };
+
+                        var success = await _userService.AddAsync(input);
+                        if (success)
+                        {
+                            _dialogService.ShowToast("新增用户成功", ToastType.Success);
+                            await LoadUsersAsync();
+                        }
+                        else
+                        {
+                            _dialogService.ShowToast("新增用户失败", ToastType.Error);
+                        }
+                    }
+                }
+            });
+        }
+
+        private void ExecuteEditCommand(UserResponse user)
+        {
+            if (user == null) return;
+
+            _dialogService.ShowDialog("UserEditDialog", user, async (result, vm) =>
+            {
+                if (result && vm is UserEditDialogViewModel editVm)
+                {
+                    var userEditModel = editVm.User;
+                    if (userEditModel != null)
+                    {
+                        var input = new UpdateUserInput
+                        {
+                            Id = userEditModel.Id,
+                            Account = userEditModel.Account,
+                            Name = userEditModel.Name,
+                            Telephone = userEditModel.Telephone ?? "",
+                            Email = userEditModel.Email ?? "",
+                            Status = userEditModel.Status,
+                            OrganizationId = user.OrganizationId,
+                            RoleId = user.RoleId
+                        };
+
+                        var success = await _userService.UpdateAsync(input);
+                        if (success)
+                        {
+                            _dialogService.ShowToast("更新用户成功", ToastType.Success);
+                            await LoadUsersAsync();
+                        }
+                        else
+                        {
+                            _dialogService.ShowToast("更新用户失败", ToastType.Error);
+                        }
+                    }
+                }
+            });
+        }
+
+        private async void ExecuteDeleteCommand(UserResponse user)
+        {
+            if (user == null) return;
+
+            var confirm = await _dialogService.ShowConfirmAsync($"确定要删除用户 [{user.Name}] 吗？\n删除后不可恢复。");
+            if (!confirm) return;
+
+            try
+            {
+                var success = await _userService.DeleteAsync(user.Id);
+                if (success)
+                {
+                    _dialogService.ShowToast("删除成功", Shared.Layout.ToastType.Success);
+                    await LoadUsersAsync();
+                }
+                else
+                {
+                    _dialogService.ShowToast("删除失败", Shared.Layout.ToastType.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                _dialogService.ShowToast($"删除出错: {ex.Message}", Shared.Layout.ToastType.Error);
+            }
+        }
+
+        private async void ExecuteBatchDeleteCommand()
+        {
+            var selectedItems = UserPaginationModel?.Items.Where(x => x.IsSelected).ToList();
+            if (selectedItems == null || !selectedItems.Any())
+            {
+                _dialogService.ShowToast("请先选择要删除的记录", Shared.Layout.ToastType.Warning);
+                return;
+            }
+
+            var confirm = await _dialogService.ShowConfirmAsync($"确定要批量删除这 {selectedItems.Count} 条记录吗？");
+            if (!confirm) return;
+
+            try
+            {
+                var ids = selectedItems.Select(x => x.Id).ToList();
+                var success = await _userService.BatchDeleteAsync(ids);
+                if (success)
+                {
+                    _dialogService.ShowToast("批量删除成功", Shared.Layout.ToastType.Success);
+                    await LoadUsersAsync();
+                }
+                else
+                {
+                    _dialogService.ShowToast("批量删除失败", Shared.Layout.ToastType.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                _dialogService.ShowToast($"批量删除出错: {ex.Message}", Shared.Layout.ToastType.Error);
+            }
+        }
+
+        private async void ExecuteResetPasswordCommand(UserResponse user)
+        {
+             if (user == null) return;
+             
+             // TODO: 打开重置密码对话框或直接重置
+             _dialogService.ShowToast("功能开发中...", Shared.Layout.ToastType.Info);
+        }
+
+        private async void ExecuteToggleStatusCommand(UserResponse user)
+        {
+             if (user == null) return;
+             
+             // 状态取反：1 -> 0, 0 -> 1 (假设 1=启用, 0=禁用)
+             int newStatus = user.Status == 1 ? 0 : 1;
+             
+             try
+             {
+                 var success = await _userService.ChangeStatusAsync(user.Id, newStatus);
+                 if (success)
+                 {
+                     user.Status = newStatus; // 乐观更新 UI
+                     _dialogService.ShowToast(newStatus == 1 ? "已启用" : "已禁用", Shared.Layout.ToastType.Success);
+                 }
+                 else
+                 {
+                     // 失败则回滚 UI 状态（如果需要）或重新加载
+                     await LoadUsersAsync();
+                     _dialogService.ShowToast("状态修改失败", Shared.Layout.ToastType.Error);
+                 }
+             }
+             catch (Exception ex)
+             {
+                 _dialogService.ShowToast($"操作出错: {ex.Message}", Shared.Layout.ToastType.Error);
+             }
         }
 
         #endregion

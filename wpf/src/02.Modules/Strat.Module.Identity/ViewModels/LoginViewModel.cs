@@ -1,19 +1,10 @@
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Events;
-using Prism.Navigation.Regions;
 using Strat.Infrastructure.Models.Auth;
 using Strat.Infrastructure.Services.Abstractions;
-using Strat.Shared.CommonViewModels;
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Strat.Module.Identity.Models;
-using Strat.Shared.I18n;
+using Strat.Shared.CommonViewModels;
 using Strat.Shared.Dialogs;
 using Strat.Shared.Logging;
+using Strat.Shared.Services;
 
 namespace Strat.Module.Identity.ViewModels
 {
@@ -22,36 +13,52 @@ namespace Strat.Module.Identity.ViewModels
         private readonly IAuthService _authService;
         private readonly IRegionManager _regionManager;
         private readonly IStratDialogService _dialogService;
+        private readonly ILocalizationService _localizationService;
+        private readonly IThemeService _themeService;
 
-        public LoginViewModel(IEventAggregator eventAggregator, IAuthService authService, IRegionManager regionManager, IStratDialogService dialogService) : base(eventAggregator)
+        public LoginViewModel(
+            IEventAggregator eventAggregator, 
+            IAuthService authService, 
+            IRegionManager regionManager, 
+            IStratDialogService dialogService,
+            ILocalizationService localizationService,
+            IThemeService themeService) : base(eventAggregator)
         {
             _authService = authService;
             _regionManager = regionManager;
             _dialogService = dialogService;
+            _localizationService = localizationService;
+            _themeService = themeService;
+            
             LoginUser = new LoginModel { Account = "admin", Password = "123456" };
-
-            // 初始化语言列表
-            Languages = new ObservableCollection<LanguageItem>(LanguageManager.Instance.SupportedLanguages);
-
-            _selectedLanguage = Languages.FirstOrDefault(x => x.Key == LanguageManager.Instance.CurrentCulture);
         }
 
-        public ObservableCollection<LanguageItem> Languages { get; }
-
-        private LanguageItem? _selectedLanguage;
-        public LanguageItem? SelectedLanguage
+        public IEnumerable<LanguageInfo> SupportedLanguages => _localizationService.SupportedLanguages;
+        
+        public LanguageInfo CurrentLanguage
         {
-            get => _selectedLanguage;
+            get => _localizationService.CurrentLanguage;
             set
             {
-                if (SetProperty(ref _selectedLanguage, value) && value != null)
+                if (value != null && value.Key != _localizationService.CurrentLanguage.Key)
                 {
-                    LanguageManager.Instance.SwitchLanguage(value.Key);
+                    _localizationService.SetLanguage(value.Key);
+                    RaisePropertyChanged(nameof(CurrentLanguage));
                 }
             }
         }
 
-        private LoginModel _loginUser;
+        public ThemeMode CurrentTheme => _themeService.CurrentMode;
+
+        private DelegateCommand? _switchThemeCommand;
+        public DelegateCommand SwitchThemeCommand => 
+            _switchThemeCommand ??= new DelegateCommand(() => 
+            {
+                _themeService.ToggleTheme();
+                RaisePropertyChanged(nameof(CurrentTheme));
+            });
+
+        private LoginModel _loginUser = null!;
         public LoginModel LoginUser
         {
             get => _loginUser;

@@ -1,10 +1,5 @@
-using Prism.Events;
-using Prism.Mvvm;
-using Prism.Navigation;
 using Strat.Shared.Events;
 using Strat.Shared.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace Strat.Shared.CommonViewModels
 {

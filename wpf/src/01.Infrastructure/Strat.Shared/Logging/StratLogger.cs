@@ -1,5 +1,3 @@
-
-
 using Serilog;
 
 namespace Strat.Shared.Logging;

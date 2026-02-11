@@ -1,29 +1,29 @@
-
 using Strat.Infrastructure.Models.Auth;
 using Strat.Infrastructure.Services.Abstractions;
-using Strat.Shared.HttpService;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Strat.Infrastructure.Services.Refit;
 
 namespace Strat.Infrastructure.Services.Implements;
 
-public class AuthService(IStratHttpService httpService) : IAuthService
+public class AuthService(IAuthApi authApi) : IAuthService
 {
-    private readonly IStratHttpService _httpService = httpService;
+    private readonly IAuthApi _authApi = authApi;
 
     public async Task<LoginResponse> LoginAsync(LoginRequest input)
     {
-        return await _httpService.PostAsync<LoginResponse>("/auth/login", input);
+        var response = await _authApi.LoginAsync(input);
+        return response.Data!;
     }
 
     public async Task<List<GetRoutersResponse>> GetRoutersAsync()
     {
-        return await _httpService.GetAsync<List<GetRoutersResponse>>("/auth/routers");
+        var response = await _authApi.GetRoutersAsync();
+        return response.Data!;
     }
 
     public async Task<GetUserInfoResponse> GetUserInfoAsync()
     {
-        return await _httpService.GetAsync<GetUserInfoResponse>("/auth/user-info");
+        var response = await _authApi.GetUserInfoAsync();
+        return response.Data!;
     }
 }
 

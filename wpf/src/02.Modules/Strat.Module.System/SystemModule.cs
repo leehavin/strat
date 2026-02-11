@@ -1,5 +1,3 @@
-using Prism.Ioc;
-using Prism.Modularity;
 using Strat.Shared;
 
 namespace Strat.Module.System;

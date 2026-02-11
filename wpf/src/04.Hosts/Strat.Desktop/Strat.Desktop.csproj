@@ -9,6 +9,8 @@
     <UseAvaloniaAccelerate>false</UseAvaloniaAccelerate>
     <!-- 启用 AOT 编译 -->
     <PublishAot>true</PublishAot>
+    <!-- 允许 Refit/STJ 使用反射序列化（AOT 默认禁用） -->
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <!-- 禁用调试/遥测 -->
     <DisableAvaloniaDiagnostics>true</DisableAvaloniaDiagnostics>
     <EnableTelemetry>false</EnableTelemetry>

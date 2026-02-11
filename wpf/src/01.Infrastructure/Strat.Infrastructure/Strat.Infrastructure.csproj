@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="Prism.Avalonia" Version="$(PrismAvaloniaVersion)" />
-    <PackageReference Include="Flurl.Http" Version="$(FlurlVersion)" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="$(RefitVersion)" />
     <PackageReference Include="Mapster" Version="$(MapsterVersion)" />
   </ItemGroup>
 

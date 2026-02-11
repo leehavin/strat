@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="using:Strat.Module.System.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Strat.Module.System.Views.UserManagementView"
+             x:DataType="vm:UserManagementViewModel"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid RowDefinitions="Auto, *, Auto" Margin="16">
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+            <Button Content="查询" Command="{Binding LoadDataCommand}" Classes="Primary" />
+            <Button Content="新增" Classes="Success" />
+        </StackPanel>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" IsReadOnly="True" 
+                  BorderThickness="1" BorderBrush="{DynamicResource SemiColorBorder}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="账号" Binding="{Binding Account}" Width="*" />
+                <DataGridTextColumn Header="姓名" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="手机号" Binding="{Binding Telephone}" Width="120" />
+                <DataGridTextColumn Header="邮箱" Binding="{Binding Email}" Width="150" />
+                <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="80" />
+                <DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime}" Width="180" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Pagination -->
+        <Border Grid.Row="2" Margin="0,16,0,0" Padding="10" 
+                BorderBrush="{DynamicResource SemiColorBorder}" BorderThickness="1" CornerRadius="4">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                <TextBlock Text="{Binding TotalCount, StringFormat='共 {0} 条'}" VerticalAlignment="Center"/>
+                <!-- 简单的分页占位，后续可替换为 Semi 分页控件 -->
+                <NumericUpDown Value="{Binding PageArgs_PageIndex}" Minimum="1" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
