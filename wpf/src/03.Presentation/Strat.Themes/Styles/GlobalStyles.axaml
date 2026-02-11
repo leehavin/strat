@@ -15,14 +15,99 @@
             </ResourceDictionary.MergedDictionaries>
             
             <Color x:Key="PurestPrimary">#0066FF</Color>
+            
+            <!-- ==================== 常用图标 Geometry ==================== -->
+            <!-- 太阳 (SemiIconSun) -->
+            <StreamGeometry x:Key="SemiIconSun">M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-12.37a.996.996 0 00-1.41-1.41l-1.06 1.06a.996.996 0 101.41 1.41l1.06-1.06zm-12.37 12.37a.996.996 0 00-1.41-1.41l-1.06 1.06a.996.996 0 101.41 1.41l1.06-1.06z</StreamGeometry>
+            <!-- 月亮 (SemiIconMoon) -->
+            <StreamGeometry x:Key="SemiIconMoon">M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z</StreamGeometry>
+            
             <SolidColorBrush x:Key="PurestPrimaryBrush" Color="{StaticResource PurestPrimary}"/>
         </ResourceDictionary>
     </Styles.Resources>
 
     <!-- Global Control Styles -->
+    <Style Selector="Button">
+        <Setter Property="Height" Value="{DynamicResource Height_Button_M}"/>
+        <Setter Property="Padding" Value="{DynamicResource Padding_Button_M}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize_Button_Medium}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius_M}"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" Easing="CubicEaseOut"/>
+                <BrushTransition Property="Background" Duration="0:0:0.2"/>
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Button:pressed">
+        <Setter Property="RenderTransform" Value="scale(0.96)"/>
+    </Style>
+
     <Style Selector="Button.Primary">
-        <Setter Property="Background" Value="{DynamicResource PurestPrimaryBrush}"/>
-        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="Background" Value="{DynamicResource SemiBlue6}"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="Height" Value="{DynamicResource Height_Input_M}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize_Base}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius_S}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style Selector="TextBlock">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize_Base}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeight_Regular}"/>
+    </Style>
+
+    <!-- DataGrid 优化 -->
+    <Style Selector="DataGrid">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource SemiBorder}"/>
+        <Setter Property="RowHeight" Value="{DynamicResource Height_TableRow_Normal}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize_Base}"/>
+    </Style>
+
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Background" Value="{DynamicResource SemiGrey0}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SemiGrey7}"/>
+        <Setter Property="FontWeight" Value="{DynamicResource FontWeight_Medium}"/>
+        <Setter Property="Padding" Value="12,0"/>
+        <Setter Property="SeparatorBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SemiBorder}"/>
+        <Setter Property="Height" Value="{DynamicResource Height_TableRow_Normal}"/>
+    </Style>
+
+    <Style Selector="DataGridRow">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.15"/>
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="DataGridRow:pointerover">
+        <Setter Property="Background" Value="{DynamicResource SemiGrey1}"/>
+    </Style>
+
+    <Style Selector="DataGridRow:selected">
+        <Setter Property="Background" Value="{DynamicResource SemiBlue0}"/>
+    </Style>
+
+    <!-- CheckBox 优化 -->
+    <Style Selector="CheckBox">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize_Base}"/>
+    </Style>
+
+    <!-- ComboBox 优化 -->
+    <Style Selector="ComboBox">
+        <Setter Property="Height" Value="{DynamicResource Height_Input_M}"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSize_Base}"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius_S}"/>
     </Style>
 </Styles>
 

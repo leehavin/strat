@@ -7,28 +7,19 @@
              xmlns:layout="using:Strat.Shared.Controls"
              xmlns:vm="using:Strat.Module.System.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
-             x:Class="Strat.Module.System.Views.UserManagementView"
-             x:DataType="vm:UserManagementViewModel"
+             x:Class="Strat.Module.System.Views.RoleManagementView"
+             x:DataType="vm:RoleManagementViewModel"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <layout:AdminPageLayout Title="用户管理" IsLoading="{Binding IsBusy}">
+    <layout:AdminPageLayout Title="角色管理" IsLoading="{Binding IsBusy}">
         <!-- 1. Search Filters -->
         <layout:AdminPageLayout.FilterContent>
             <WrapPanel Orientation="Horizontal" Margin="-12">
                 <StackPanel Margin="12" Spacing="8">
                     <TextBlock Text="关键词" FontSize="12" Foreground="{DynamicResource SemiGrey6}" FontWeight="Medium"/>
-                    <TextBox Width="220" Watermark="搜索账号/姓名/手机号" Text="{Binding SearchKeyword}" Height="32"/>
+                    <TextBox Width="220" Watermark="角色名称/编码" Text="{Binding SearchKeyword}" Height="32"/>
                 </StackPanel>
                 
-                <StackPanel Margin="12" Spacing="8">
-                    <TextBlock Text="状态" FontSize="12" Foreground="{DynamicResource SemiGrey6}" FontWeight="Medium"/>
-                    <ComboBox Width="140" SelectedIndex="0" Height="32">
-                        <ComboBoxItem Content="全部"/>
-                        <ComboBoxItem Content="正常"/>
-                        <ComboBoxItem Content="禁用"/>
-                    </ComboBox>
-                </StackPanel>
-
                 <StackPanel Margin="12" VerticalAlignment="Bottom">
                     <StackPanel Orientation="Horizontal" Spacing="12">
                         <Button Content="查询" Classes="Primary" Theme="{DynamicResource SolidButton}" 
@@ -45,16 +36,10 @@
                 <Button Theme="{DynamicResource SolidButton}" Classes="Success" Height="32" Command="{Binding AddCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <PathIcon Data="{DynamicResource SemiIconPlus}" Width="12" Height="12"/>
-                        <TextBlock Text="新增用户" FontSize="13"/>
+                        <TextBlock Text="新增角色" FontSize="13"/>
                     </StackPanel>
                 </Button>
-                <Button Theme="{DynamicResource OutlineButton}" Height="32">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <PathIcon Data="{DynamicResource SemiIconDownload}" Width="12" Height="12"/>
-                        <TextBlock Text="导出" FontSize="13"/>
-                    </StackPanel>
-                </Button>
-                <Button Theme="{DynamicResource OutlineButton}" Classes="Danger" Height="32" Command="{Binding BatchDeleteCommand}">
+                <Button Theme="{DynamicResource OutlineButton}" Classes="Danger" Height="32">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <PathIcon Data="{DynamicResource SemiIconDelete}" Width="12" Height="12"/>
                         <TextBlock Text="批量删除" FontSize="13"/>
@@ -65,39 +50,34 @@
 
         <!-- 3. Main DataGrid -->
         <layout:AdminPageLayout.MainContent>
-            <DataGrid ItemsSource="{Binding Users}"
+            <DataGrid ItemsSource="{Binding Roles}" IsReadOnly="False" 
                       BorderThickness="0"
                       CanUserResizeColumns="True"
                       GridLinesVisibility="Horizontal"
                       HorizontalGridLinesBrush="{DynamicResource SemiBorder}">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Width="50" Binding="{Binding IsSelected}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="账号" Binding="{Binding Account}" Width="1*" MinWidth="100" IsReadOnly="True" />
-                    <DataGridTemplateColumn Header="用户姓名" Width="1.5*" MinWidth="150">
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center" Margin="12,0">
-                                <ursa:Avatar Width="28" Height="28" Content="{Binding Name}" Theme="{DynamicResource GradientAvatar}"/>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Medium"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="手机号" Binding="{Binding Telephone}" Width="1*" MinWidth="120" IsReadOnly="True" />
-                    <DataGridTextColumn Header="邮箱" Binding="{Binding Email}" Width="1.5*" MinWidth="180" IsReadOnly="True" />
-                    <DataGridTemplateColumn Header="状态" Width="100">
+                    <DataGridTextColumn Header="角色名称" Binding="{Binding Name}" Width="1.5*" MinWidth="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="角色编码" Binding="{Binding Code}" Width="1.5*" MinWidth="150" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="描述" Binding="{Binding Description}" Width="2*" MinWidth="200" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="状态" Width="100" IsReadOnly="True">
                         <DataTemplate>
                             <ursa:Badge Content="正常" Classes="Success" IsVisible="{Binding Status}" Margin="12,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime}" Width="1.5*" MinWidth="160" IsReadOnly="True" />
-                    <DataGridTemplateColumn Header="操作" Width="120">
+                    <DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime}" Width="1.5*" MinWidth="160" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="操作" Width="150" IsReadOnly="True">
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,0">
-                                <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="编辑" 
+                                <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="编辑"
                                         Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}">
                                     <PathIcon Data="{DynamicResource SemiIconEdit}" Width="14" Height="14" Foreground="{DynamicResource SemiBlue6}"/>
                                 </Button>
-                                <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="删除"
-                                        Command="{Binding $parent[UserControl].DataContext.DeleteCommand}" CommandParameter="{Binding}">
+                                <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="权限设置"
+                                        Command="{Binding $parent[UserControl].DataContext.PermissionCommand}" CommandParameter="{Binding}">
+                                    <PathIcon Data="{DynamicResource SemiIconSetting}" Width="14" Height="14" Foreground="{DynamicResource SemiOrange6}"/>
+                                </Button>
+                                <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="删除">
                                     <PathIcon Data="{DynamicResource SemiIconDelete}" Width="14" Height="14" Foreground="{DynamicResource SemiRed6}"/>
                                 </Button>
                             </StackPanel>

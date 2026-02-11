@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="using:Strat.Shared.Controls"
+             xmlns:ursa="https://irihi.tech/ursa"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="Strat.Shared.Controls.AdminPageLayout">
     
@@ -12,19 +13,21 @@
             <Setter Property="CornerRadius" Value="{DynamicResource Radius_L}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SemiBorder}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BoxShadow" Value="0 4 12 0 #08000000" />
+            <Setter Property="BoxShadow" Value="{DynamicResource Shadow_S}" />
+            <Setter Property="ClipToBounds" Value="True" />
         </Style>
     </UserControl.Styles>
 
-    <Grid RowDefinitions="Auto, *" Margin="24">
+    <Grid RowDefinitions="Auto, *" Margin="0">
         <!-- 1. Header & Filter Area -->
         <Border Padding="20,16" 
                 Classes="GlassCard"
-                Margin="0,0,0,16">
-            <StackPanel Spacing="16">
+                Margin="0,0,0,12"
+                IsVisible="{Binding FilterContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <StackPanel Spacing="{DynamicResource Spacing_L}">
                 <!-- Title Row -->
                 <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}" 
-                           FontSize="18" 
+                           FontSize="{DynamicResource FontSize_H2}" 
                            FontWeight="Bold" 
                            Foreground="{DynamicResource SemiGrey9}"
                            IsVisible="{Binding Title, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
@@ -38,26 +41,38 @@
         <Border Grid.Row="1" 
                 Classes="GlassCard"
                 Padding="0">
-            <DockPanel>
-                <!-- Toolbar Action Bar Slot -->
-                <Border DockPanel.Dock="Top" 
-                        Padding="20,16" 
-                        BorderBrush="{DynamicResource SemiBorder}" 
-                        BorderThickness="0,0,0,1">
-                    <ContentPresenter Content="{Binding ActionContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
-                </Border>
+            <Grid>
+                <DockPanel>
+                    <!-- Toolbar Action Bar Slot -->
+                    <Border DockPanel.Dock="Top" 
+                            Padding="20,12" 
+                            BorderBrush="{DynamicResource SemiBorder}" 
+                            BorderThickness="0,0,0,1"
+                            Background="{DynamicResource SemiGrey0}"
+                            IsVisible="{Binding ActionContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <ContentPresenter Content="{Binding ActionContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+                    </Border>
 
-                <!-- Footer / Pagination Slot -->
-                <Border DockPanel.Dock="Bottom" 
-                        Padding="20,16" 
-                        BorderBrush="{DynamicResource SemiBorder}" 
-                        BorderThickness="0,1,0,0">
-                    <ContentPresenter Content="{Binding FooterContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
-                </Border>
+                    <!-- Footer / Pagination Slot -->
+                    <Border DockPanel.Dock="Bottom" 
+                            Padding="20,12" 
+                            BorderBrush="{DynamicResource SemiBorder}" 
+                            BorderThickness="0,1,0,0"
+                            IsVisible="{Binding FooterContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <ContentPresenter Content="{Binding FooterContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+                    </Border>
 
-                <!-- Main Grid / List Slot -->
-                <ContentPresenter Content="{Binding MainContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
-            </DockPanel>
+                    <!-- Main Grid / List Slot -->
+                    <ContentPresenter Content="{Binding MainContent, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"/>
+                </DockPanel>
+
+                <!-- Loading Overlay -->
+                <Border Background="#40FFFFFF" 
+                        IsVisible="{Binding IsLoading, RelativeSource={RelativeSource AncestorType=local:AdminPageLayout}}"
+                        ZIndex="100">
+                    <ursa:Loading IsLoading="True" />
+                </Border>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

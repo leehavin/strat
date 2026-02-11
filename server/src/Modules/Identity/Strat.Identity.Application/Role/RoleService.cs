@@ -122,21 +122,21 @@ public class RoleService(ISqlSugarClient db, ICache cache) : ApplicationService,
     /// <summary>
     /// 分配功能给角色
     /// </summary>
-    public async Task AssignFunctionsAsync(long roleId, long[] functionIds)
+    public async Task AssignFunctionsAsync(AssignRoleFunctionsRequest input)
     {
-        var entity = await _db.Queryable<RoleEntity>().FirstAsync(r => r.Id == roleId);
+        var entity = await _db.Queryable<RoleEntity>().FirstAsync(r => r.Id == input.RoleId);
         if (entity == null)
             throw BusinessException.Throw(ErrorTipsEnum.NoResult);
 
         // 删除原有关联
-        await _db.Deleteable<RoleFunctionEntity>().Where(rf => rf.RoleId == roleId).ExecuteCommandAsync();
+        await _db.Deleteable<RoleFunctionEntity>().Where(rf => rf.RoleId == input.RoleId).ExecuteCommandAsync();
 
         // 添加新关联
-        if (functionIds.Length > 0)
+        if (input.FunctionIds.Count > 0)
         {
-            var entities = functionIds.Select(fid => new RoleFunctionEntity
+            var entities = input.FunctionIds.Select(fid => new RoleFunctionEntity
             {
-                RoleId = roleId,
+                RoleId = input.RoleId,
                 FunctionId = fid
             }).ToList();
 

@@ -1,6 +1,9 @@
+using Prism.Ioc;
 using Refit;
 using Strat.Infrastructure.Services.Refit;
 using System.Reflection;
+using System.Text.Json;
+using Strat.Infrastructure.Converters;
 
 namespace Strat.Infrastructure
 {
@@ -31,21 +34,33 @@ namespace Strat.Infrastructure
 
             // Refit API 注册 (第三阶段已激活)
             var baseUrl = "http://localhost:5062/api/v1";
-            var handler = new StratRefitHandler { InnerHandler = new HttpClientHandler() };
-            var httpClient = new HttpClient(handler) { BaseAddress = new System.Uri(baseUrl) };
             
-            var settings = new RefitSettings
+            // 配置 Custom JSON Converter
+            var options = new JsonSerializerOptions
             {
-                ContentSerializer = new SystemTextJsonContentSerializer(new System.Text.Json.JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
-                })
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
             };
+            options.Converters.Add(new DateTimeJsonConverter());
+            options.Converters.Add(new NullableDateTimeJsonConverter());
+            var refitSettings = new RefitSettings(new SystemTextJsonContentSerializer(options));
+            
+            // 注册 StratRefitHandler 到容器，让容器注入 IEventAggregator
+            containerRegistry.Register<StratRefitHandler>();
 
-            containerRegistry.RegisterInstance(RestService.For<IUserApi>(httpClient, settings));
-            containerRegistry.RegisterInstance(RestService.For<IRoleApi>(httpClient, settings));
-            containerRegistry.RegisterInstance(RestService.For<IAuthApi>(httpClient, settings));
+            // 使用工厂方法从容器获取已注入 IEventAggregator 的 handler
+            containerRegistry.RegisterInstance<IUserApi>(RestService.For<IUserApi>(CreateHttpClient(baseUrl), refitSettings));
+            containerRegistry.RegisterInstance<IRoleApi>(RestService.For<IRoleApi>(CreateHttpClient(baseUrl), refitSettings));
+            containerRegistry.RegisterInstance<IAuthApi>(RestService.For<IAuthApi>(CreateHttpClient(baseUrl), refitSettings));
+            containerRegistry.RegisterInstance<IFunctionApi>(RestService.For<IFunctionApi>(CreateHttpClient(baseUrl), refitSettings));
+            containerRegistry.RegisterInstance<IOrganizationApi>(RestService.For<IOrganizationApi>(CreateHttpClient(baseUrl), refitSettings));
+        }
+
+        private HttpClient CreateHttpClient(string baseUrl)
+        {
+            var handler = ContainerLocator.Container.Resolve<StratRefitHandler>();
+            handler.InnerHandler = new HttpClientHandler();
+            return new HttpClient(handler) { BaseAddress = new System.Uri(baseUrl) };
         }
     }
 }

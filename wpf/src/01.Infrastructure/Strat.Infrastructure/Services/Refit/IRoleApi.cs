@@ -10,12 +10,12 @@ public interface IRoleApi
     Task<Strat.Shared.Models.ApiResponse<PagedResult<RoleResponse>>> GetPagedListAsync([Body] GetRolePagedRequest input);
 
     [Post("/api/sys/role/add")]
-    Task<Strat.Shared.Models.ApiResponse<bool>> AddAsync([Body] AddRoleInput input);
+    Task<Strat.Shared.Models.ApiResponse<long>> AddAsync([Body] AddRoleInput input);
 
     [Put("/api/sys/role/update")]
     Task<Strat.Shared.Models.ApiResponse<bool>> UpdateAsync([Body] UpdateRoleInput input);
 
-    [Delete("/api/sys/role/delete/{id}")]
+    [Delete("/api/sys/role/delete")]
     Task<Strat.Shared.Models.ApiResponse<bool>> DeleteAsync(long id);
 
     [Post("/api/sys/role/batch-delete")]
@@ -23,4 +23,10 @@ public interface IRoleApi
 
     [Put("/api/sys/role/change-status")]
     Task<Strat.Shared.Models.ApiResponse<bool>> ChangeStatusAsync([Body] object input);
+
+    [Post("/api/sys/role/assign-functions")]
+    Task<Strat.Shared.Models.ApiResponse<bool>> AssignFunctionsAsync([Body] AssignRoleFunctionsRequest input);
+
+    [Get("/api/sys/role/function-ids")]
+    Task<Strat.Shared.Models.ApiResponse<List<long>>> GetFunctionIdsAsync(long roleId);
 }

@@ -25,5 +25,11 @@ public class AuthService(IAuthApi authApi) : IAuthService
         var response = await _authApi.GetUserInfoAsync();
         return response.Data!;
     }
+
+    public Task LogoutAsync()
+    {
+        Strat.Shared.TokenManager.ClearToken();
+        return Task.CompletedTask;
+    }
 }
 

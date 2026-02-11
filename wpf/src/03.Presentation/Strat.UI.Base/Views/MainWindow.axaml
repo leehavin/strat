@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:ursa="https://irihi.tech/ursa"
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
         x:Class="Strat.UI.Base.Views.MainWindow"
         Title="STRAT 管理系统"
@@ -10,5 +11,8 @@
 
     <Grid Background="{DynamicResource SemiBackground0}">
         <ContentControl prism:RegionManager.RegionName="mainRegion" />
+        
+        <!-- Ursa Global Host for OverlayDialog and Notifications -->
+        <ursa:OverlayDialogHost HostId="GlobalHost"/>
     </Grid>
 </Window>

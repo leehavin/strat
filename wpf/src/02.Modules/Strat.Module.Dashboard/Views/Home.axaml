@@ -13,80 +13,155 @@
         <vm:HomeViewModel/>
     </Design.DataContext>
 
-    <ScrollViewer Background="{DynamicResource SemiBackground0}">
-        <StackPanel Spacing="20" Margin="20">
-            <TextBlock Text="{DynamicResource L_Home_Title}" FontSize="24" FontWeight="Bold"/>
+    <ScrollViewer Background="{DynamicResource SemiBackground1}">
+        <StackPanel Spacing="{DynamicResource Spacing_XL}" Margin="{DynamicResource Spacing_XL}">
+            <TextBlock Text="{DynamicResource L_Home_Title}" FontSize="{DynamicResource FontSize_H1}" FontWeight="Bold"/>
             
-            <ursa:Banner Content="{Binding WelcomeMessage}" Header="PA" Classes="Information" />
+            <ursa:Banner Header="PA" Classes="Information" CornerRadius="{DynamicResource Radius_L}">
+                <TextBlock Text="{Binding WelcomeMessage}"/>
+            </ursa:Banner>
 
-            <Grid ColumnDefinitions="*, *, *, *" Height="120">
-                <Border Grid.Column="0" Margin="5" Background="{DynamicResource SemiBlue1}" CornerRadius="8" Padding="15">
-                    <StackPanel>
-                        <TextBlock Text="{DynamicResource L_Home_TotalVisits}" Foreground="{DynamicResource SemiGrey6}"/>
-                        <TextBlock Text="128,430" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
-                        <TextBlock Text="较昨日 +12%" FontSize="12" Foreground="{DynamicResource SemiBlue6}"/>
+            <Grid ColumnDefinitions="*, *, *, *" Height="140">
+                <Border Grid.Column="0" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="20" BoxShadow="{DynamicResource Shadow_S}">
+                    <StackPanel VerticalAlignment="Center">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Text="{DynamicResource L_Home_TotalVisits}" Foreground="{DynamicResource SemiGrey6}" FontSize="{DynamicResource FontSize_Small}"/>
+                            <ursa:Badge Grid.Column="1" Content="Live" Classes="Success" Dot="True"/>
+                        </Grid>
+                        <TextBlock Text="128,430" FontSize="32" FontWeight="Black" Margin="0,12,0,0" Foreground="{DynamicResource SemiBlue6}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,8,0,0">
+                            <PathIcon Data="{DynamicResource SemiIconArrowUp}" Width="12" Height="12" Foreground="{DynamicResource SemiBlue6}"/>
+                            <TextBlock Text="较昨日 +12%" FontSize="{DynamicResource FontSize_Caption}" Foreground="{DynamicResource SemiBlue6}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="1" Margin="5" Background="{DynamicResource SemiGreen1}" CornerRadius="8" Padding="15">
-                    <StackPanel>
-                        <TextBlock Text="{DynamicResource L_Home_NewUsers}" Foreground="{DynamicResource SemiGrey6}"/>
-                        <TextBlock Text="1,240" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
-                        <TextBlock Text="较昨日 +5%" FontSize="12" Foreground="{DynamicResource SemiGreen6}"/>
+                <Border Grid.Column="1" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="20" BoxShadow="{DynamicResource Shadow_S}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{DynamicResource L_Home_NewUsers}" Foreground="{DynamicResource SemiGrey6}" FontSize="{DynamicResource FontSize_Small}"/>
+                        <TextBlock Text="1,240" FontSize="32" FontWeight="Black" Margin="0,12,0,0" Foreground="{DynamicResource SemiGreen6}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,8,0,0">
+                            <PathIcon Data="{DynamicResource SemiIconArrowUp}" Width="12" Height="12" Foreground="{DynamicResource SemiGreen6}"/>
+                            <TextBlock Text="较昨日 +5%" FontSize="{DynamicResource FontSize_Caption}" Foreground="{DynamicResource SemiGreen6}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Margin="5" Background="{DynamicResource SemiOrange1}" CornerRadius="8" Padding="15">
-                    <StackPanel>
-                        <TextBlock Text="{DynamicResource L_Home_TodoItems}" Foreground="{DynamicResource SemiGrey6}"/>
-                        <TextBlock Text="42" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
-                        <TextBlock Text="需及时处理" FontSize="12" Foreground="{DynamicResource SemiOrange6}"/>
+                <Border Grid.Column="2" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="20" BoxShadow="{DynamicResource Shadow_S}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{DynamicResource L_Home_TodoItems}" Foreground="{DynamicResource SemiGrey6}" FontSize="{DynamicResource FontSize_Small}"/>
+                        <TextBlock Text="42" FontSize="32" FontWeight="Black" Margin="0,12,0,0" Foreground="{DynamicResource SemiOrange6}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,8,0,0">
+                            <PathIcon Data="{DynamicResource SemiIconInfoCircle}" Width="12" Height="12" Foreground="{DynamicResource SemiOrange6}"/>
+                            <TextBlock Text="需及时处理" FontSize="{DynamicResource FontSize_Caption}" Foreground="{DynamicResource SemiOrange6}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="3" Margin="5" Background="{DynamicResource SemiRed1}" CornerRadius="8" Padding="15">
-                    <StackPanel>
-                        <TextBlock Text="{DynamicResource L_Home_SystemWarnings}" Foreground="{DynamicResource SemiGrey6}"/>
-                        <TextBlock Text="3" FontSize="28" FontWeight="Bold" Margin="0,10,0,0"/>
-                        <TextBlock Text="已修复 2 项" FontSize="12" Foreground="{DynamicResource SemiRed6}"/>
+                <Border Grid.Column="3" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="20" BoxShadow="{DynamicResource Shadow_S}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{DynamicResource L_Home_SystemWarnings}" Foreground="{DynamicResource SemiGrey6}" FontSize="{DynamicResource FontSize_Small}"/>
+                        <TextBlock Text="3" FontSize="32" FontWeight="Black" Margin="0,12,0,0" Foreground="{DynamicResource SemiRed6}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,8,0,0">
+                            <PathIcon Data="{DynamicResource SemiIconAlertCircle}" Width="12" Height="12" Foreground="{DynamicResource SemiRed6}"/>
+                            <TextBlock Text="已修复 2 项" FontSize="{DynamicResource FontSize_Caption}" Foreground="{DynamicResource SemiRed6}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </Grid>
 
             <Grid ColumnDefinitions="2*, *">
-                <Border Grid.Column="0" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="8" Padding="20">
-                    <StackPanel Spacing="15">
-                        <TextBlock Text="项目动态" FontSize="18" FontWeight="Bold"/>
-                        <ListBox Background="Transparent">
-                            <ListBoxItem>
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <ursa:Avatar Content="L" Theme="{DynamicResource GradientAvatar}"/>
-                                    <StackPanel>
-                                        <TextBlock Text="林希 提交了新的代码逻辑"/>
-                                        <TextBlock Text="2026-01-07 10:24" FontSize="12" Foreground="{DynamicResource SemiGrey6}"/>
-                                    </StackPanel>
+                <StackPanel Grid.Column="0" Spacing="{DynamicResource Spacing_L}">
+                    <!-- 模拟图表区域 -->
+                    <Border Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="24" BoxShadow="{DynamicResource Shadow_S}">
+                        <StackPanel Spacing="24">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <TextBlock Text="访问量趋势" FontSize="{DynamicResource FontSize_H3}" FontWeight="Bold"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12">
+                                    <RadioButton Content="日" IsChecked="True" Theme="{DynamicResource ButtonRadioButton}"/>
+                                    <RadioButton Content="周" Theme="{DynamicResource ButtonRadioButton}"/>
+                                    <RadioButton Content="月" Theme="{DynamicResource ButtonRadioButton}"/>
                                 </StackPanel>
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <ursa:Avatar Content="Z" Theme="{DynamicResource SolidAvatar}"/>
-                                    <StackPanel>
-                                        <TextBlock Text="张三 修复了登录页面的样式错误"/>
-                                        <TextBlock Text="2026-01-07 09:15" FontSize="12" Foreground="{DynamicResource SemiGrey6}"/>
+                            </Grid>
+                            
+                            <!-- 简单的模拟柱状图 -->
+                            <ItemsControl Height="200" ItemsSource="{Binding ChartData}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="12" VerticalAlignment="Bottom"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="20" Margin="4,0" CornerRadius="4,4,0,0" VerticalAlignment="Bottom" Background="{DynamicResource SemiBlue1}">
+                                            <Border.Styles>
+                                                <Style Selector="Border:pointerover">
+                                                    <Setter Property="Background" Value="{DynamicResource SemiBlue6}"/>
+                                                </Style>
+                                            </Border.Styles>
+                                            <ToolTip.Tip>
+                                                <TextBlock Text="数据点"/>
+                                            </ToolTip.Tip>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="24" BoxShadow="{DynamicResource Shadow_S}">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="项目动态" FontSize="{DynamicResource FontSize_H3}" FontWeight="Bold"/>
+                            <ListBox Background="Transparent" BorderThickness="0">
+                                <ListBoxItem Padding="0,12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <ursa:Avatar Content="L" Theme="{DynamicResource GradientAvatar}" Width="40" Height="40"/>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="林希 提交了新的代码逻辑" FontWeight="Medium"/>
+                                            <TextBlock Text="2026-02-11 10:24" FontSize="{DynamicResource FontSize_Caption}" Foreground="{DynamicResource SemiGrey5}"/>
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </ListBoxItem>
-                        </ListBox>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="1" Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="8" Padding="20">
-                    <StackPanel Spacing="15">
-                        <TextBlock Text="快捷导航" FontSize="18" FontWeight="Bold"/>
-                        <WrapPanel>
-                            <Button Content="用户管理" Margin="5" Classes="Primary" Theme="{DynamicResource SolidButton}"/>
-                            <Button Content="系统设置" Margin="5"/>
-                            <Button Content="日志查询" Margin="5"/>
-                            <Button Content="报表分析" Margin="5"/>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
+                                </ListBoxItem>
+                                <ListBoxItem Padding="0,12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <ursa:Avatar Content="Z" Theme="{DynamicResource SolidAvatar}" Width="40" Height="40"/>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="张三 修复了登录页面的样式错误" FontWeight="Medium"/>
+                                            <TextBlock Text="2026-02-11 09:15" FontSize="{DynamicResource FontSize_Caption}" Foreground="{DynamicResource SemiGrey5}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ListBoxItem>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Spacing="{DynamicResource Spacing_L}">
+                    <Border Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="24" BoxShadow="{DynamicResource Shadow_S}">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="快捷导航" FontSize="{DynamicResource FontSize_H3}" FontWeight="Bold"/>
+                            <WrapPanel Margin="-4">
+                                <Button Content="用户管理" Margin="4" Classes="Primary" Theme="{DynamicResource SolidButton}"/>
+                                <Button Content="角色权限" Margin="4" Theme="{DynamicResource LightButton}"/>
+                                <Button Content="日志查询" Margin="4" Theme="{DynamicResource LightButton}"/>
+                                <Button Content="系统设置" Margin="4" Theme="{DynamicResource LightButton}"/>
+                                <Button Content="报表分析" Margin="4" Theme="{DynamicResource LightButton}"/>
+                                <Button Content="任务调度" Margin="4" Theme="{DynamicResource LightButton}"/>
+                                <Button Margin="4" Theme="{DynamicResource OutlineButton}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <PathIcon Data="{DynamicResource SemiIconPlus}" Width="12" Height="12"/>
+                                        <TextBlock Text="添加捷径"/>
+                                    </StackPanel>
+                                </Button>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="5" Background="{DynamicResource SemiBackground0}" CornerRadius="{DynamicResource Radius_L}" Padding="24" BoxShadow="{DynamicResource Shadow_S}">
+                        <StackPanel Spacing="16">
+                            <TextBlock Text="系统公告" FontSize="{DynamicResource FontSize_H3}" FontWeight="Bold"/>
+                            <ursa:Banner Content="系统将于本周六凌晨进行例行维护，预计持续 2 小时。" Classes="Warning" />
+                            <ursa:Banner Content="欢迎使用 Strat 企业级管理系统，如有疑问请咨询 IT 部门。" Classes="Information" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Grid>
         </StackPanel>
     </ScrollViewer>

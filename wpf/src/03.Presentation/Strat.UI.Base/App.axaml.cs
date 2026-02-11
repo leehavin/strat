@@ -11,6 +11,7 @@ using Strat.Module.System;
 using Strat.Shared.Logging;
 using Strat.Shared.Exceptions;
 using Strat.UI.Base.Views;
+using Strat.UI.Base.ViewModels;
 
 namespace Strat.UI.Base
 {
@@ -43,7 +44,7 @@ namespace Strat.UI.Base
         {
             // 注册核心壳层视图
             containerRegistry.RegisterForNavigation<MainView>("MainView");
-            containerRegistry.RegisterForNavigation<MainLayoutView>("MainLayoutView");
+            containerRegistry.RegisterForNavigation<MainLayoutView, MainLayoutViewModel>("MainLayoutView");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

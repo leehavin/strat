@@ -11,6 +11,8 @@ namespace Strat.Infrastructure.Services.Abstractions
         Task<bool> DeleteAsync(long id);
         Task<bool> BatchDeleteAsync(List<long> ids);
         Task<bool> ChangeStatusAsync(long id, int status);
+        Task<bool> AssignFunctionsAsync(long roleId, List<long> functionIds);
+        Task<List<long>> GetFunctionIdsAsync(long roleId);
     }
 }
 

@@ -7,5 +7,6 @@ namespace Strat.Infrastructure.Services.Abstractions
         Task<LoginResponse> LoginAsync(LoginRequest input);
         Task<List<GetRoutersResponse>> GetRoutersAsync();
         Task<GetUserInfoResponse> GetUserInfoAsync();
+        Task LogoutAsync();
     }
 }

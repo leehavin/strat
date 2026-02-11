@@ -4,48 +4,245 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:vm="using:Strat.UI.Base.ViewModels"
+             xmlns:converters="using:Strat.Shared.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Strat.UI.Base.Views.MainLayoutView"
              x:DataType="vm:MainLayoutViewModel">
     
-    <Grid RowDefinitions="50, *">
-        <!-- Header -->
-        <Border Grid.Row="0" BorderBrush="{DynamicResource SemiColorBorder}" BorderThickness="0,0,0,1" Background="{DynamicResource SemiColorBackground0}">
-            <Grid ColumnDefinitions="Auto, *, Auto">
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="10,0">
-                    <TextBlock Text="STRAT ADMIN" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"/>
-                    <Button Command="{Binding IsPaneOpen, Mode=TwoWay}" Content="Toggle" /> 
+    <UserControl.Resources>
+        <converters:MenuIconConverter x:Key="MenuIconConverter"/>
+        <converters:StatusConverter x:Key="StatusConverter"/>
+        <converters:ThemeToIconConverter x:Key="ThemeToIconConverter"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- 1. Global Header -->
+        <Border Grid.Row="0" Height="60" 
+                Background="{DynamicResource SemiBackground0}" 
+                BorderBrush="{DynamicResource SemiBorder}" 
+                BorderThickness="0,0,0,1"
+                ZIndex="10">
+            <Grid ColumnDefinitions="220, Auto, *, Auto">
+                <!-- Logo Area -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" Margin="24,0">
+                    <Border Width="32" Height="32" CornerRadius="8" Background="{DynamicResource SemiBlue6}" BoxShadow="0 4 8 0 #200062D1">
+                        <PathIcon Data="{DynamicResource SemiIconLogo}" Foreground="White" Width="18" Height="18"/>
+                    </Border>
+                    <TextBlock Text="STRAT ADMIN" VerticalAlignment="Center" 
+                               FontSize="16" FontWeight="Black" 
+                               Foreground="{DynamicResource SemiBlue6}" LetterSpacing="1"/>
                 </StackPanel>
-                
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="10,0">
-                     <TextBlock Text="Admin" VerticalAlignment="Center"/>
-                     <Button Content="Logout" />
+
+                <!-- Toggle Sidebar & Breadcrumbs -->
+                <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding TogglePaneCommand}" 
+                            Theme="{DynamicResource TransparentButton}" 
+                            Width="36" Height="36" Margin="4,0">
+                        <PathIcon Data="{DynamicResource SemiIconMenu}" Width="16" Height="16" Foreground="{DynamicResource SemiGrey7}"/>
+                    </Button>
+
+                    <ItemsControl ItemsSource="{Binding Breadcrumbs}" VerticalAlignment="Center" Margin="12,0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding Title}" 
+                                               FontSize="13"
+                                               Foreground="{Binding IsLast, Converter={StaticResource StatusConverter}, ConverterParameter='SemiGrey9:SemiGrey6'}"
+                                               FontWeight="{Binding IsLast, Converter={StaticResource StatusConverter}, ConverterParameter='Medium:Normal'}"/>
+                                    <TextBlock Text="/" FontSize="12" Foreground="{DynamicResource SemiGrey4}" IsVisible="{Binding !IsLast}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Right Actions -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8" Margin="0,0,24,0">
+                    <!-- Theme Toggle -->
+                    <Button Command="{Binding ToggleThemeCommand}" 
+                            Theme="{DynamicResource TransparentButton}" 
+                            Width="36" Height="36" ToolTip.Tip="切换主题">
+                        <PathIcon Data="{Binding CurrentTheme, Converter={StaticResource ThemeToIconConverter}, ConverterParameter={StaticResource StringToGeometryConverter}}" 
+                                  Width="16" Height="16" Foreground="{DynamicResource SemiGrey7}"/>
+                    </Button>
+
+                    <Button Theme="{DynamicResource TransparentButton}" Width="36" Height="36">
+                        <PathIcon Data="{DynamicResource SemiIconBell}" Width="16" Height="16" Foreground="{DynamicResource SemiGrey7}"/>
+                    </Button>
+                    
+                    <DropDownButton Theme="{DynamicResource TransparentButton}" Padding="4" Height="36">
+                        <DropDownButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Border Width="28" Height="28" CornerRadius="14" Background="{DynamicResource SemiBlue1}">
+                                    <PathIcon Data="{DynamicResource SemiIconUser}" Width="14" Height="14" Foreground="{DynamicResource SemiBlue6}"/>
+                                </Border>
+                                <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource SemiGrey9}"/>
+                                <PathIcon Data="{DynamicResource SemiIconChevronDown}" Width="10" Height="10" Foreground="{DynamicResource SemiGrey6}"/>
+                            </StackPanel>
+                        </DropDownButton.Content>
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                <MenuItem Header="个人中心" Icon="{DynamicResource SemiIconUser}"/>
+                                <MenuItem Header="系统设置" Icon="{DynamicResource SemiIconSetting}"/>
+                                <Separator/>
+                                <MenuItem Header="退出登录" Icon="{DynamicResource SemiIconExit}" 
+                                          Command="{Binding LogoutCommand}"
+                                          Foreground="{DynamicResource SemiRed6}"/>
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Sidebar & Content -->
+        <!-- 2. Main Body (Sidebar + Content) -->
         <SplitView Grid.Row="1" 
                    DisplayMode="CompactInline" 
                    OpenPaneLength="220" 
-                   CompactPaneLength="48"
-                   IsPaneOpen="{Binding IsPaneOpen}">
+                   CompactPaneLength="64"
+                   IsPaneOpen="{Binding IsPaneOpen}"
+                   PaneBackground="{DynamicResource SemiBackground0}">
             <SplitView.Pane>
-                <Border BorderBrush="{DynamicResource SemiColorBorder}" BorderThickness="0,0,1,0" Background="{DynamicResource SemiColorBackground0}">
-                    <TreeView ItemsSource="{Binding MenuItems}">
-                        <TreeView.ItemTemplate>
-                            <TreeDataTemplate ItemsSource="{Binding Items}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="{Binding Name}"/>
-                                </StackPanel>
-                            </TreeDataTemplate>
-                        </TreeView.ItemTemplate>
-                    </TreeView>
+                <!-- Sidebar Content -->
+                <Border Background="{DynamicResource SemiBackground0}" BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,0,1,0">
+                    <Grid RowDefinitions="*, Auto">
+                        <!-- Menu Tree -->
+                        <TreeView Grid.Row="0" Margin="4,16" 
+                                  ItemsSource="{Binding MenuItems}" 
+                                  SelectedItem="{Binding SelectedMenu, Mode=TwoWay}">
+                            <TreeView.Styles>
+                                <Style Selector="TreeViewItem">
+                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                    <Setter Property="MinHeight" Value="40"/>
+                                    <Setter Property="Margin" Value="4,2"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                                <!-- Hover State -->
+                                <Style Selector="TreeViewItem /template/ Border#PART_LayoutRoot:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource SemiGrey1}"/>
+                                </Style>
+                                <!-- Selected State -->
+                                <Style Selector="TreeViewItem:selected /template/ Border#PART_LayoutRoot">
+                                    <Setter Property="Background" Value="{DynamicResource SemiBlue1}"/>
+                                </Style>
+                                <Style Selector="TreeViewItem:selected /template/ ContentPresenter#PART_HeaderPresenter > TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource SemiBlue6}"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </TreeView.Styles>
+                            <TreeView.ItemTemplate>
+                                <TreeDataTemplate ItemsSource="{Binding Items}">
+                                    <StackPanel Orientation="Horizontal" Spacing="12" Height="36" Margin="12,0">
+                                        <PathIcon Data="{Binding Icon, Converter={StaticResource MenuIconConverter}}" 
+                                                  Width="16" Height="16" 
+                                                  Foreground="{Binding $parent[TreeViewItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='SemiBlue6:SemiGrey7'}"/>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="13"
+                                                   Foreground="{Binding $parent[TreeViewItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='SemiBlue6:SemiGrey9'}"/>
+                                    </StackPanel>
+                                </TreeDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+
+                        <!-- Bottom Settings -->
+                        <Button Grid.Row="1" Margin="8,12,8,24" Height="40"
+                                Theme="{DynamicResource TransparentButton}"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="16,0">
+                                <PathIcon Data="{DynamicResource SemiIconSetting}" Width="16" Height="16" Foreground="{DynamicResource SemiGrey7}"/>
+                                <TextBlock Text="系统设置" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource SemiGrey9}"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                 </Border>
             </SplitView.Pane>
 
-            <Grid Background="{DynamicResource SemiColorBackground1}">
-                 <ContentControl prism:RegionManager.RegionName="ContentRegion" Margin="10"/>
+            <!-- Main Content Area with Multi-Tabs -->
+            <Grid RowDefinitions="Auto, *" Background="{DynamicResource SemiBackground1}">
+                <Grid.Transitions>
+                    <Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                    </Transitions>
+                </Grid.Transitions>
+                <!-- TabBar -->
+                <Border Grid.Row="0" Background="{DynamicResource SemiBackground0}" Height="40" 
+                        BorderBrush="{DynamicResource SemiBorder}" BorderThickness="0,0,0,1">
+                    <ListBox ItemsSource="{Binding OpenTabs}" 
+                             SelectedItem="{Binding CurrentTab}"
+                             Background="Transparent" BorderThickness="0" Padding="8,0">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="MinHeight" Value="32"/>
+                                <Style Selector="^:pointerover /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                                <Style Selector="^:selected /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </Style>
+                        </ListBox.Styles>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="4"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,4,0,0" CornerRadius="6,6,0,0" 
+                                        Background="{Binding $parent[ListBoxItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='SemiBackground1:Transparent'}"
+                                        Transitions="{StaticResource BorderTransitions}">
+                                    <Border Padding="12,0" Height="36" Background="Transparent" 
+                                            BorderBrush="{DynamicResource SemiBlue6}" 
+                                            BorderThickness="{Binding $parent[ListBoxItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='0,0,0,2:0'}">
+                                        <Border.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="刷新当前" Command="{Binding $parent[UserControl].DataContext.RefreshTabCommand}" CommandParameter="{Binding}"/>
+                                                <Separator/>
+                                                <MenuItem Header="关闭当前" Command="{Binding $parent[UserControl].DataContext.CloseTabCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanClose}"/>
+                                                <MenuItem Header="关闭其他" Command="{Binding $parent[UserControl].DataContext.CloseOtherTabsCommand}" CommandParameter="{Binding}"/>
+                                                <MenuItem Header="关闭全部" Command="{Binding $parent[UserControl].DataContext.CloseAllTabsCommand}"/>
+                                            </ContextMenu>
+                                        </Border.ContextMenu>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <PathIcon Data="{Binding Icon, Converter={StaticResource MenuIconConverter}}" Width="14" Height="14" 
+                                                      Foreground="{Binding $parent[ListBoxItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='SemiBlue6:SemiGrey7'}"/>
+                                            <TextBlock Text="{Binding Header}" VerticalAlignment="Center" FontSize="12"
+                                                       Foreground="{Binding $parent[ListBoxItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='SemiBlue6:SemiGrey9'}"
+                                                       FontWeight="{Binding $parent[ListBoxItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='Medium:Normal'}"/>
+                                            <Button Theme="{DynamicResource TransparentButton}" Width="18" Height="18" Padding="0"
+                                                    Command="{Binding $parent[UserControl].DataContext.CloseTabCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    IsVisible="{Binding CanClose}"
+                                                    ToolTip.Tip="关闭">
+                                                <PathIcon Data="{DynamicResource SemiIconClose}" Width="8" Height="8"
+                                                          Foreground="{Binding $parent[ListBoxItem].IsSelected, Converter={StaticResource StatusConverter}, ConverterParameter='SemiBlue6:SemiGrey5'}"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </Border>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+
+                <!-- Page Content -->
+                <Border Grid.Row="1" Background="{DynamicResource SemiBackground1}" Padding="16">
+                    <ContentControl prism:RegionManager.RegionName="ContentRegion">
+                        <ContentControl.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                            </Transitions>
+                        </ContentControl.Transitions>
+                    </ContentControl>
+                </Border>
             </Grid>
         </SplitView>
     </Grid>

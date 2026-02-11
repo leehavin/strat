@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:vm="using:Strat.Module.System.ViewModels"
+             xmlns:cv="using:Strat.Shared.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="600"
+             x:Class="Strat.Module.System.Views.OrganizationEditDialog"
+             x:DataType="vm:OrganizationEditDialogViewModel"
+             Width="500">
+
+    <UserControl.Resources>
+        <cv:StatusToBoolConverter x:Key="StatusToBoolConverter"/>
+        <cv:StatusToInverseBoolConverter x:Key="StatusToInverseBoolConverter"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="24">
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="{Binding Title}" Classes="H4" Theme="{DynamicResource TitleTextBlock}" Margin="0,0,0,24"/>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+            <ursa:Form LabelPosition="Top" LabelWidth="100">
+                <!-- 上级组织 -->
+                <ursa:FormItem Label="上级组织">
+                    <ComboBox ItemsSource="{Binding ParentOptions}"
+                              SelectedValue="{Binding Organization.ParentId}"
+                              DisplayMemberBinding="{Binding Name}"
+                              SelectedValueBinding="{Binding Id}"
+                              PlaceholderText="请选择上级组织（留空为顶级）"
+                              HorizontalAlignment="Stretch"/>
+                </ursa:FormItem>
+
+                <!-- 组织名称 -->
+                <ursa:FormItem Label="组织名称" IsRequired="True">
+                    <TextBox Text="{Binding Organization.Name}" MaxLength="50"/>
+                </ursa:FormItem>
+
+                <!-- 组织编码 -->
+                <ursa:FormItem Label="组织编码">
+                    <TextBox Text="{Binding Organization.Code}" MaxLength="50"/>
+                </ursa:FormItem>
+                
+                <!-- 负责人 -->
+                <ursa:FormItem Label="负责人">
+                    <TextBox Text="{Binding Organization.Leader}" MaxLength="20"/>
+                </ursa:FormItem>
+
+                <!-- 联系电话 -->
+                <ursa:FormItem Label="联系电话">
+                    <TextBox Text="{Binding Organization.Telephone}" MaxLength="20"/>
+                </ursa:FormItem>
+
+                <!-- 邮箱 -->
+                <ursa:FormItem Label="邮箱">
+                    <TextBox Text="{Binding Organization.Email}" MaxLength="50"/>
+                </ursa:FormItem>
+
+                <!-- 排序 -->
+                <ursa:FormItem Label="排序">
+                    <ursa:NumericIntUpDown Value="{Binding Organization.Sort}" Minimum="0" Maximum="999"/>
+                </ursa:FormItem>
+
+                <!-- 状态 -->
+                <ursa:FormItem Label="状态">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <RadioButton Content="启用" GroupName="Status" 
+                                     IsChecked="{Binding Organization.Status, Converter={StaticResource StatusToBoolConverter}}"/>
+                        <RadioButton Content="停用" GroupName="Status" 
+                                     IsChecked="{Binding Organization.Status, Converter={StaticResource StatusToInverseBoolConverter}}"/>
+                    </StackPanel>
+                </ursa:FormItem>
+
+                <!-- 备注 -->
+                <ursa:FormItem Label="备注">
+                    <TextBox Text="{Binding Organization.Remark}" 
+                             AcceptsReturn="True" 
+                             Height="80" 
+                             TextWrapping="Wrap"
+                             MaxLength="200"/>
+                </ursa:FormItem>
+            </ursa:Form>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,24,0,0">
+            <Button Content="取消" Command="{Binding CancelCommand}" Theme="{DynamicResource TertiaryButton}"/>
+            <Button Content="保存" Command="{Binding SaveCommand}" Theme="{DynamicResource PrimaryButton}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

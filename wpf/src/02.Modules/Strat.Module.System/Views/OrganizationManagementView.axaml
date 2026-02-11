@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:layout="using:Strat.Shared.Controls"
+             xmlns:vm="using:Strat.Module.System.ViewModels"
+             xmlns:cv="using:Strat.Shared.Converters"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+             x:Class="Strat.Module.System.Views.OrganizationManagementView"
+             x:DataType="vm:OrganizationManagementViewModel"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <cv:StatusToBoolConverter x:Key="StatusToBoolConverter"/>
+        <cv:StatusToInverseBoolConverter x:Key="StatusToInverseBoolConverter"/>
+    </UserControl.Resources>
+
+    <layout:AdminPageLayout Title="组织架构" IsLoading="{Binding IsBusy}">
+        <!-- Toolbar -->
+        <layout:AdminPageLayout.ActionContent>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="新增组织" 
+                        Theme="{DynamicResource PrimaryButton}" 
+                        Command="{Binding AddCommand}"
+                        Classes="Small"/>
+            </StackPanel>
+        </layout:AdminPageLayout.ActionContent>
+
+        <!-- Main Content -->
+        <DataGrid ItemsSource="{Binding Organizations}"
+                  AutoGenerateColumns="False"
+                  CanUserResizeColumns="True"
+                  IsReadOnly="True"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="1"
+                  BorderBrush="{DynamicResource BorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="名称" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="{Binding IndentMargin}">
+                                <!-- Could add expander icon here if implementing collapse -->
+                                <PathIcon Data="{DynamicResource SemiIconBusiness}" 
+                                         Width="16" Height="16" 
+                                         Foreground="{DynamicResource SemiBlue6}"
+                                         Margin="0,0,8,0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Header="编码" Binding="{Binding Code}" Width="*"/>
+                <DataGridTextColumn Header="负责人" Binding="{Binding Leader}" Width="*"/>
+                <DataGridTextColumn Header="联系电话" Binding="{Binding Telephone}" Width="*"/>
+                <DataGridTextColumn Header="排序" Binding="{Binding Sort}" Width="80"/>
+                
+                <DataGridTemplateColumn Header="状态" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <ursa:Badge Content="启用" Classes="Success" IsVisible="{Binding Status, Converter={StaticResource StatusToBoolConverter}}"/>
+                                <ursa:Badge Content="停用" Classes="Danger" IsVisible="{Binding Status, Converter={StaticResource StatusToInverseBoolConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" Width="150"/>
+                
+                <DataGridTemplateColumn Header="操作" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Content="编辑" 
+                                        Theme="{DynamicResource BorderlessButton}"
+                                        Classes="Warning Small"
+                                        Command="{Binding $parent[UserControl].((vm:OrganizationManagementViewModel)DataContext).EditCommand}"
+                                        CommandParameter="{Binding}"/>
+                                <Button Content="删除" 
+                                        Theme="{DynamicResource BorderlessButton}"
+                                        Classes="Danger Small"
+                                        Command="{Binding $parent[UserControl].((vm:OrganizationManagementViewModel)DataContext).DeleteCommand}"
+                                        CommandParameter="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </layout:AdminPageLayout>
+</UserControl>

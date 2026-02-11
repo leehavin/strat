@@ -1,13 +1,11 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Strat.Shared.AutoRegisterAttributes;
 
 namespace Strat.Module.System.Views;
 
-[NavigationView("UserManagementView")]
-public partial class UserManagementView : UserControl
+public partial class OrganizationEditDialog : UserControl
 {
-    public UserManagementView()
+    public OrganizationEditDialog()
     {
         InitializeComponent();
     }

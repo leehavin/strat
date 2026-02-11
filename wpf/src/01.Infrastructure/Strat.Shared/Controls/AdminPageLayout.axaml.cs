@@ -51,6 +51,15 @@ namespace Strat.Shared.Controls
             set => SetValue(FooterContentProperty, value);
         }
 
+        public static readonly StyledProperty<bool> IsLoadingProperty =
+            AvaloniaProperty.Register<AdminPageLayout, bool>(nameof(IsLoading));
+
+        public bool IsLoading
+        {
+            get => GetValue(IsLoadingProperty);
+            set => SetValue(IsLoadingProperty, value);
+        }
+
         public AdminPageLayout()
         {
             InitializeComponent();

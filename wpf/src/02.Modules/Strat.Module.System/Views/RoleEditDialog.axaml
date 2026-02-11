@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ursa="https://irihi.tech/ursa"
              xmlns:conv="using:Strat.Shared.Converters"
-             xmlns:vm="using:Strat.Module.Identity.ViewModels"
+             xmlns:vm="using:Strat.Module.System.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
-             x:Class="Strat.Module.Identity.Views.RoleEditDialog"
+             x:Class="Strat.Module.System.Views.RoleEditDialog"
              x:DataType="vm:RoleEditDialogViewModel">
 
     <UserControl.Resources>

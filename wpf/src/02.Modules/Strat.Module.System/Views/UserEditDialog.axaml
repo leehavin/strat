@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ursa="https://irihi.tech/ursa"
-             xmlns:vm="using:Strat.Module.Identity.ViewModels"
+             xmlns:vm="using:Strat.Module.System.ViewModels"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="550"
-             x:Class="Strat.Module.Identity.Views.UserEditDialog"
+             x:Class="Strat.Module.System.Views.UserEditDialog"
              x:DataType="vm:UserEditDialogViewModel">
 
     <Grid RowDefinitions="Auto, *, Auto" Width="600">
@@ -44,9 +44,24 @@
                                   OnContent="启用" OffContent="禁用"/>
                 </ursa:FormItem>
                 
-                <!-- 角色/组织暂略，后续Sprint完善 -->
-                <ursa:FormItem Label="注" NoLabel="True">
-                    <TextBlock Text="角色和组织选择将在下一阶段完善" Foreground="{DynamicResource SemiGrey5}" FontSize="12"/>
+                <!-- 角色 -->
+                <ursa:FormItem Label="角色">
+                    <ComboBox ItemsSource="{Binding Roles}" 
+                              SelectedValue="{Binding User.RoleId}"
+                              DisplayMemberBinding="{Binding Name}"
+                              SelectedValueBinding="{Binding Id}"
+                              PlaceholderText="请选择角色"
+                              HorizontalAlignment="Stretch"/>
+                </ursa:FormItem>
+
+                <!-- 组织 -->
+                <ursa:FormItem Label="组织">
+                    <ComboBox ItemsSource="{Binding Organizations}" 
+                              SelectedValue="{Binding User.OrganizationId}"
+                              DisplayMemberBinding="{Binding Name}"
+                              SelectedValueBinding="{Binding Id}"
+                              PlaceholderText="请选择组织"
+                              HorizontalAlignment="Stretch"/>
                 </ursa:FormItem>
             </ursa:Form>
         </ScrollViewer>

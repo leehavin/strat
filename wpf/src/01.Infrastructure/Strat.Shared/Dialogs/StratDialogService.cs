@@ -1,13 +1,17 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Notifications;
 using Ursa.Controls;
+using System.Threading.Tasks;
+using System;
 
 namespace Strat.Shared.Dialogs
 {
     public class StratDialogService : IStratDialogService
     {
         private readonly Prism.Ioc.IContainerProvider _containerProvider;
+        private Ursa.Controls.WindowNotificationManager? _notificationManager;
 
         public StratDialogService(Prism.Ioc.IContainerProvider containerProvider)
         {
@@ -16,50 +20,48 @@ namespace Strat.Shared.Dialogs
 
         public async Task ShowMessageAsync(string message, string title = "提示")
         {
-            var top = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            if (top?.MainWindow != null)
-            {
-                await MessageBox.ShowAsync(top.MainWindow, message, title);
-            }
-            else
-            {
-                await MessageBox.ShowAsync(message, title);
-            }
+            await Ursa.Controls.MessageBox.ShowOverlayAsync(message, title, hostId: "GlobalHost");
         }
 
         public async Task ShowErrorAsync(string message, string title = "错误")
         {
-            var top = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            if (top?.MainWindow != null)
-            {
-                await MessageBox.ShowAsync(top.MainWindow, message, title, button: MessageBoxButton.OK, icon: MessageBoxIcon.Error);
-            }
-            else
-            {
-                await MessageBox.ShowAsync(message, title, button: MessageBoxButton.OK, icon: MessageBoxIcon.Error);
-            }
+            await Ursa.Controls.MessageBox.ShowOverlayAsync(message, title, icon: Ursa.Controls.MessageBoxIcon.Error, hostId: "GlobalHost");
         }
 
         public async Task<bool> ShowConfirmAsync(string message, string title = "确认")
         {
-            var top = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            if (top?.MainWindow != null)
-            {
-                var result = await MessageBox.ShowAsync(top.MainWindow, message, title, button: MessageBoxButton.OKCancel, icon: MessageBoxIcon.Question);
-                return result == MessageBoxResult.OK;
-            }
-            return false;
+            var result = await Ursa.Controls.MessageBox.ShowOverlayAsync(message, title, button: Ursa.Controls.MessageBoxButton.OKCancel, icon: Ursa.Controls.MessageBoxIcon.Question, hostId: "GlobalHost");
+            return result == Ursa.Controls.MessageBoxResult.OK;
         }
 
         public void ShowToast(string message, Layout.ToastType type = Layout.ToastType.Info)
         {
-            var top = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            if (top?.MainWindow != null)
+            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
-                // TODO: 替换为 Ursa.Controls.Notification 或 Toast 组件
-                // 暂时使用 MessageBox.ShowAsync (非阻塞，异步运行)
-                _ = MessageBox.ShowAsync(top.MainWindow, message, "提示", button: MessageBoxButton.OK, icon: MessageBoxIcon.Information);
-            }
+                var top = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+                if (top?.MainWindow == null) return;
+
+                if (_notificationManager == null)
+                {
+                    _notificationManager = new Ursa.Controls.WindowNotificationManager(top.MainWindow)
+                    {
+                        Position = NotificationPosition.TopRight,
+                        MaxItems = 3
+                    };
+                }
+
+                Avalonia.Controls.Notifications.NotificationType notificationType = type switch
+                {
+                    Layout.ToastType.Success => Avalonia.Controls.Notifications.NotificationType.Success,
+                    Layout.ToastType.Warning => Avalonia.Controls.Notifications.NotificationType.Warning,
+                    Layout.ToastType.Error => Avalonia.Controls.Notifications.NotificationType.Error,
+                    _ => Avalonia.Controls.Notifications.NotificationType.Information
+                };
+
+                ((Avalonia.Controls.Notifications.IManagedNotificationManager)_notificationManager).Show(
+                    new Avalonia.Controls.Notifications.Notification("提示", message, notificationType)
+                );
+            });
         }
 
         public void ShowDialog(string dialogName, object? parameters, Action<bool, object?> callback)
@@ -92,12 +94,19 @@ namespace Strat.Shared.Dialogs
                     Action<bool>? handler = null;
                     handler = (result) =>
                     {
-                        // 关闭对话框逻辑 (Ursa 尚未提供简单的全局 OverlayDialog.Close(view))
-                        // 实际上 Ursa OverlayDialog 更多是 OverlayDialog.Show(view, options)
-                        // 我们在这里先实现接口，具体关闭由 ViewModel 触发
-                        
-                        // 移除事件监听
-                        // closeEvent.RemoveEventHandler(vm, handler);
+                        // 手动关闭 Ursa OverlayDialog
+                        // 通过可视树向上查找 OverlayDialogHost 并移除当前视图（或其包装器）
+                        var current = view as Control;
+                        while (current != null)
+                        {
+                            var parent = current.Parent as Control;
+                            if (parent is Ursa.Controls.OverlayDialogHost host)
+                            {
+                                host.Children.Remove(current);
+                                break;
+                            }
+                            current = parent;
+                        }
                         
                         callback?.Invoke(result, vm);
                     };

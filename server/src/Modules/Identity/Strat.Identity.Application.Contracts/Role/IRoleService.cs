@@ -41,7 +41,7 @@ public interface IRoleService : IApplicationService
     /// <summary>
     /// 分配功能给角色
     /// </summary>
-    Task AssignFunctionsAsync(long roleId, long[] functionIds);
+    Task AssignFunctionsAsync(AssignRoleFunctionsRequest input);
 
     /// <summary>
     /// 获取角色的功能ID列表

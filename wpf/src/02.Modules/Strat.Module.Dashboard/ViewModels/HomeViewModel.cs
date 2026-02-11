@@ -1,4 +1,5 @@
 using Strat.Shared.CommonViewModels;
+using System.Collections.ObjectModel;
 
 namespace Strat.Module.Dashboard.ViewModels
 {
@@ -12,8 +13,14 @@ namespace Strat.Module.Dashboard.ViewModels
             set => SetProperty(ref _welcomeMessage, value);
         }
 
+        public ObservableCollection<int> ChartData { get; } = new();
+
         public HomeViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
         {
+            for (int i = 0; i < 12; i++)
+            {
+                ChartData.Add(i);
+            }
         }
     }
 }

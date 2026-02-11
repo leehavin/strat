@@ -4,10 +4,10 @@ using Strat.Shared.AutoRegisterAttributes;
 
 namespace Strat.Module.System.Views;
 
-[NavigationView("UserManagementView")]
-public partial class UserManagementView : UserControl
+[NavigationView("RoleManagementView")]
+public partial class RoleManagementView : UserControl
 {
-    public UserManagementView()
+    public RoleManagementView()
     {
         InitializeComponent();
     }

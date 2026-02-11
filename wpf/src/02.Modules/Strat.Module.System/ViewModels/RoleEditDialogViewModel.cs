@@ -2,9 +2,15 @@ using Mapster;
 using Strat.Infrastructure.Models.Auth;
 using Strat.Infrastructure.Models.Role;
 using Strat.Infrastructure.Services.Abstractions;
+using Prism.Mvvm;
+using Prism.Commands;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Strat.Module.Identity.ViewModels
+namespace Strat.Module.System.ViewModels
 {
     public class RoleEditDialogViewModel : BindableBase
     {

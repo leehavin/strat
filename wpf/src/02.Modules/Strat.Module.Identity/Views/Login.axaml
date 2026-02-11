@@ -83,12 +83,12 @@
                     </Border>
                     
                     <StackPanel Spacing="16" HorizontalAlignment="Center">
-                        <TextBlock Text="Strat Admin" FontSize="52" FontWeight="Black" Foreground="White" LetterSpacing="2"/>
+                        <TextBlock Text="Strat Admin" FontSize="{DynamicResource FontSize_Display}" FontWeight="Black" Foreground="White" LetterSpacing="2"/>
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center" Opacity="0.7">
                             <Border Padding="8,2" CornerRadius="4" Background="{DynamicResource SemiBlue6}">
-                                <TextBlock Text="PRO" FontSize="12" FontWeight="Bold" Foreground="White"/>
+                                <TextBlock Text="PRO" FontSize="{DynamicResource FontSize_Caption}" FontWeight="Bold" Foreground="White"/>
                             </Border>
-                            <TextBlock Text="Enterprise Console" FontSize="18" Foreground="White" FontWeight="Light"/>
+                            <TextBlock Text="Enterprise Console" FontSize="{DynamicResource FontSize_H3}" Foreground="White" FontWeight="Light"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -139,9 +139,9 @@
                     <!-- Login Form Core -->
                     <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="48" Margin="0,-20,0,0">
                         <StackPanel Spacing="12">
-                            <TextBlock Text="Welcome Back" FontSize="36" FontWeight="ExtraBold" LetterSpacing="-0.5"/>
+                            <TextBlock Text="Welcome Back" FontSize="{DynamicResource FontSize_H1}" FontWeight="ExtraBold" LetterSpacing="-0.5"/>
                             <TextBlock Text="Enter your credentials to access the platform" 
-                                       FontSize="16" Foreground="{DynamicResource SemiGrey6}" FontWeight="Normal"/>
+                                       FontSize="{DynamicResource FontSize_Large}" Foreground="{DynamicResource SemiGrey6}" FontWeight="Normal"/>
                         </StackPanel>
 
                         <ursa:Form LabelPosition="Top">
@@ -149,7 +149,7 @@
                             <ursa:FormItem Label="Username or Email" Margin="0,0,0,24">
                                 <TextBox Text="{Binding LoginUser.Account}" 
                                          Watermark="e.g. admin@strat.com" 
-                                         Height="54" Classes="Large" CornerRadius="12"
+                                         Height="{DynamicResource Height_Input_L}" Classes="Large" CornerRadius="{DynamicResource Radius_M}"
                                          IsReadOnly="{Binding IsBusy}">
                                     <TextBox.InnerLeftContent>
                                         <PathIcon Data="{DynamicResource SemiIconUser}" Width="18" Height="18" 
@@ -164,7 +164,7 @@
                                          Watermark="••••••••" 
                                          PasswordChar="●" 
                                          RevealPassword="{Binding ShowPassword}"
-                                         Height="54" Classes="Large" CornerRadius="12"
+                                         Height="{DynamicResource Height_Input_L}" Classes="Large" CornerRadius="{DynamicResource Radius_M}"
                                          IsReadOnly="{Binding IsBusy}">
                                     <TextBox.InnerLeftContent>
                                         <PathIcon Data="{DynamicResource SemiIconLock}" Width="18" Height="18" 
@@ -183,15 +183,15 @@
                         </ursa:Form>
 
                         <Grid ColumnDefinitions="*, Auto" Margin="4,0">
-                            <CheckBox Content="Keep me signed in" FontSize="14" VerticalAlignment="Center"/>
-                            <Button Grid.Column="1" Content="Forgot password?" Classes="Link" FontSize="14" Padding="0"/>
+                            <CheckBox Content="Keep me signed in" FontSize="{DynamicResource FontSize_Small}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" Content="Forgot password?" Classes="Link" FontSize="{DynamicResource FontSize_Small}" Padding="0"/>
                         </Grid>
 
                         <Button Command="{Binding LoginCommand}" 
-                                Height="60" HorizontalAlignment="Stretch"
+                                Height="{DynamicResource Height_Button_L}" HorizontalAlignment="Stretch"
                                 Classes="Primary Large EnterpriseLogin" 
                                 Theme="{DynamicResource SolidButton}"
-                                CornerRadius="14" FontSize="18" FontWeight="Bold">
+                                CornerRadius="{DynamicResource Radius_L}" FontSize="{DynamicResource FontSize_Button_Large}" FontWeight="Bold">
                             <StackPanel Orientation="Horizontal" Spacing="12">
                                 <TextBlock Text="Sign In to Strat"/>
                                 <PathIcon Data="{DynamicResource SemiIconArrowRight}" Width="18" Height="18" IsVisible="{Binding !IsBusy}"/>

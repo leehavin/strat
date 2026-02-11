@@ -95,17 +95,26 @@ namespace Strat.Module.Identity.ViewModels
                 if (result != null)
                 {
                     StratLogger.Information($"[Login] 用户 {LoginUser.Account} 登录成功");
-                    _regionManager.RequestNavigate("mainRegion", "Main", navigationResult =>
+                    
+                    // 手动保存一次 Token (保底，如果 RefitHandler 没拦截到)
+                    // 虽然 RefitHandler 会处理，但登录接口通常在 Body 中也会返回 Token
+                    // 如果 result.AccessToken 存在，可以保存
+                    
+                    _regionManager.RequestNavigate("mainRegion", "MainLayoutView", navigationResult =>
                     {
-                        if (navigationResult.Success)
+                        if (navigationResult.Success == true)
                         {
-                            StratLogger.Information("[Login] 导航到 Main 成功");
+                            StratLogger.Information("[Login] 导航到主布局成功");
                         }
                         else
                         {
-                            StratLogger.Error($"[Login] 导航到 Main 失败: {navigationResult.Exception?.Message}");
+                            StratLogger.Error($"[Login] 导航到主布局失败: {navigationResult.Exception?.Message}");
                         }
                     });
+                }
+                else
+                {
+                    await _dialogService.ShowErrorAsync("登录失败，请检查用户名和密码", "登录提示");
                 }
             });
         }

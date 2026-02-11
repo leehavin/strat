@@ -18,7 +18,7 @@ public class RoleService(IRoleApi roleApi) : IRoleService
     public async Task<bool> AddAsync(AddRoleInput input)
     {
         var response = await _roleApi.AddAsync(input);
-        return response.Data;
+        return response.Data > 0;
     }
 
     public async Task<bool> UpdateAsync(UpdateRoleInput input)
@@ -43,6 +43,23 @@ public class RoleService(IRoleApi roleApi) : IRoleService
     {
         var response = await _roleApi.ChangeStatusAsync(new { Id = id, Status = status });
         return response.Data;
+    }
+
+    public async Task<bool> AssignFunctionsAsync(long roleId, List<long> functionIds)
+    {
+        var request = new AssignRoleFunctionsRequest
+        {
+            RoleId = roleId,
+            FunctionIds = functionIds
+        };
+        var response = await _roleApi.AssignFunctionsAsync(request);
+        return response.Data;
+    }
+
+    public async Task<List<long>> GetFunctionIdsAsync(long roleId)
+    {
+        var response = await _roleApi.GetFunctionIdsAsync(roleId);
+        return response.Data!;
     }
 }
 

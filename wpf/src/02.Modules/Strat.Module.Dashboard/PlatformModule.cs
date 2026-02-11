@@ -1,4 +1,5 @@
 using Strat.Module.Dashboard.ViewModels;
+using Strat.Module.Dashboard.Views;
 using Strat.Shared;
 
 namespace Strat.Module.Dashboard
@@ -11,6 +12,7 @@ namespace Strat.Module.Dashboard
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<Home, HomeViewModel>("Home");
             containerRegistry.AutoRegisterViewForNavigation();
             
             // 注册子 ViewModel（非导航视图）
