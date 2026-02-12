@@ -6,18 +6,18 @@ namespace Strat.Infrastructure.Services.Refit;
 
 public interface IOrganizationApi
 {
-    [Get("/api/sys/organization/tree")]
+    [Get("/organization/tree")]
     Task<Strat.Shared.Models.ApiResponse<List<OrganizationResponse>>> GetTreeAsync();
 
-    [Get("/api/sys/organization/list")]
+    [Get("/organization/list")]
     Task<Strat.Shared.Models.ApiResponse<List<OrganizationResponse>>> GetListAsync();
 
-    [Post("/api/sys/organization/add")]
+    [Post("/organization/add")]
     Task<Strat.Shared.Models.ApiResponse<bool>> AddAsync([Body] AddOrganizationInput input);
 
-    [Put("/api/sys/organization/update")]
+    [Put("/organization/update")]
     Task<Strat.Shared.Models.ApiResponse<bool>> UpdateAsync([Body] UpdateOrganizationInput input);
 
-    [Delete("/api/sys/organization/delete")]
+    [Delete("/organization/delete")]
     Task<Strat.Shared.Models.ApiResponse<bool>> DeleteAsync(long id);
 }

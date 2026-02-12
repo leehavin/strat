@@ -6,27 +6,27 @@ namespace Strat.Infrastructure.Services.Refit;
 
 public interface IRoleApi
 {
-    [Post("/api/sys/role/page")]
+    [Get("/role/paged-list")]
     Task<Strat.Shared.Models.ApiResponse<PagedResult<RoleResponse>>> GetPagedListAsync([Body] GetRolePagedRequest input);
 
-    [Post("/api/sys/role/add")]
+    [Post("/role/add")]
     Task<Strat.Shared.Models.ApiResponse<long>> AddAsync([Body] AddRoleInput input);
 
-    [Put("/api/sys/role/update")]
+    [Put("/role/update")]
     Task<Strat.Shared.Models.ApiResponse<bool>> UpdateAsync([Body] UpdateRoleInput input);
 
-    [Delete("/api/sys/role/delete")]
+    [Delete("/role/delete")]
     Task<Strat.Shared.Models.ApiResponse<bool>> DeleteAsync(long id);
 
-    [Post("/api/sys/role/batch-delete")]
+    [Post("/role/batch-delete")]
     Task<Strat.Shared.Models.ApiResponse<bool>> BatchDeleteAsync([Body] List<long> ids);
 
-    [Put("/api/sys/role/change-status")]
+    [Put("/role/change-status")]
     Task<Strat.Shared.Models.ApiResponse<bool>> ChangeStatusAsync([Body] object input);
 
-    [Post("/api/sys/role/assign-functions")]
+    [Post("/role/assign-functions")]
     Task<Strat.Shared.Models.ApiResponse<bool>> AssignFunctionsAsync([Body] AssignRoleFunctionsRequest input);
 
-    [Get("/api/sys/role/function-ids")]
+    [Get("/role/function-ids/{roleId}")]
     Task<Strat.Shared.Models.ApiResponse<List<long>>> GetFunctionIdsAsync(long roleId);
 }

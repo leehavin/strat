@@ -70,6 +70,13 @@ namespace Strat.Module.System.ViewModels
             set => SetProperty(ref _searchKeyword, value);
         }
 
+        private int _searchStatusIndex = 0;
+        public int SearchStatusIndex
+        {
+            get => _searchStatusIndex;
+            set => SetProperty(ref _searchStatusIndex, value);
+        }
+
         public override void OnLoaded()
         {
             base.OnLoaded();
@@ -78,6 +85,28 @@ namespace Strat.Module.System.ViewModels
 
         private DelegateCommand? _loadDataCommand;
         public DelegateCommand LoadDataCommand => _loadDataCommand ??= new DelegateCommand(LoadData);
+
+        private DelegateCommand? _searchCommand;
+        public DelegateCommand SearchCommand => _searchCommand ??= new DelegateCommand(() =>
+        {
+            PageArgs_PageIndex = 1;
+            LoadData();
+        });
+
+        private DelegateCommand? _resetCommand;
+        public DelegateCommand ResetCommand => _resetCommand ??= new DelegateCommand(() =>
+        {
+            SearchKeyword = null;
+            SearchStatusIndex = 0;
+            PageArgs_PageIndex = 1;
+            LoadData();
+        });
+
+        private DelegateCommand? _exportCommand;
+        public DelegateCommand ExportCommand => _exportCommand ??= new DelegateCommand(() =>
+        {
+            _dialogService.ShowToast("导出功能暂未实现", Strat.Shared.Layout.ToastType.Info);
+        });
 
         private DelegateCommand? _addCommand;
         public DelegateCommand AddCommand => _addCommand ??= new DelegateCommand(ExecuteAdd);
@@ -95,12 +124,20 @@ namespace Strat.Module.System.ViewModels
         {
             await ExecuteAsync(async () =>
             {
+                int? status = SearchStatusIndex switch
+                {
+                    1 => 1, // 正常
+                    2 => 0, // 禁用
+                    _ => null // 全部
+                };
+
                 var request = new GetPagedListRequest 
                 { 
                     PageIndex = PageArgs_PageIndex, 
                     PageSize = PageArgs_PageSize,
-                    Name = SearchKeyword, // 简单映射
-                    Account = SearchKeyword
+                    Name = SearchKeyword,
+                    Account = SearchKeyword,
+                    Status = status
                 };
                 
                 var result = await _userService.GetPagedListAsync(request);

@@ -1,5 +1,6 @@
 using Strat.Identity.Domain.User;
 using Strat.Infrastructure.Persistence;
+using Strat.Shared.Abstractions;
 
 namespace Strat.System.Application.Notice;
 
@@ -10,11 +11,11 @@ namespace Strat.System.Application.Notice;
 [Authorize]
 public class NoticeService(
     ISqlSugarClient db,
-    Repository<NoticeEntity> noticeRepository)
+    IRepository<NoticeEntity> noticeRepository)
     : ApplicationService, INoticeService
 {
     private readonly ISqlSugarClient _db = db;
-    private readonly Repository<NoticeEntity> _noticeRepository = noticeRepository;
+    private readonly IRepository<NoticeEntity> _noticeRepository = noticeRepository;
 
     /// <summary>
     /// 分页查询
@@ -119,7 +120,7 @@ public class NoticeService(
     public async Task SendAsync(long id, long[] userIds)
     {
         // 检查通知是否存在
-        var exists = await _noticeRepository.AsQueryable().AnyAsync(x => x.Id == id);
+        var exists = await _noticeRepository.Queryable().AnyAsync(x => x.Id == id);
         if (!exists)
         {
             throw BusinessException.Throw(ErrorTipsEnum.NoResult);

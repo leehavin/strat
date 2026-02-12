@@ -153,10 +153,11 @@ public class RoleService(ISqlSugarClient db, ICache cache) : ApplicationService,
     /// </summary>
     public async Task<List<long>> GetFunctionIdsAsync(long roleId)
     {
-        return await _db.Queryable<RoleFunctionEntity>()
+        var functions = await _db.Queryable<RoleFunctionEntity>()
             .Where(rf => rf.RoleId == roleId)
             .Select(rf => rf.FunctionId)
             .ToListAsync();
+        return functions;
     }
 }
 

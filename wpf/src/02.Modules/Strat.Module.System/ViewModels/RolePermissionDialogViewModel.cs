@@ -29,11 +29,18 @@ public class RolePermissionDialogViewModel : BindableBase
         _dialogService = dialogService;
     }
 
-    private ObservableCollection<FunctionNode> _functions = new();
-    public ObservableCollection<FunctionNode> Functions
+    private ObservableCollection<CheckableFunctionNode> _functions = new();
+    public ObservableCollection<CheckableFunctionNode> Functions
     {
         get => _functions;
         set => SetProperty(ref _functions, value);
+    }
+
+    private bool _isBusy;
+    public bool IsBusy
+    {
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
 
     public string Title => "分配权限";
@@ -78,6 +85,7 @@ public class RolePermissionDialogViewModel : BindableBase
     {
         try
         {
+            IsBusy = true;
             // 并行加载功能树和角色已有权限
             var treeTask = _functionService.GetTreeAsync();
             var idsTask = _roleService.GetFunctionIdsAsync(_roleId);
@@ -87,65 +95,61 @@ public class RolePermissionDialogViewModel : BindableBase
             var tree = treeTask.Result;
             var assignedIds = idsTask.Result ?? new List<long>();
 
-            var nodes = BuildTree(tree, assignedIds);
-            Functions = new ObservableCollection<FunctionNode>(nodes);
+            // Build tree nodes
+            var nodes = new List<CheckableFunctionNode>();
+            foreach (var item in tree)
+            {
+                nodes.Add(BuildNode(item, assignedIds));
+            }
+            Functions = new ObservableCollection<CheckableFunctionNode>(nodes);
         }
         catch (Exception ex)
         {
             _dialogService.ShowToast($"加载数据失败: {ex.Message}", ToastType.Error);
         }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
-    private List<FunctionNode> BuildTree(List<FunctionResponse> functions, List<long> assignedIds)
+    private CheckableFunctionNode BuildNode(FunctionResponse item, List<long> assignedIds)
     {
-        return functions.Select(f =>
+        var node = new CheckableFunctionNode(item);
+        
+        // Check if assigned
+        if (assignedIds.Contains(item.Id))
         {
-            var node = new FunctionNode(f);
-            if (assignedIds.Contains(f.Id))
-            {
-                node.SetIsCheckedSilent(true);
-            }
+            node.IsChecked = true;
+        }
 
-            if (f.Children != null && f.Children.Count > 0)
+        if (item.Children != null && item.Children.Any())
+        {
+            foreach (var child in item.Children)
             {
-                var children = BuildTree(f.Children, assignedIds);
-                foreach (var child in children)
-                {
-                    node.Children.Add(child);
-                    child.Parent = node;
-                }
+                var childNode = BuildNode(child, assignedIds);
+                childNode.Parent = node;
+                node.Children.Add(childNode);
             }
-            return node;
-        }).ToList();
+        }
+        
+        return node;
     }
 
     private DelegateCommand? _saveCommand;
     public DelegateCommand SaveCommand => _saveCommand ??= new DelegateCommand(ExecuteSave);
 
+    private DelegateCommand? _cancelCommand;
+    public DelegateCommand CancelCommand => _cancelCommand ??= new DelegateCommand(ExecuteCancel);
+
     private async void ExecuteSave()
     {
         try
         {
+            IsBusy = true;
             var selectedIds = GetAllSelectedIds(Functions);
-            
-            // AssignRoleFunctionsRequest 
-            // The service method AssignFunctionsAsync takes (roleId, ids) ? 
-            // No, the interface changed to take AssignRoleFunctionsRequest input.
-            // But IRoleService.cs (Client) might have simplified signature?
-            // Let's check IRoleService.cs. If it takes (long roleId, List<long> functionIds), then implementation handles DTO.
-            // If it takes DTO directly, I need to create DTO.
-            
-            // Assuming IRoleService.AssignFunctionsAsync(long roleId, List<long> functionIds) based on previous memory,
-            // or I need to check.
-            
-            // Wait, previous tool output for IRoleApi.cs showed:
-            // Task<Strat.Shared.Models.ApiResponse<bool>> AssignFunctionsAsync([Body] AssignRoleFunctionsRequest input);
-            
-            // But IRoleService.cs (Client implementation) typically wraps API.
-            // Let's assume IRoleService has AssignFunctionsAsync(long roleId, List<long> functionIds) for now.
-            // If compilation fails, I will fix it.
-            
             var result = await _roleService.AssignFunctionsAsync(_roleId, selectedIds);
+            
             if (result)
             {
                 _dialogService.ShowToast("保存成功", ToastType.Success);
@@ -160,15 +164,23 @@ public class RolePermissionDialogViewModel : BindableBase
         {
             _dialogService.ShowToast($"保存失败: {ex.Message}", ToastType.Error);
         }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
-    private List<long> GetAllSelectedIds(IEnumerable<FunctionNode> nodes)
+    private void ExecuteCancel()
+    {
+        RequestClose?.Invoke(false);
+    }
+
+    private List<long> GetAllSelectedIds(IEnumerable<CheckableFunctionNode> nodes)
     {
         var ids = new List<long>();
         foreach (var node in nodes)
         {
-            // Logic: if checked, add ID.
-            if (node.IsChecked == true) 
+            if (node.IsChecked == true)
             {
                 ids.Add(node.Id);
             }
@@ -178,28 +190,20 @@ public class RolePermissionDialogViewModel : BindableBase
                 ids.AddRange(GetAllSelectedIds(node.Children));
             }
         }
-        return ids;
+        return ids.Distinct().ToList();
     }
-
-    private DelegateCommand? _cancelCommand;
-    public DelegateCommand CancelCommand => _cancelCommand ??= new DelegateCommand(() =>
-    {
-        RequestClose?.Invoke(false);
-    });
 }
 
-public class FunctionNode : BindableBase
+public class CheckableFunctionNode : BindableBase
 {
-    public FunctionNode(FunctionResponse function)
+    public CheckableFunctionNode(FunctionResponse data)
     {
-        Id = function.Id;
-        Name = function.Name;
-        Data = function;
+        Data = data;
     }
 
-    public long Id { get; }
-    public string Name { get; }
     public FunctionResponse Data { get; }
+    public long Id => Data.Id;
+    public string Name => Data.Name;
 
     private bool? _isChecked = false;
     public bool? IsChecked
@@ -209,54 +213,47 @@ public class FunctionNode : BindableBase
         {
             if (SetProperty(ref _isChecked, value))
             {
-                // Update children
-                if (value.HasValue && !_isUpdatingParent)
-                {
-                    foreach (var child in Children)
-                    {
-                        if (child.IsChecked != value)
-                        {
-                            child.IsChecked = value;
-                        }
-                    }
-                }
-                
-                // Update parent
+                UpdateChildren(value);
                 UpdateParent();
             }
         }
     }
 
-    public ObservableCollection<FunctionNode> Children { get; } = new();
-    public FunctionNode? Parent { get; set; }
+    public CheckableFunctionNode? Parent { get; set; }
+    public ObservableCollection<CheckableFunctionNode> Children { get; } = new();
 
-    private bool _isUpdatingParent;
+    private void UpdateChildren(bool? value)
+    {
+        if (value == null) return;
+        foreach (var child in Children)
+        {
+            // Avoid triggering parent update loop
+            child._isChecked = value;
+            child.RaisePropertyChanged(nameof(IsChecked));
+            child.UpdateChildren(value);
+        }
+    }
+
+    private void UpdateParent()
+    {
+        if (Parent == null) return;
+
+        var allChecked = Parent.Children.All(x => x.IsChecked == true);
+        var allUnchecked = Parent.Children.All(x => x.IsChecked == false);
+
+        if (allChecked)
+            Parent.SetIsCheckedSilent(true);
+        else if (allUnchecked)
+            Parent.SetIsCheckedSilent(false);
+        else
+            Parent.SetIsCheckedSilent(null);
+            
+        Parent.UpdateParent();
+    }
 
     public void SetIsCheckedSilent(bool? value)
     {
-        SetProperty(ref _isChecked, value, nameof(IsChecked));
-    }
-
-    public void UpdateParent()
-    {
-        if (Parent == null || _isUpdatingParent) return;
-
-        _isUpdatingParent = true;
-        try
-        {
-            var allChecked = Parent.Children.All(c => c.IsChecked == true);
-            var allUnchecked = Parent.Children.All(c => c.IsChecked == false);
-
-            if (allChecked)
-                Parent.IsChecked = true;
-            else if (allUnchecked)
-                Parent.IsChecked = false;
-            else
-                Parent.IsChecked = null;
-        }
-        finally
-        {
-            _isUpdatingParent = false;
-        }
+        _isChecked = value;
+        RaisePropertyChanged(nameof(IsChecked));
     }
 }

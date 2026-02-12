@@ -11,7 +11,7 @@ namespace Strat.Shared.Dialogs
     public class StratDialogService : IStratDialogService
     {
         private readonly Prism.Ioc.IContainerProvider _containerProvider;
-        private Ursa.Controls.WindowNotificationManager? _notificationManager;
+        private Avalonia.Controls.Notifications.WindowNotificationManager? _notificationManager;
 
         public StratDialogService(Prism.Ioc.IContainerProvider containerProvider)
         {
@@ -43,7 +43,7 @@ namespace Strat.Shared.Dialogs
 
                 if (_notificationManager == null)
                 {
-                    _notificationManager = new Ursa.Controls.WindowNotificationManager(top.MainWindow)
+                    _notificationManager = new Avalonia.Controls.Notifications.WindowNotificationManager(top.MainWindow)
                     {
                         Position = NotificationPosition.TopRight,
                         MaxItems = 3
@@ -58,7 +58,7 @@ namespace Strat.Shared.Dialogs
                     _ => Avalonia.Controls.Notifications.NotificationType.Information
                 };
 
-                ((Avalonia.Controls.Notifications.IManagedNotificationManager)_notificationManager).Show(
+                _notificationManager.Show(
                     new Avalonia.Controls.Notifications.Notification("提示", message, notificationType)
                 );
             });
@@ -120,7 +120,7 @@ namespace Strat.Shared.Dialogs
             {
                 // Ursa.Controls.OverlayDialog.Show(view, host)
                 // 注意: 需要在 MainWindow.axaml 中配置 <ursa:OverlayDialogHost />
-                Ursa.Controls.OverlayDialog.Show(view, top.MainWindow);
+                Ursa.Controls.OverlayDialog.ShowCustom(view, vm, hostId: "GlobalHost");
             }
         }
     }

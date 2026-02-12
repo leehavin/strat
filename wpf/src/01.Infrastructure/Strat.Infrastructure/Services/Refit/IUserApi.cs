@@ -15,15 +15,15 @@ public interface IUserApi
     [Put("/user/update")]
     Task<Strat.Shared.Models.ApiResponse<bool>> UpdateAsync([Body] UpdateUserInput input);
 
-    [Delete("/api/v1/user/delete/{id}")]
+    [Delete("/user/delete")]
     Task<Strat.Shared.Models.ApiResponse<bool>> DeleteAsync(long id);
 
     [Post("/user/batch-delete")]
     Task<Strat.Shared.Models.ApiResponse<bool>> BatchDeleteAsync([Body] List<long> ids);
 
-    [Put("/api/v1/user/reset-password")]
+    [Put("/user/reset-password")]
     Task<Strat.Shared.Models.ApiResponse<bool>> ResetPasswordAsync([Body] object input);
 
-    [Put("/api/v1/user/change-status")]
+    [Put("/user/change-status")]
     Task<Strat.Shared.Models.ApiResponse<bool>> ChangeStatusAsync([Body] object input);
 }

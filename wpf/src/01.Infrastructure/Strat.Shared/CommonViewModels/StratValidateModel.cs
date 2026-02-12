@@ -12,6 +12,27 @@ namespace Strat.Shared.CommonViewModels
         {
             _dataErrors.Clear();
             _validationPerformed = true;
+            
+            var vc = new ValidationContext(this);
+            var results = new List<ValidationResult>();
+            bool isValid = Validator.TryValidateObject(this, vc, results, true);
+
+            // Populate _dataErrors so binding engine can read them if needed
+            foreach (var result in results)
+            {
+                if (result.MemberNames.Any())
+                {
+                    foreach (var memberName in result.MemberNames)
+                    {
+                        if (!_dataErrors.ContainsKey(memberName))
+                        {
+                            _dataErrors[memberName] = result.ErrorMessage ?? "";
+                        }
+                    }
+                }
+            }
+
+            // Notify UI to update validation state
             Type type = GetType();
             var properties = type.GetProperties();
             foreach (var property in properties)
@@ -22,7 +43,8 @@ namespace Strat.Shared.CommonViewModels
                     RaisePropertyChanged(property.Name);
                 }
             }
-            return !_dataErrors.Any();
+            
+            return isValid;
         }
 
         public string Error => string.Empty;

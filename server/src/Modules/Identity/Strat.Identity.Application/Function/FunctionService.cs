@@ -9,11 +9,11 @@ namespace Strat.Identity.Application.Function;
 [Authorize]
 public class FunctionService(
     ISqlSugarClient db,
-    Repository<FunctionEntity> functionRepository,
+    IRepository<FunctionEntity> functionRepository,
     ICache cache) : ApplicationService, IFunctionService
 {
     private readonly ISqlSugarClient _db = db;
-    private readonly Repository<FunctionEntity> _functionRepository = functionRepository;
+    private readonly IRepository<FunctionEntity> _functionRepository = functionRepository;
     private readonly ICache _cache = cache;
 
     /// <summary>
@@ -26,14 +26,14 @@ public class FunctionService(
         if (string.IsNullOrWhiteSpace(input.Name))
         {
             // 无搜索条件，返回树形结构
-            list = await _functionRepository.AsQueryable()
+            list = await _functionRepository.Queryable()
                 .OrderBy(x => x.Sort)
                 .ToTreeAsync(x => x.Children, x => x.ParentId, null);
         }
         else
         {
             // 有搜索条件，返回平铺列表
-            list = await _functionRepository.AsQueryable()
+            list = await _functionRepository.Queryable()
                 .Where(x => x.Name.Contains(input.Name))
                 .OrderBy(x => x.Sort)
                 .ToListAsync();
@@ -57,7 +57,7 @@ public class FunctionService(
     /// </summary>
     public async Task<List<FunctionResponse>> GetTreeAsync()
     {
-        var tree = await _functionRepository.AsQueryable()
+        var tree = await _functionRepository.Queryable()
             .OrderBy(x => x.Sort)
             .ToTreeAsync(x => x.Children, x => x.ParentId, null);
         return tree.Adapt<List<FunctionResponse>>();
@@ -69,7 +69,7 @@ public class FunctionService(
     public async Task<long> AddAsync(AddFunctionRequest input)
     {
         // 检查编码是否重复
-        var exists = await _functionRepository.AsQueryable()
+        var exists = await _functionRepository.Queryable()
             .AnyAsync(x => x.Code == input.Code);
         if (exists)
         {
@@ -89,7 +89,7 @@ public class FunctionService(
             ?? throw BusinessException.Throw(ErrorTipsEnum.NoResult);
 
         // 检查编码是否重复（排除自身）
-        var exists = await _functionRepository.AsQueryable()
+        var exists = await _functionRepository.Queryable()
             .AnyAsync(x => x.Code == input.Code && x.Id != id);
         if (exists)
         {
@@ -113,7 +113,7 @@ public class FunctionService(
             ?? throw BusinessException.Throw(ErrorTipsEnum.NoResult);
 
         // 检查是否有子功能
-        var hasChildren = await _functionRepository.AsQueryable()
+        var hasChildren = await _functionRepository.Queryable()
             .AnyAsync(x => x.ParentId == id);
         if (hasChildren)
         {

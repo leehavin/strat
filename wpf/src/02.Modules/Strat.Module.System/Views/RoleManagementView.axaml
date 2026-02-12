@@ -6,6 +6,7 @@
              xmlns:ursa="https://irihi.tech/ursa"
              xmlns:layout="using:Strat.Shared.Controls"
              xmlns:vm="using:Strat.Module.System.ViewModels"
+             xmlns:views="using:Strat.Module.System.Views"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
              x:Class="Strat.Module.System.Views.RoleManagementView"
              x:DataType="vm:RoleManagementViewModel"
@@ -70,11 +71,11 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,0">
                                 <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="编辑"
-                                        Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}">
+                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=views:RoleManagementView}}" CommandParameter="{Binding}">
                                     <PathIcon Data="{DynamicResource SemiIconEdit}" Width="14" Height="14" Foreground="{DynamicResource SemiBlue6}"/>
                                 </Button>
                                 <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="权限设置"
-                                        Command="{Binding $parent[UserControl].DataContext.PermissionCommand}" CommandParameter="{Binding}">
+                                        Command="{Binding DataContext.PermissionCommand, RelativeSource={RelativeSource AncestorType=views:RoleManagementView}}" CommandParameter="{Binding}">
                                     <PathIcon Data="{DynamicResource SemiIconSetting}" Width="14" Height="14" Foreground="{DynamicResource SemiOrange6}"/>
                                 </Button>
                                 <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="删除">

@@ -36,26 +36,6 @@ public class FunctionResponse
     public int Sort { get; set; }
 
     /// <summary>
-    /// 图标
-    /// </summary>
-    public string? Icon { get; set; }
-
-    /// <summary>
-    /// 路由路径
-    /// </summary>
-    public string? Path { get; set; }
-
-    /// <summary>
-    /// 组件路径
-    /// </summary>
-    public string? Component { get; set; }
-
-    /// <summary>
-    /// 是否可见
-    /// </summary>
-    public bool Visible { get; set; }
-
-    /// <summary>
     /// 备注
     /// </summary>
     public string? Remark { get; set; }

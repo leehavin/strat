@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:vm="using:Strat.Module.System.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+             x:Class="Strat.Module.System.Views.FunctionEditDialog"
+             x:DataType="vm:FunctionEditDialogViewModel"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Width="500">
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="24">
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="{Binding Title}" Classes="H4" Theme="{DynamicResource TitleTextBlock}" Margin="0,0,0,24"/>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Spacing="16">
+                <!-- 类型选择 -->
+                <StackPanel Orientation="Horizontal" Spacing="24" Margin="0,0,0,8">
+                    <TextBlock Text="类型" VerticalAlignment="Center" Width="80"/>
+                    <RadioButton GroupName="Type" Content="目录" IsChecked="{Binding Model.Type, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=0}"/>
+                    <RadioButton GroupName="Type" Content="菜单" IsChecked="{Binding Model.Type, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=1}"/>
+                    <RadioButton GroupName="Type" Content="按钮" IsChecked="{Binding Model.Type, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=2}"/>
+                </StackPanel>
+
+                <!-- 上级功能 -->
+                <!-- 暂时简化为ID输入，后续可改为树形选择 -->
+                <!-- <TextBox Classes="ClearButton" Watermark="上级功能ID (0为顶级)" Text="{Binding Model.ParentId}"/> -->
+
+                <!-- 名称 -->
+                <TextBox Classes="ClearButton" Watermark="功能名称" Text="{Binding Model.Name}">
+                    <TextBox.InnerLeftContent>
+                        <TextBlock Text="名称" VerticalAlignment="Center" Margin="8,0,4,0" Opacity="0.7"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 编码 -->
+                <TextBox Classes="ClearButton" Watermark="权限标识/编码 (如 sys:user:add)" Text="{Binding Model.Code}">
+                    <TextBox.InnerLeftContent>
+                        <TextBlock Text="编码" VerticalAlignment="Center" Margin="8,0,4,0" Opacity="0.7"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 路由地址 (仅菜单) -->
+                <TextBox Classes="ClearButton" Watermark="路由地址 (如 /system/user)" Text="{Binding Model.Path}"
+                         IsVisible="{Binding Model.Type, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=1}">
+                    <TextBox.InnerLeftContent>
+                        <TextBlock Text="路由" VerticalAlignment="Center" Margin="8,0,4,0" Opacity="0.7"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 组件路径 (仅菜单) -->
+                <TextBox Classes="ClearButton" Watermark="组件路径 (如 Views/User/Index)" Text="{Binding Model.Component}"
+                         IsVisible="{Binding Model.Type, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=1}">
+                    <TextBox.InnerLeftContent>
+                        <TextBlock Text="组件" VerticalAlignment="Center" Margin="8,0,4,0" Opacity="0.7"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 图标 -->
+                <TextBox Classes="ClearButton" Watermark="图标 (如 SemiIconHome)" Text="{Binding Model.Icon}">
+                    <TextBox.InnerLeftContent>
+                        <TextBlock Text="图标" VerticalAlignment="Center" Margin="8,0,4,0" Opacity="0.7"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 排序 -->
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <TextBlock Text="排序" VerticalAlignment="Center" Width="80"/>
+                    <NumericUpDown Value="{Binding Model.Sort}" Minimum="0" Maximum="999" Width="120"/>
+                </StackPanel>
+
+                <!-- 状态 -->
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <TextBlock Text="状态" VerticalAlignment="Center" Width="80"/>
+                    <ToggleSwitch OnContent="显示" OffContent="隐藏" IsChecked="{Binding Model.Visible}"/>
+                </StackPanel>
+
+                <!-- 备注 -->
+                <TextBox Watermark="备注信息" Text="{Binding Model.Remark}" 
+                         AcceptsReturn="True" Height="80" TextWrapping="Wrap"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,24,0,0">
+            <Button Content="取消" Command="{Binding CancelCommand}" Theme="{DynamicResource TertiaryButton}"/>
+            <Button Content="保存" Command="{Binding SaveCommand}" Theme="{DynamicResource PrimaryButton}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -11,6 +11,8 @@ namespace Strat.Shared.Assets
         public const string Home = "SemiIconHome";
         public const string Dashboard = "SemiIconDashboard";
         public const string Menu = "SemiIconMenu";
+        public const string Folder = "SemiIconFolder";
+        public const string Code = "SemiIconCode";
         
         // 系统管理
         public const string Settings = "SemiIconSetting";

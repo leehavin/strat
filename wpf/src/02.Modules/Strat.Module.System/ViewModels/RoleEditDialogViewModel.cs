@@ -35,6 +35,13 @@ namespace Strat.Module.System.ViewModels
             _role = new RoleResponse { Status = 1 };
         }
 
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
         private RoleResponse _role;
         public RoleResponse Role
         {
@@ -114,33 +121,66 @@ namespace Strat.Module.System.ViewModels
 
         private async void ExecuteSaveCommand()
         {
-            // 获取所有勾选的权限ID
-            var permissionIds = new List<long>();
-            CollectSelectedIds(PermissionTree, permissionIds);
+            if (IsBusy) return;
 
-            bool success;
-            if (IsEditMode)
-            {
-                var input = Role.Adapt<UpdateRoleInput>();
-                input.PermissionIds = permissionIds;
-                success = await _roleService.UpdateAsync(input);
-            }
-            else
-            {
-                var input = Role.Adapt<AddRoleInput>();
-                input.PermissionIds = permissionIds;
-                success = await _roleService.AddAsync(input);
-            }
+            // 校验
+            if (!Validate()) return;
 
-            if (success)
+            try
             {
-                _dialogService.ShowToast(IsEditMode ? "更新角色成功" : "新增角色成功", Shared.Layout.ToastType.Success);
-                RequestClose?.Invoke(true);
+                IsBusy = true;
+
+                // 获取所有勾选的权限ID
+                var permissionIds = new List<long>();
+                CollectSelectedIds(PermissionTree, permissionIds);
+
+                bool success;
+                if (IsEditMode)
+                {
+                    var input = Role.Adapt<UpdateRoleInput>();
+                    input.PermissionIds = permissionIds;
+                    success = await _roleService.UpdateAsync(input);
+                }
+                else
+                {
+                    var input = Role.Adapt<AddRoleInput>();
+                    input.PermissionIds = permissionIds;
+                    success = await _roleService.AddAsync(input);
+                }
+
+                if (success)
+                {
+                    _dialogService.ShowToast(IsEditMode ? "更新角色成功" : "新增角色成功", Shared.Layout.ToastType.Success);
+                    RequestClose?.Invoke(true);
+                }
+                else
+                {
+                    _dialogService.ShowToast(IsEditMode ? "更新角色失败" : "新增角色失败", Shared.Layout.ToastType.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _dialogService.ShowToast(IsEditMode ? "更新角色失败" : "新增角色失败", Shared.Layout.ToastType.Error);
+                _dialogService.ShowToast($"操作失败: {ex.Message}", Shared.Layout.ToastType.Error);
             }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Role.Name))
+            {
+                _dialogService.ShowToast("请输入角色名称", Shared.Layout.ToastType.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Role.Code))
+            {
+                _dialogService.ShowToast("请输入角色编码", Shared.Layout.ToastType.Warning);
+                return false;
+            }
+            return true;
         }
 
         private void CollectSelectedIds(IEnumerable<PermissionTreeNode> nodes, List<long> ids)

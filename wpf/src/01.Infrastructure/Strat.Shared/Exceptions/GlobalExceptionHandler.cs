@@ -68,7 +68,7 @@ namespace Strat.Shared.Exceptions
 
         private static void OnAppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var exception = e.ExceptionObject as Exception;
+            var exception = e.ExceptionObject as Exception ?? new Exception($"Unknown error: {e.ExceptionObject}");
             var isCritical = e.IsTerminating;
 
             StratLogger.Error(

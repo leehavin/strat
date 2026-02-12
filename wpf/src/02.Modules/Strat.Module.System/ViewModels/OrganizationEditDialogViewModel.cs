@@ -21,6 +21,13 @@ public class OrganizationEditDialogViewModel : BindableBase
         _dialogService = dialogService;
     }
 
+    private bool _isBusy;
+    public bool IsBusy
+    {
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
+    }
+
     private bool _isEditMode;
     public bool IsEditMode
     {
@@ -124,6 +131,8 @@ public class OrganizationEditDialogViewModel : BindableBase
 
     private async void ExecuteSave()
     {
+        if (IsBusy) return;
+
         if (string.IsNullOrWhiteSpace(Organization.Name))
         {
             _dialogService.ShowToast("请输入组织名称", ToastType.Warning);
@@ -132,6 +141,7 @@ public class OrganizationEditDialogViewModel : BindableBase
 
         try
         {
+            IsBusy = true;
             bool success;
             if (IsEditMode)
             {
@@ -169,17 +179,21 @@ public class OrganizationEditDialogViewModel : BindableBase
 
             if (success)
             {
-                _dialogService.ShowToast("保存成功", ToastType.Success);
+                _dialogService.ShowToast(IsEditMode ? "编辑成功" : "新增成功", ToastType.Success);
                 RequestClose?.Invoke(true);
             }
             else
             {
-                _dialogService.ShowToast("保存失败", ToastType.Error);
+                _dialogService.ShowToast(IsEditMode ? "编辑失败" : "新增失败", ToastType.Error);
             }
         }
         catch (Exception ex)
         {
             _dialogService.ShowToast($"保存失败: {ex.Message}", ToastType.Error);
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

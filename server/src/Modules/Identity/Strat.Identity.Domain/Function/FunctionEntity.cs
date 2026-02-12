@@ -38,29 +38,6 @@ public class FunctionEntity : BaseEntity
     [SugarColumn(ColumnName = "SORT")]
     public int Sort { get; set; }
 
-    /// <summary>
-    /// 图标
-    /// </summary>
-    [SugarColumn(ColumnName = "ICON")]
-    public string? Icon { get; set; }
-
-    /// <summary>
-    /// 路由路径
-    /// </summary>
-    [SugarColumn(ColumnName = "PATH")]
-    public string? Path { get; set; }
-
-    /// <summary>
-    /// 组件路径
-    /// </summary>
-    [SugarColumn(ColumnName = "COMPONENT")]
-    public string? Component { get; set; }
-
-    /// <summary>
-    /// 是否可见
-    /// </summary>
-    [SugarColumn(ColumnName = "VISIBLE")]
-    public bool Visible { get; set; } = true;
 
     #region 导航属性
 

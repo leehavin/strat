@@ -15,6 +15,7 @@ public class SystemModule : IModule
         containerRegistry.RegisterForNavigation<UserManagementView, UserManagementViewModel>();
         containerRegistry.RegisterForNavigation<RoleManagementView, RoleManagementViewModel>();
         containerRegistry.RegisterForNavigation<OrganizationManagementView, OrganizationManagementViewModel>();
+        containerRegistry.RegisterForNavigation<FunctionManagementView, FunctionManagementViewModel>();
         // containerRegistry.RegisterForNavigation<InterfaceManagementView, InterfaceManagementViewModel>();
         // containerRegistry.RegisterForNavigation<SystemConfigView, SystemConfigViewModel>();
         // containerRegistry.RegisterForNavigation<DictManagementView, DictManagementViewModel>();
@@ -23,6 +24,7 @@ public class SystemModule : IModule
         containerRegistry.RegisterForNavigation<RoleEditDialog, RoleEditDialogViewModel>("RoleEditDialog");
         containerRegistry.RegisterForNavigation<RolePermissionDialog, RolePermissionDialogViewModel>("RolePermissionDialog");
         containerRegistry.RegisterForNavigation<OrganizationEditDialog, OrganizationEditDialogViewModel>("OrganizationEditDialog");
+        containerRegistry.RegisterForNavigation<FunctionEditDialog, FunctionEditDialogViewModel>("FunctionEditDialog");
         
         containerRegistry.AutoRegisterViewForNavigation();
     }

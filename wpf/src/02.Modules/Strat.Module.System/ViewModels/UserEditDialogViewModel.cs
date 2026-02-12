@@ -68,6 +68,13 @@ namespace Strat.Module.System.ViewModels
             set => SetProperty(ref _organizations, value);
         }
 
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
         public UserEditDialogViewModel(
             IUserService userService, 
             IRoleService roleService,
@@ -168,51 +175,84 @@ namespace Strat.Module.System.ViewModels
 
         private async void OnSave()
         {
-            // 简单校验
-            if (string.IsNullOrWhiteSpace(User.Account)) return;
-            if (string.IsNullOrWhiteSpace(User.Name)) return;
-            if (!IsEditMode && string.IsNullOrWhiteSpace(User.Password)) return;
+            if (IsBusy) return;
 
-            bool success;
-            if (IsEditMode)
-            {
-                var input = new UpdateUserInput
-                {
-                    Id = User.Id,
-                    Account = User.Account,
-                    Name = User.Name,
-                    Telephone = User.Telephone ?? "",
-                    Email = User.Email ?? "",
-                    Status = User.Status,
-                    RoleId = User.RoleId,
-                    OrganizationId = User.OrganizationId
-                };
-                success = await _userService.UpdateAsync(input);
-            }
-            else
-            {
-                var input = new AddUserInput
-                {
-                    Account = User.Account,
-                    Password = User.Password,
-                    Name = User.Name,
-                    Telephone = User.Telephone ?? "",
-                    Email = User.Email ?? "",
-                    Status = User.Status,
-                    RoleId = User.RoleId,
-                    OrganizationId = User.OrganizationId
-                };
-                success = await _userService.AddAsync(input);
-            }
+            // 校验
+            if (!Validate()) return;
 
-            if (success)
+            try
             {
-                RequestClose?.Invoke(true);
+                IsBusy = true;
+                bool success;
+                if (IsEditMode)
+                {
+                    var input = new UpdateUserInput
+                    {
+                        Id = User.Id,
+                        Account = User.Account,
+                        Name = User.Name,
+                        Telephone = User.Telephone ?? "",
+                        Email = User.Email ?? "",
+                        Status = User.Status,
+                        RoleId = User.RoleId,
+                        OrganizationId = User.OrganizationId
+                    };
+                    success = await _userService.UpdateAsync(input);
+                }
+                else
+                {
+                    var input = new AddUserInput
+                    {
+                        Account = User.Account,
+                        Password = User.Password,
+                        Name = User.Name,
+                        Telephone = User.Telephone ?? "",
+                        Email = User.Email ?? "",
+                        Status = User.Status,
+                        RoleId = User.RoleId,
+                        OrganizationId = User.OrganizationId
+                    };
+                    success = await _userService.AddAsync(input);
+                }
+
+                if (success)
+                {
+                    _dialogService.ShowToast(IsEditMode ? "编辑成功" : "新增成功", Strat.Shared.Layout.ToastType.Success);
+                    RequestClose?.Invoke(true);
+                }
+                else
+                {
+                    _dialogService.ShowToast(IsEditMode ? "编辑失败" : "新增失败", Strat.Shared.Layout.ToastType.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _dialogService.ShowToast("保存失败", Strat.Shared.Layout.ToastType.Error);
+                _dialogService.ShowToast($"操作失败: {ex.Message}", Strat.Shared.Layout.ToastType.Error);
             }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(User.Account))
+            {
+                _dialogService.ShowToast("请输入账号", Strat.Shared.Layout.ToastType.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(User.Name))
+            {
+                _dialogService.ShowToast("请输入姓名", Strat.Shared.Layout.ToastType.Warning);
+                return false;
+            }
+            if (!IsEditMode && string.IsNullOrWhiteSpace(User.Password))
+            {
+                _dialogService.ShowToast("请输入密码", Strat.Shared.Layout.ToastType.Warning);
+                return false;
+            }
+            return true;
         }
 
         private void OnCancel()

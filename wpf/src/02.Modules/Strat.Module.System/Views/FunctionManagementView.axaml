@@ -6,10 +6,11 @@
              xmlns:ursa="https://irihi.tech/ursa"
              xmlns:layout="using:Strat.Shared.Controls"
              xmlns:vm="using:Strat.Module.System.ViewModels"
+             xmlns:views="using:Strat.Module.System.Views"
              xmlns:cv="using:Strat.Shared.Converters"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
-             x:Class="Strat.Module.System.Views.OrganizationManagementView"
-             x:DataType="vm:OrganizationManagementViewModel"
+             x:Class="Strat.Module.System.Views.FunctionManagementView"
+             x:DataType="vm:FunctionManagementViewModel"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -17,21 +18,21 @@
         <cv:StatusToInverseBoolConverter x:Key="StatusToInverseBoolConverter"/>
     </UserControl.Resources>
 
-    <layout:AdminPageLayout Title="组织架构" IsLoading="{Binding IsBusy}">
+    <layout:AdminPageLayout Title="功能管理" IsLoading="{Binding IsBusy}">
         <!-- Toolbar -->
         <layout:AdminPageLayout.ActionContent>
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <Button Theme="{DynamicResource SolidButton}" Classes="Primary" Height="32" Command="{Binding AddCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <PathIcon Data="{DynamicResource SemiIconPlus}" Width="12" Height="12"/>
-                        <TextBlock Text="新增组织" FontSize="13"/>
+                        <TextBlock Text="新增功能" FontSize="13"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </layout:AdminPageLayout.ActionContent>
 
         <!-- Main Content -->
-        <DataGrid ItemsSource="{Binding Organizations}"
+        <DataGrid ItemsSource="{Binding Functions}"
                   AutoGenerateColumns="False"
                   CanUserResizeColumns="True"
                   IsReadOnly="True"
@@ -41,48 +42,56 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="名称" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="vm:OrganizationNode">
+                        <DataTemplate x:DataType="vm:FunctionNode">
                             <StackPanel Orientation="Horizontal" Margin="{Binding IndentMargin}">
-                                <!-- Could add expander icon here if implementing collapse -->
-                                <PathIcon Data="{DynamicResource SemiIconOrganization}" 
+                                <!-- Icon based on type or specific icon -->
+                                <!-- We could use a converter here, but for now simple logic -->
+                                <PathIcon Data="{DynamicResource SemiIconMenu}" 
                                          Width="16" Height="16" 
                                          Foreground="{DynamicResource SemiBlue6}"
-                                         Margin="0,0,8,0"/>
+                                         Margin="0,0,8,0"
+                                         IsVisible="{Binding IsMenu}"/>
+                                <PathIcon Data="{DynamicResource SemiIconFolder}" 
+                                         Width="16" Height="16" 
+                                         Foreground="{DynamicResource SemiOrange6}"
+                                         Margin="0,0,8,0"
+                                         IsVisible="{Binding IsDirectory}"/>
+                                <PathIcon Data="{DynamicResource SemiIconCode}" 
+                                         Width="16" Height="16" 
+                                         Foreground="{DynamicResource SemiGrey6}"
+                                         Margin="0,0,8,0"
+                                         IsVisible="{Binding IsButton}"/>
+                                         
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Header="编码" Binding="{Binding Code}" Width="*"/>
-                <DataGridTextColumn Header="负责人" Binding="{Binding Leader}" Width="*"/>
-                <DataGridTextColumn Header="联系电话" Binding="{Binding Telephone}" Width="*"/>
-                <DataGridTextColumn Header="排序" Binding="{Binding Sort}" Width="80"/>
+                <DataGridTextColumn Header="编码/权限标识" Binding="{Binding Code}" Width="1.5*"/>
+                <DataGridTextColumn Header="类型" Binding="{Binding TypeName}" Width="80"/>
+                <DataGridTextColumn Header="路由地址" Binding="{Binding Path}" Width="1.5*"/>
+                <DataGridTextColumn Header="排序" Binding="{Binding Sort}" Width="60"/>
                 
                 <DataGridTemplateColumn Header="状态" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="vm:OrganizationNode">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <ursa:Badge Content="启用" Classes="Success" IsVisible="{Binding Status, Converter={StaticResource StatusToBoolConverter}}"/>
-                                <ursa:Badge Content="停用" Classes="Danger" IsVisible="{Binding Status, Converter={StaticResource StatusToInverseBoolConverter}}"/>
-                            </StackPanel>
+                        <DataTemplate x:DataType="vm:FunctionNode">
+                            <ursa:Badge Content="显示" Classes="Success" IsVisible="{Binding Visible}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" Width="150"/>
-                
                 <DataGridTemplateColumn Header="操作" Width="120">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="vm:OrganizationNode">
+                        <DataTemplate x:DataType="vm:FunctionNode">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="编辑"
-                                        Command="{Binding $parent[UserControl].((vm:OrganizationManagementViewModel)DataContext).EditCommand}"
+                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=views:FunctionManagementView}}"
                                         CommandParameter="{Binding}">
                                     <PathIcon Data="{DynamicResource SemiIconEdit}" Width="16" Height="16" Foreground="{DynamicResource SemiBlue6}"/>
                                 </Button>
                                 <Button Theme="{DynamicResource TransparentButton}" Padding="4" ToolTip.Tip="删除"
-                                        Command="{Binding $parent[UserControl].((vm:OrganizationManagementViewModel)DataContext).DeleteCommand}"
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=views:FunctionManagementView}}"
                                         CommandParameter="{Binding}">
                                     <PathIcon Data="{DynamicResource SemiIconDelete}" Width="16" Height="16" Foreground="{DynamicResource SemiRed6}"/>
                                 </Button>
